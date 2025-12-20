@@ -140,7 +140,7 @@ public class Articolo {
 		}
 	}
 	
-	// metodo toString per rappresentazione visiva della lista di articoli
+	// metodo toString per rappresentazione visiva
 	@Override
     public String toString() {
         return "Articolo: " + nome + " | Categoria: " + categoria + " | Prezzo: " + prezzo + "€ | Nota: " + nota;
