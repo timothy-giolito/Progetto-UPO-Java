@@ -1,5 +1,5 @@
 package modello.eccezioni;
 
-public class ListaDiArticoliException {
+public class ListaDiArticoliException extends Exception{
 
 }
