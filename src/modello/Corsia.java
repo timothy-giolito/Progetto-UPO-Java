@@ -2,6 +2,7 @@ package modello;
 
 public enum Corsia {
 
+	NESSUNA("Nessuna Corsia"),
 	ORTO_FRUTTA("Reparto Ortofrutticolo"),
 	PANETTERIA("Reparto Panetteria"),
 	GASTRONOMIA("Reparto Gastronomia"),
