@@ -62,7 +62,7 @@ public class Articolo {
         return reparto;
     }
 
-    public void setCorsia(Reparto reparto) {
+    public void setReparto(Reparto reparto) {
         if (reparto == null) {
             this.reparto = DEFAULT_REPARTO;
         } else {

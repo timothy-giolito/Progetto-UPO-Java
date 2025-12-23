@@ -6,7 +6,7 @@ public enum Reparto {
 	NESSUNO("Nessuna Corsia"),
 	
 	// reparti supermercato
-	ORTO_FRUTTA("Reparto Ortofrutticolo"),
+	ORTOFRUTTA("Reparto Ortofrutticolo"),
 	PANETTERIA("Reparto Panetteria"),
 	GASTRONOMIA("Reparto Gastronomia"),
 	MACELLERIA("Reparto Macelleria"),
