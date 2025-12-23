@@ -84,7 +84,7 @@ class testArticolo {
             a.setPrezzo(0.80);
             assertEquals(0.80, a.getPrezzo());
             
-            // Testiamo il cambio di Reparto
+            // Test cambio di Reparto
             a.setReparto(Reparto.REPARTO_SURGELATI);
             assertEquals(Reparto.REPARTO_SURGELATI, a.getReparto());
             
