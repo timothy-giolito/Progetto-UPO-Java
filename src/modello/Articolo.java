@@ -8,16 +8,16 @@ public class Articolo {
     private static final String DEFAULT_CATEGORIA = "Non categorizzato";
     private static final double DEFAULT_PREZZO = 0.0;
     private static final String DEFAULT_NOTA = "";
-    private static final Corsia DEFAULT_CORSIA = Corsia.NESSUNA; 
+    private static final Reparto DEFAULT_REPARTO = Reparto.NESSUNO; 
     
     private String nome; 
     private String categoria;
     private double prezzo;
     private String nota;
-    private Corsia corsia;
+    private Reparto reparto;
     
     // Costruttore della classe aggiornato con il parametro Corsia
-    public Articolo(String nome, String categoria, double prezzo, String nota, Corsia corsia) throws ArticoloException {
+    public Articolo(String nome, String categoria, double prezzo, String nota, Reparto reparto) throws ArticoloException {
         
         // Controllo sul nome del prodotto
         if(nome == null || nome.trim().isEmpty()) {
@@ -48,25 +48,25 @@ public class Articolo {
         }    
         
         // Gestione della corsia senza operatore ternario
-        if(corsia == null) {
-            this.corsia = DEFAULT_CORSIA;
+        if(reparto == null) {
+            this.reparto = DEFAULT_REPARTO;
         } else {
-            this.corsia = corsia;
+            this.reparto = reparto;
         }
     }
     
     // --- METODI GETTER E SETTER ---
 
     // Getter e Setter per Corsia (Senza operatore ternario)
-    public Corsia getCorsia() {
-        return corsia;
+    public Reparto getReparto() {
+        return reparto;
     }
 
-    public void setCorsia(Corsia corsia) {
-        if (corsia == null) {
-            this.corsia = DEFAULT_CORSIA;
+    public void setCorsia(Reparto reparto) {
+        if (reparto == null) {
+            this.reparto = DEFAULT_REPARTO;
         } else {
-            this.corsia = corsia;
+            this.reparto = reparto;
         }
     }
 
@@ -122,6 +122,6 @@ public class Articolo {
     // Metodo toString per rappresentazione visiva aggiornato
     @Override
     public String toString() {
-        return "Articolo: " + nome + " | Corsia: " + corsia + " | Categoria: " + categoria + " | Prezzo: " + prezzo + "€ | Nota: " + nota;
+        return "Articolo: " + nome + " | Corsia: " + reparto + " | Categoria: " + categoria + " | Prezzo: " + prezzo + "€ | Nota: " + nota;
     }
 }
