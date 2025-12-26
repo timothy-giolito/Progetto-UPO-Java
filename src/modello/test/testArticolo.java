@@ -32,6 +32,33 @@ class testArticolo {
 	}
 	
 	@Test
+	void testSetNome() {
+		try {
+			Articolo a = new Articolo("Latte", "Latticini", 1.20, "", Reparto.REPARTO_BEVANDE);
+			
+			// modifica valida
+			a.setNome("Latte Parzialmente Scremato");
+			assertEquals("Latte Parzialmente Scremato", a.getNome(), "Il nome dovrebbe essere stato aggiornato");
+			
+			// test Eccezioni su setNome
+			// caso Null
+			assertThrows(ArticoloException.class, () -> a.setNome(null), 
+					"Dovrebbe lanciare eccezione se setto il nome a null");
+			
+			// caso Vuoto
+			assertThrows(ArticoloException.class, () -> a.setNome(""), 
+					"Dovrebbe lanciare eccezione se setto il nome vuoto");
+			
+			// caso Spazi vuoti
+			assertThrows(ArticoloException.class, () -> a.setNome("   "), 
+					"Dovrebbe lanciare eccezione se setto il nome con solo spazi");
+
+		} catch (ArticoloException e) {
+			fail("Errore imprevisto durante il setup del testSetNome");
+		}
+	}
+	
+	@Test
 	void testNomeNonValido() {
 		
 		// reparto a caso per il test
@@ -111,4 +138,37 @@ class testArticolo {
             fail("Errore");
         }
     }
+	
+	@Test
+	void testLogicaSetter() {
+		
+		try {
+			
+			Articolo a = new Articolo("Pane", "Panetteria", 1.0, "Integrale", Reparto.PANETTERIA);
+			
+			// prova categoria --> null
+			a.setCategoria(null);
+			assertEquals("Non categorizzato", a.getCategoria(), "Dovrebbe uscire --> Non categorizzato!");
+			
+			// prova categoria vuota
+			a.setCategoria(" ");
+			assertEquals("Non categorizzato", a.getCategoria(), "Doverebbe uscire --> Non categorizzato!");
+			
+			// test Nota
+			a.setNota("Nuova nota");
+			assertEquals("Nuova nota", a.getNota());
+			
+			// test Nota --> null
+			a.setNota(" ");
+			assertEquals(" ", a.getNota(), "Dovrebbe uscire --> stringa vuota!");
+			
+			// test assegnazione reparto
+			a.setReparto(null);
+			assertEquals(Reparto.NESSUNO, a.getReparto(), "Dovrebbe uscire --> Nessuno!");
+		
+		} catch(ArticoloException e) {
+			
+			fail("Errore imprevisto nei setter!");
+		}
+	}
 }
