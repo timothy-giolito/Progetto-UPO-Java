@@ -36,13 +36,28 @@ public enum Reparto {
 	REPARTO_FERRAMENTA("Reparto Ferramenta"),
 	REPARTO_IDRAULICA("Reparto Idraulica"),
 	REPARTO_ELETTRICITA("Reparto Elettricita'"),
+	REPARTO_SPECCHI("Reparto Specchi"),
 	
 	// reparti negozi casa
 	REPARTO_CUCINA("Reparto Cucina"),
 	REPARTO_BAGNO("Reparto Bagno"),
 	REPARTO_SALOTTO("Reparto Salotto"),
 	REPARTO_CAMERA_DA_LETTO("Reparto Camera Da Letto"),
-	REPARTO_TESSILE("Reparto Tessile");
+	REPARTO_TESSILE("Reparto Tessile"),
+	
+	// reparti negozi di elettronica
+	REPARTO_ASPIRAPOLVERI("Reparto Aspirapolveri"),
+	REPARTO_LAVATRICI("Reparto Lavatrici"),
+	REPARTO_FRIGORIFERI("Reparto Frigoriferi"),
+	REPARTO_LAVASTOVIGLIE("Reparto Lavastoviglie"), 
+	REPARTO_TELEFONIA("Reparto Telefonia"), 
+	REPARTO_VIDEOGIOCHI("Reparto Videogiochi"),
+	REPARTO_TELEVISORI("Reparto Televisori"),
+	REPARTO_AUDIO("Reparto Audio"), 
+	REPARTO_FILM_DVD("Reparto Film e DVD"), 
+	REPARTO_INFORMATICA("Reparto Informatica"),
+	REPARTO_ACCESSORI_GENERICI("Reparto Accessori Generici");
+	
 	
 	private final String descrizione;
 	
