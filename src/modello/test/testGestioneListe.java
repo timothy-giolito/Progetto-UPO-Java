@@ -30,7 +30,7 @@ class testGestioneListe {
         	
             GestioneListe.creaLista("Spesa Settimanale");
             
-            // Verifico che la lista sia stata creata e inserita nella mappa
+            // Verifica che la lista sia stata creata e inserita nella mappa
             assertTrue(GestioneListe.getListeArticoli().containsKey("Spesa Settimanale"), 
                 "La lista dovrebbe essere presente nella mappa");
             
@@ -57,7 +57,7 @@ class testGestioneListe {
         try {
         	
             GestioneListe.creaLista("Lista Doppia");
-            // Riprovo a creare la stessa lista
+            // Riprova a creare la stessa lista
             assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista("Lista Doppia"),
                 "Doveva lanciare eccezione per lista già esistente");
             
@@ -171,11 +171,11 @@ class testGestioneListe {
             Articolo art = new Articolo("Acqua", "Bibite", 0.50, "", Reparto.REPARTO_BEVANDE);
             GestioneListe.inserisciArticolo(art);
 
-            // Provo a inserire lo stesso oggetto articolo
+            // Prova a inserire lo stesso oggetto articolo
             assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciArticolo(art),
                 "Doveva impedire l'inserimento di un duplicato");
 
-            // Provo a inserire null
+            // Prova a inserire null
             assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciArticolo(null),
                 "Doveva impedire l'inserimento di null");
 
@@ -191,7 +191,7 @@ class testGestioneListe {
         try {
         	
             Articolo art = new Articolo("Vino", "Alcolici", 10.0, "", Reparto.REPARTO_BEVANDE);
-            // Provo a cancellarlo senza averlo mai inserito
+            // Prova a cancellarlo senza averlo mai inserito
             assertThrows(GestioneListeException.class, () -> GestioneListe.cancellaArticolo(art));
             
         } catch (Exception e) {
@@ -212,13 +212,13 @@ class testGestioneListe {
 			assertEquals(Reparto.REPARTO_ELETTRONICA, mouse.getReparto());
 			assertEquals("Periferiche PC", mouse.getCategoria());
 
-			// Test 2: Articolo Fai-da-te (Verifica enum complessi)
+			// Test 2: Articolo Fai-da-te
 			Articolo trapano = new Articolo("Trapano a percussione", "Elettroutensili", 89.90, "Garanzia 2 anni", Reparto.REPARTO_FAI_DA_TE);
 			
 			assertEquals(Reparto.REPARTO_FAI_DA_TE, trapano.getReparto());
 			assertTrue(trapano.toString().contains("Trapano"));
 			
-			// Test 3: Articolo Giardinaggio (Verifica prezzi alti o specifici)
+			// Test 3: Articolo Giardinaggio
 			Articolo tosaerba = new Articolo("Tosaerba", "Macchine agricole", 250.00, "", Reparto.REPARTO_GIARDINAGGIO);
 			assertEquals(250.00, tosaerba.getPrezzo());
 
@@ -232,7 +232,7 @@ class testGestioneListe {
 	void testListaProgettoRistrutturazione() {
     	
 		try {
-			// Creiamo una lista specifica per un progetto
+			// Creazione lista specifica per un progetto
 			ListaDiArticoli listaBrico = new ListaDiArticoli("Ristrutturazione Bagno");
 			
 			// Creiamo articoli di reparti completamente diversi
@@ -240,7 +240,7 @@ class testGestioneListe {
 			Articolo rubinetto = new Articolo("Rubinetto Miscelatore", "Sanitari", 75.50, "Acciaio inox", Reparto.REPARTO_IDRAULICA);
 			Articolo vernice = new Articolo("Vernice Bianca", "Pitture", 15.0, "Antimuffa", Reparto.REPARTO_VERNICI);
 			
-			// Aggiungiamo tutto alla lista
+			// Aggiunta alla lista
 			listaBrico.AggiungiArticolo(piastrelle);
 			listaBrico.AggiungiArticolo(rubinetto);
 			listaBrico.AggiungiArticolo(vernice);
@@ -249,10 +249,10 @@ class testGestioneListe {
 			assertEquals(3, listaBrico.getNumeroArticoli());
 			assertEquals("Ristrutturazione Bagno", listaBrico.getListaNome());
 			
-			// Verifichiamo che contenga un oggetto specifico
+			// Verificha che contenga un oggetto specifico
 			assertTrue(listaBrico.getArticoli().contains(rubinetto));
 			
-			// Simuliamo l'acquisto (rimozione) delle piastrelle
+			// Simulazione acquisto
 			listaBrico.RimuoviArticolo(piastrelle);
 			assertEquals(2, listaBrico.getNumeroArticoli());
 			
@@ -267,7 +267,7 @@ class testGestioneListe {
     	
 		try {
 			
-			// Inseriamo categorie merceologiche varie
+			// Inserimento categorie varie
 			GestioneListe.inserisciCategoria("Informatica");
 			GestioneListe.inserisciCategoria("Arredamento Interni");
 			GestioneListe.inserisciCategoria("Materiale Edile");
@@ -277,7 +277,7 @@ class testGestioneListe {
 			
 			// Verifica che non ci siano conflitti con categorie simili
 			GestioneListe.inserisciCategoria("Arredamento Esterni");
-			assertEquals(4, GestioneListe.getCategorie().size()); // 3 sopra + 1 nuova
+			assertEquals(4, GestioneListe.getCategorie().size()); 
 			
 		} catch (GestioneListeException e) {
 			
