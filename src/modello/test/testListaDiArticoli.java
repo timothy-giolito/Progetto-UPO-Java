@@ -10,8 +10,21 @@ import modello.ListaDiArticoli;
 import modello.eccezioni.ArticoloException;
 import modello.eccezioni.ListaDiArticoliException;
 
-class testListaDiArticoli {
+/**
+ * Suite di test per la classe {@link modello.ListaDiArticoli}.
+ * <p>
+ * Controlla la creazione delle liste, la gestione del nome della lista
+ * e le operazioni di aggiunta e rimozione degli articoli.
+ * </p>
+ * @author Luca Franzon 20054744
+ */
 
+class testListaDiArticoli {
+	
+	/**
+     * Verifica che una lista venga creata correttamente con un nome valido
+     * e che sia inizialmente vuota.
+     */
 	@Test
 	void testCostruttoreValido() {
 		try {
@@ -23,6 +36,10 @@ class testListaDiArticoli {
 		}
 	}
 
+	/**
+     * Verifica che venga lanciata un'eccezione se si tenta di creare
+     * una lista con nome null o vuoto.
+     */
 	@Test
 	void testCostruttoreNonValido() {
 		assertThrows(ListaDiArticoliException.class, () -> {
@@ -38,6 +55,9 @@ class testListaDiArticoli {
 		});
 	}
 
+	/**
+     * Verifica la corretta modifica del nome della lista tramite il metodo setter.
+     */
 	@Test
 	void testSetNomeValido() {
 		try {
@@ -49,6 +69,9 @@ class testListaDiArticoli {
 		}
 	}
 
+	/**
+     * Verifica che non sia possibile rinominare la lista con un nome non valido.
+     */
 	@Test
 	void testSetNomeNonValido() {
 		try {
@@ -67,6 +90,10 @@ class testListaDiArticoli {
 		}
 	}
 
+	/**
+     * Verifica che sia possibile aggiungere un articolo valido alla lista
+     * e che il contatore degli articoli aumenti di conseguenza.
+     */
 	@Test
 	void testAggiungiArticolo() {
 		try {
@@ -83,6 +110,9 @@ class testListaDiArticoli {
 		}
 	}
 
+	/**
+     * Verifica che l'aggiunta di un articolo nullo provochi un'eccezione.
+     */
 	@Test
 	void testAggiungiArticoloNull() {
 		try {
@@ -97,6 +127,10 @@ class testListaDiArticoli {
 		}
 	}
 
+	/**
+     * Verifica che un articolo venga correttamente rimosso dalla lista
+     * e che il numero totale di articoli diminuisca.
+     */
 	@Test
 	void testRimuoviArticolo() {
 		try {

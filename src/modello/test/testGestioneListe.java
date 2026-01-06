@@ -12,8 +12,21 @@ import modello.eccezioni.*;
 import modello.ListaDiArticoli;
 import modello.eccezioni.GestioneListeException;
 
+/**
+ * Test unitari per la classe statica {@link modello.GestioneListe}.
+ * <p>
+ * Verifica le operazioni globali di gestione liste, categorie e catalogo articoli,
+ * assicurando la coerenza dei dati e la gestione degli errori (es. duplicati).
+ * </p>
+ * @author Timothy Giolito 20054431
+ */
+
 class testGestioneListe {
 
+	/**
+     * Resetta lo stato delle liste, categorie e articoli prima di ogni test
+     * per garantire un ambiente pulito.
+     */
     @BeforeEach
     void resetState() {
         GestioneListe.getListeArticoli().clear();
@@ -22,7 +35,9 @@ class testGestioneListe {
     }
 
    
-    // TEST GESTIONE LISTE (Creazione e Cancellazione Liste della spesa)
+    /**
+     * Verifica che una nuova lista venga creata e memorizzata correttamente nella mappa globale.
+     */
     @Test
     void testCreaListaSuccesso() {
     	
@@ -42,6 +57,10 @@ class testGestioneListe {
         }
     }
 
+    /**
+     * Verifica che vengano gestiti correttamente i tentativi di creare liste
+     * con nomi non validi o duplicati.
+     */
     @Test
     void testCreaListaErrori() {
     	
@@ -67,8 +86,10 @@ class testGestioneListe {
         }
     }
 
+    /**
+     * Verifica la corretta cancellazione di una lista esistente.
+     */
     @Test
-    
     void testCancellaLista() {
     	
         try {
@@ -85,6 +106,9 @@ class testGestioneListe {
         }
     }
     
+    /**
+     * Verifica che il tentativo di cancellare una lista inesistente sollevi un'eccezione.
+     */
     @Test
     void testCancellaListaInesistente() {
     	
@@ -92,7 +116,9 @@ class testGestioneListe {
             "Doveva lanciare eccezione se provo a cancellare una lista che non esiste");
     }
     
-    // TEST GESTIONE CATEGORIE
+    /**
+     * Verifica l'inserimento di nuove categorie e il blocco dei duplicati.
+     */
     @Test
     void testInserisciCategoria() {
     	
@@ -111,8 +137,10 @@ class testGestioneListe {
         }
     }
 
+    /**
+     * Verifica la rimozione delle categorie e la gestione dell'errore se la categoria non esiste.
+     */
     @Test
-    
     void testCancellaCategoria() {
     	
         try {
@@ -131,6 +159,9 @@ class testGestioneListe {
         }
     }
     
+    /**
+     * Verifica che categorie nulle o vuote non vengano accettate.
+     */
     @Test
     void testCategoriaNonValida() {
     	
@@ -138,7 +169,9 @@ class testGestioneListe {
         assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria(""));
     }
 
-    // TEST GESTIONE ARTICOLI (Elenco globale)
+    /**
+     * Verifica il ciclo di vita (inserimento e cancellazione) di un articolo nell'elenco globale.
+     */
     @Test
     void testInserisciECancellaArticolo() {
     	
@@ -163,6 +196,9 @@ class testGestioneListe {
         }
     }
 
+    /**
+     * Verifica che non sia possibile inserire articoli duplicati o nulli nell'elenco globale.
+     */
     @Test
     void testArticoloDuplicatoONull() {
     	
@@ -185,6 +221,9 @@ class testGestioneListe {
         }
     }
     
+    /**
+     * Verifica il comportamento quando si tenta di cancellare un articolo non presente.
+     */
     @Test
     void testCancellaArticoloInesistente() {
     	
@@ -200,6 +239,10 @@ class testGestioneListe {
         }
     }
     
+    /**
+     * Test specifico per verificare la creazione di articoli appartenenti a reparti
+     * non alimentari (Elettronica, Fai-da-te, Giardinaggio).
+     */
     @Test
 	void testArticoliNonAlimentari() {
     	
@@ -228,6 +271,10 @@ class testGestioneListe {
 		}
 	}
     
+    /**
+     * Simula uno scenario d'uso reale: creazione di una lista per un progetto di ristrutturazione
+     * con articoli di vari reparti (Piastrelle, Idraulica, Vernici).
+     */
     @Test
 	void testListaProgettoRistrutturazione() {
     	
@@ -262,6 +309,9 @@ class testGestioneListe {
 		}
 	}
     
+    /**
+     * Verifica l'inserimento di categorie eterogenee per confermare la flessibilità del sistema.
+     */
     @Test
 	void testCategorieDiverse() {
     	

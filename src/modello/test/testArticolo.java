@@ -7,8 +7,21 @@ import modello.Articolo;
 import modello.Reparto;
 import modello.eccezioni.ArticoloException;
 
+/**
+ * Classe di test JUnit per la verifica del comportamento della classe {@link modello.Articolo}.
+ * <p>
+ * Verifica il corretto funzionamento dei costruttori, dei metodi setter,
+ * della gestione dei valori di default e delle eccezioni attese.
+ * </p>
+ * @author Timothy Giolito 20054431
+ */
+
 class testArticolo {
 
+	/**
+     * Verifica che il costruttore crei correttamente un articolo valido
+     * e che tutti i getter restituiscano i valori attesi.
+     */
 	@Test
 	void testCostruttore() {
 		
@@ -31,6 +44,10 @@ class testArticolo {
 		} 
 	}
 	
+	/**
+     * Verifica il funzionamento del metodo setNome e controlla che vengano
+     * lanciate le eccezioni corrette in caso di nomi non validi (null, vuoti o solo spazi).
+     */
 	@Test
 	void testSetNome() {
 		try {
@@ -58,6 +75,10 @@ class testArticolo {
 		}
 	}
 	
+	/**
+     * Verifica che il costruttore lanci {@link ArticoloException} se si tenta
+     * di creare un articolo con un nome non valido (null, vuoto o solo spazi).
+     */
 	@Test
 	void testNomeNonValido() {
 		
@@ -80,6 +101,10 @@ class testArticolo {
         }, "Doveva lanciare eccezione per nome di soli spazi");
 	}
 	
+	/**
+     * Verifica che vengano assegnati correttamente i valori di default
+     * quando si passano parametri null o non validi al costruttore (es. prezzo negativo).
+     */
 	@Test
 	void testValoriDefault() {
 		
@@ -102,6 +127,10 @@ class testArticolo {
         }
 	}
 	
+	/**
+     * Verifica il corretto funzionamento dei metodi setter per prezzo e reparto,
+     * assicurandosi che le modifiche vengano salvate.
+     */
 	@Test
     void testSetters() {
         try {
@@ -124,6 +153,10 @@ class testArticolo {
         }
     }
 	
+	/**
+     * Verifica che il metodo toString restituisca una stringa non nulla
+     * e contenente almeno il nome dell'articolo.
+     */
 	@Test
     void testToString() {
         try {
@@ -139,6 +172,10 @@ class testArticolo {
         }
     }
 	
+	/**
+     * Verifica la logica di fallback dei setter (es. impostare null come categoria
+     * deve risultare in "Non categorizzato").
+     */	
 	@Test
 	void testLogicaSetter() {
 		
