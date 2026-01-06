@@ -1,5 +1,15 @@
 package modello;
 
+/**
+ * Enumerazione che definisce le diverse categorie merceologiche (reparti o corsie) disponibili nel negozio.
+ * <p>
+ * Questa enum viene utilizzata per classificare gli articoli e facilitarne l'organizzazione nelle liste.
+ * Ogni costante è associata a una descrizione testuale leggibile (es. "Reparto Ortofrutticolo")
+ * utile per la visualizzazione nell'interfaccia utente.
+ * </p>
+ * @author Timothy Giolito 20054431
+ * @author Luca Franzon 20054744
+ */
 public enum Reparto {
 
 	// valore di default

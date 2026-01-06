@@ -6,6 +6,16 @@ import java.util.List;
 import java.util.Map;
 import modello.eccezioni.GestioneListeException;
 
+/**
+ * Gestisce centralmente le liste della spesa, le categorie e l'elenco globale degli articoli.
+ * <p>
+ * Questa classe funge da database in memoria per l'applicazione, utilizzando campi statici
+ * per mantenere lo stato condiviso. Fornisce funzionalità per creare e rimuovere liste,
+ * gestire le categorie disponibili e amministrare il catalogo generale degli articoli.
+ * </p>
+ * @author Timothy Giolito 20054431
+ */
+
 public class GestioneListe {
 
     // Campo statico: associazione fra il nome di una lista e l'oggetto ListaDiArticoli
@@ -19,6 +29,12 @@ public class GestioneListe {
 
     // METODI PER LE LISTE
 
+    /**
+     * Crea una nuova lista della spesa e la memorizza nel sistema.
+     * @param nome Il nome univoco della nuova lista.
+     * @throws GestioneListeException Se il nome è vuoto o se esiste già una lista con lo stesso nome.
+     */
+    
     public static void creaLista(String nome) throws GestioneListeException {
     	
         if (nome == null || nome.trim().isEmpty()) {
@@ -41,6 +57,14 @@ public class GestioneListe {
         }
     }
 
+    
+    /**
+     * Rimuove una lista dal sistema di gestione delle liste.
+     * @param nome: Il nome della lista da eliminare.
+     * @throws GestioneListeException Se la gestione delle liste non contiene il nome
+     * della lista che si vuole eliminare.
+     */
+    
     public static void cancellaLista(String nome) throws GestioneListeException {
     	
         if (!listeArticoli.containsKey(nome)) {
@@ -52,6 +76,12 @@ public class GestioneListe {
     }
 
     // METODI PER LE CATEGORIE
+    
+    /**
+     * Inserisce una nuova categoria nel sistema.
+     * @param categoria Il nome della categoria da aggiungere.
+     * @throws GestioneListeException Se la categoria è vuota o esiste già.
+     */
 
     public static void inserisciCategoria(String categoria) throws GestioneListeException {
     	
@@ -68,6 +98,11 @@ public class GestioneListe {
         categorie.add(categoria);
     }
 
+    /**
+     * Rimuove la categoria che va a definire un determinato oggetto all'interno della lista.
+     * @param articolo L'oggetto {@link Categoria} da registrare.
+     * @throws GestioneListeException Se la categoria non esite.
+     */
     public static void cancellaCategoria(String categoria) throws GestioneListeException {
     	
         if (!categorie.contains(categoria)) {
@@ -80,6 +115,12 @@ public class GestioneListe {
 
     // METODI PER GLI ARTICOLI
 
+    /**
+     * Registra un nuovo articolo nell'elenco globale degli articoli disponibili.
+     * @param articolo L'oggetto {@link Articolo} da registrare.
+     * @throws GestioneListeException Se l'articolo è null o è già presente nell'elenco.
+     */
+    
     public static void inserisciArticolo(Articolo articolo) throws GestioneListeException {
     	
         if (articolo == null) {
@@ -95,6 +136,12 @@ public class GestioneListe {
         articoli.add(articolo);
     }
 
+    /**
+     * Rimuove un articolo dall'elenco globale degli articoli disponibili.
+     * @param articolo L'oggetto {@link Articolo} da rimuovere.
+     * @throws GestioneListeException Se l'articolo è null o non è presente nell'elenco.
+     */
+    
     public static void cancellaArticolo(Articolo articolo) throws GestioneListeException {
     	
         if (!articoli.contains(articolo)) {

@@ -2,6 +2,16 @@ package modello;
 
 import modello.eccezioni.ArticoloException;
 
+/**
+ * Rappresenta un singolo articolo acquistabile o inseribile in una lista della spesa.
+ * <p>
+ * Ogni articolo è caratterizzato da un nome, una categoria, un prezzo, una nota opzionale
+ * e un reparto di appartenenza. La classe gestisce valori di default per campi mancanti
+ * o non validi.
+ * </p>
+ * @author Timothy Giolito 20054431
+ */
+
 public class Articolo {
 
     // Valori di default
@@ -15,6 +25,16 @@ public class Articolo {
     private double prezzo;
     private String nota;
     private Reparto reparto;
+    
+    /**
+     * Costruisce un nuovo oggetto Articolo con i dettagli specificati.
+     * @param nome: Il nome dell'articolo (non può essere null o vuoto).
+     * @param categoria: La categoria dell'articolo (se null o vuota, viene assegnato un valore di default).
+     * @param prezzo: Il prezzo dell'articolo (se negativo, viene impostato a 0.0).
+     * @param nota: Una nota aggiuntiva (opzionale).
+     * @param reparto: Il reparto di appartenenza (se null, viene assegnato {@link Reparto#NESSUNO}).
+     * @throws ArticoloException: Se il nome dell'articolo è null o vuoto.
+     */
     
     // Costruttore della classe aggiornato con il parametro Corsia
     public Articolo(String nome, String categoria, double prezzo, String nota, Reparto reparto) throws ArticoloException {
@@ -56,12 +76,22 @@ public class Articolo {
     }
     
     // --- METODI GETTER E SETTER ---
+    
+    /**
+     * Restituisce il reparto di appartenenza dell'articolo.
+     * @return Il reparto corrente.
+     */
 
     // Getter e Setter per Corsia (Senza operatore ternario)
     public Reparto getReparto() {
         return reparto;
     }
 
+    /**
+     * Imposta il reparto dell'articolo.
+     * @param reparto Il nuovo reparto. Se null, viene impostato il valore di default.
+     */
+    
     public void setReparto(Reparto reparto) {
         if (reparto == null) {
             this.reparto = DEFAULT_REPARTO;
@@ -82,11 +112,10 @@ public class Articolo {
             this.nome = nome;
         }
     }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
+    
+    /**
+     * Permette di settare la categoria attribuita ad un articolo della lista.
+     */
     public void setCategoria(String categoria) {
         if(categoria == null || categoria.trim().isEmpty()) {
             this.categoria = DEFAULT_CATEGORIA;
@@ -94,11 +123,24 @@ public class Articolo {
             this.categoria = categoria;
         }
     }
+    
+    /**
+     * Permette di ritornare il contenuto di una nota attribuita ad un articolo della lista.
+     */
+    public String getCategoria() {
+        return categoria;
+    }
 
     public double getPrezzo() {
         return prezzo;
     }
 
+    /**
+     * Imposta il prezzo dell'articolo.
+     * @param prezzo Il nuovo prezzo.
+     * @throws ArticoloException Se il prezzo fornito è negativo.
+     */
+    
     public void setPrezzo(double prezzo) throws ArticoloException {
         if(prezzo < 0) {
             throw new ArticoloException("Il prezzo non puo' essere vuoto!");
@@ -106,11 +148,11 @@ public class Articolo {
             this.prezzo = prezzo;
         }
     }
-
-    public String getNota() {
-        return nota;
-    }
-
+    
+   
+    /**
+     * Permette di settare il contenuto di una nota attribuita ad un articolo della lista.
+     */
     public void setNota(String nota) {
         if(nota == null) {
             this.nota = DEFAULT_NOTA;
@@ -119,7 +161,21 @@ public class Articolo {
         }
     }
     
+    /**
+     * Permette di ritornare il contenuto di una nota attribuita ad un articolo della lista.
+     */
+    
+    public String getNota() {
+        return nota;
+    }
+    
     // Metodo toString per rappresentazione visiva aggiornato
+    
+    /**
+     * Restituisce una rappresentazione testuale dell'articolo.
+     * @return Una stringa formattata contenente nome, reparto, categoria, prezzo e nota.
+     */
+    
     @Override
     public String toString() {
         return "Articolo: " + nome + " | Corsia: " + reparto + " | Categoria: " + categoria + " | Prezzo: " + prezzo + "€ | Nota: " + nota;
