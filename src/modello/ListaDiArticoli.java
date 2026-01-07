@@ -2,122 +2,143 @@ package modello;
 
 import modello.eccezioni.ListaDiArticoliException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Rappresenta una lista della spesa contenente un insieme di articoli.
  * <p>
- * Ogni lista è caratterizzata da un nome identificativo e gestisce una collezione
- * dinamica di oggetti {@link Articolo}. La classe fornisce funzionalità per aggiungere,
- * rimuovere e conteggiare gli elementi, assicurando che il nome della lista sia valido.
+ * Gestisce sia gli articoli attivi (da comprare) che quelli cancellati (cestino).
+ * Implementa Iterable per scorrere entrambe le liste in sequenza.
  * </p>
- * @author Luca Franzon 20054744
  */
-
-public class ListaDiArticoli {
+public class ListaDiArticoli implements Iterable<Articolo> {
+    
     private String nome;
-    private List<Articolo> articoli;
+    private List<Articolo> articoli;   // Articoli da comprare
+    private List<Articolo> cancellati; // Cestino
 
-    //costruttore
-    
-    /**
-     * Rappresenta una lista della spesa che contiene un elenco di articoli.
-     * Permette di aggiungere e rimuovere articoli e gestire il nome della lista stessa.
-     * Crea una nuova lista di articoli vuota.
-     * @param nome Il nome della lista (es. "Spesa Settimanale").
-     * @throws ListaDiArticoliException Se il nome fornito è null o vuoto.
-     */
-    
-    public ListaDiArticoli(String nome) throws ListaDiArticoliException
-    {
-        if (nome == null || nome.trim().isEmpty())
-        {
-            throw new ListaDiArticoliException("Errore, è necessario il nome");
+    public ListaDiArticoli(String nome) throws ListaDiArticoliException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new ListaDiArticoliException("Errore, è necessario il nome della lista");
         }
-
         this.nome = nome;
         this.articoli = new ArrayList<>();
+        this.cancellati = new ArrayList<>();
     }
 
-    //Metodi
+    // --- GETTER & SETTER ---
 
-    /**
-     * Permette di resituire il nome della lista appena creata.
-     */
-    
-    public String getListaNome()
-    {
+    public String getListaNome() {
         return nome;
     }
 
-    
-    /**
-     * Permette di settare un nome che rappresenti una lista di articoli.
-     * @param nome Il nome della lista (es. "Spesa Settimanale").
-     * @throws ListaDiArticoliException Se il nome fornito è null o vuoto.
-     */
-    
-    public void setListaNome(String nome) throws ListaDiArticoliException
-    {
-        if (nome == null || nome.trim().isEmpty())
-        {
+    public void setListaNome(String nome) throws ListaDiArticoliException {
+        if (nome == null || nome.trim().isEmpty()) {
             throw new ListaDiArticoliException("Errore, serve il nome della lista");
         }
-        else
-        {
-            this.nome = nome;
-        }
+        this.nome = nome;
     }
 
-    public List<Articolo> getArticoli()
-    {
+    public List<Articolo> getArticoli() {
         return articoli;
     }
-
-    /**
-     * Aggiunge un articolo alla lista corrente.
-     * @param articolo L'oggetto {@link Articolo} da aggiungere.
-     * @throws ListaDiArticoliException Se l'articolo passato è null.
-     */
     
-    public void AggiungiArticolo(Articolo articolo) throws ListaDiArticoliException
-    {
-        if (articolo == null)
-        {
-            throw new ListaDiArticoliException("Errore, e' necessario il nome dell'articolo");     
+    public List<Articolo> getCancellati() {
+        return cancellati;
+    }
+
+    // --- GESTIONE ARTICOLI ---
+
+    public void AggiungiArticolo(Articolo articolo) throws ListaDiArticoliException {
+        if (articolo == null) {
+            throw new ListaDiArticoliException("Errore, è necessario l'articolo");     
+        }
+        // Evita duplicati se era nel cestino
+        if(cancellati.contains(articolo)) {
+            cancellati.remove(articolo);
         }
         this.articoli.add(articolo);
     }
     
     /**
-     * Rimuove un articolo specificato dalla lista.
-     * @param articolo L'articolo da rimuovere.
+     * Rimuove un articolo dalla lista della spesa e lo sposta nel cestino.
      */
-
-    public void RimuoviArticolo(Articolo articolo)
-    {
-        this.articoli.remove(articolo);
+    public void RimuoviArticolo(Articolo articolo) {
+        if (this.articoli.remove(articolo)) {
+            this.cancellati.add(articolo);
+        }
     }
     
     /**
-     * Restituisce il numero totale di articoli presenti nella lista.
-     * @return Un intero che rappresenta la dimensione della lista.
+     * Ripristina un articolo dal cestino alla lista della spesa.
      */
+    public boolean RipristinaArticolo(Articolo articolo) {
+        if (this.cancellati.remove(articolo)) {
+            this.articoli.add(articolo);
+            return true;
+        }
+        return false;
+    }
+    
+    public void SvuotaCestino() {
+        this.cancellati.clear();
+    }
 
-    public int getNumeroArticoli()
-    {
+    // --- FUNZIONALITÀ RICHIESTE DAL PDF ---
+
+    /**
+     * Cerca un articolo per prefisso sia nella lista attiva che nel cestino.
+     */
+    public Articolo TrovaArticoloPerPrefisso(String prefisso) {
+        if (prefisso == null || prefisso.isEmpty()) return null;
+        String search = prefisso.toLowerCase();
+
+        // 1. Cerca nei "Da Comprare"
+        for (Articolo a : articoli) {
+            if (a.getNome().toLowerCase().startsWith(search)) return a;
+        }
+        // 2. Cerca nel "Cestino"
+        for (Articolo a : cancellati) {
+            if (a.getNome().toLowerCase().startsWith(search)) return a;
+        }
+        return null;
+    }
+
+    /**
+     * Calcola il prezzo totale degli articoli attivi (da comprare).
+     */
+    public double getPrezzoTotale() {
+        double totale = 0.0;
+        for (Articolo a : articoli) {
+            totale += a.getPrezzo();
+        }
+        return totale;
+    }
+
+    public int getNumeroArticoli() {
         return this.articoli.size();
     }
-
-    /**
-     * Restituisce una rappresentazione testuale della lista.
-     * @return Una stringa formattata contenente nome (della lista) e il totale degli articoli.
-     */
     
-    @Override
-    public String toString()
-    {
-        return "Lista: " + nome + "\n Totale articoli: " + articoli.size();
+    public int getNumeroArticoliCancellati() {
+        return this.cancellati.size();
     }
 
-} 
+    /**
+     * Iteratore che scorre PRIMA gli articoli attivi e POI quelli cancellati.
+     */
+    @Override
+    public Iterator<Articolo> iterator() {
+        List<Articolo> listaCompleta = new ArrayList<>(articoli);
+        listaCompleta.addAll(cancellati);
+        return listaCompleta.iterator();
+    }
+
+    @Override
+    public String toString() {
+        return "Lista: " + nome + 
+               " (Da comprare: " + articoli.size() + 
+               ", Cestino: " + cancellati.size() + 
+               ", Totale: " + String.format("%.2f", getPrezzoTotale()) + "€)";
+    }
+}

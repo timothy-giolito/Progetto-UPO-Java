@@ -52,7 +52,7 @@ public class Main {
             }
 
             if (scelta == 1) {
-                System.out.println("Avvio interfaccia testuale...");
+                System.out.println("\nAvvio interfaccia testuale...");
                 
                 // Istanza per CLI
                 new RigaDiComando().start(); 

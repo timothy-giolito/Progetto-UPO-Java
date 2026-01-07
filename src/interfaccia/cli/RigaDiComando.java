@@ -13,9 +13,8 @@ import modello.eccezioni.GestioneListeException;
 import modello.eccezioni.ListaDiArticoliException;
 
 /**
- * Gestisce l'interazione con l'utente tramite terminale (Command Line Interface).
- * @author Timothy Giolito 20054431
- * @author Luca Franzon 20054744
+ * Gestione interfaccia utente da terminale.
+ * Include gestione Liste, Catalogo Globale e Cestino.
  */
 public class RigaDiComando {
 
@@ -25,12 +24,8 @@ public class RigaDiComando {
         this.scanner = new Scanner(System.in);
     }
 
-    /**
-     * Avvia il ciclo principale dell'interfaccia testuale.
-     */
     public void start() {
         int scelta = -1;
-
         System.out.println("Benvenuto in Progetto UPO Java - CLI");
 
         while (scelta != 0) {
@@ -38,25 +33,14 @@ public class RigaDiComando {
             scelta = leggiIntero("Inserisci la tua scelta: ");
 
             switch (scelta) {
-                case 1:
-                    menuGestioneListe();
-                    break;
-                case 2:
-                    menuCatalogoArticoli();
-                    break;
-                case 3:
-                    menuGestioneCategorie();
-                    break;
-                case 0:
-                    System.out.println("Arrivederci!");
-                    break;
-                default:
-                    System.out.println("Scelta non valida.");
+                case 1: menuGestioneListe(); break;
+                case 2: menuCatalogoArticoli(); break;
+                case 3: menuGestioneCategorie(); break;
+                case 0: System.out.println("Arrivederci!"); break;
+                default: System.out.println("Scelta non valida.");
             }
         }
     }
-
-    // --- MENU PRINCIPALI ---
 
     private void mostraMenuPrincipale() {
         System.out.println("\n--- MENU PRINCIPALE ---");
@@ -65,6 +49,8 @@ public class RigaDiComando {
         System.out.println("3. Gestione Categorie");
         System.out.println("0. Esci");
     }
+
+    // --- SEZIONE LISTE ---
 
     private void menuGestioneListe() {
         int scelta = -1;
@@ -83,7 +69,7 @@ public class RigaDiComando {
                     case 1:
                         String nomeNuova = leggiStringa("Nome nuova lista: ");
                         GestioneListe.creaLista(nomeNuova);
-                        System.out.println("Lista creata con successo.");
+                        System.out.println("Lista creata.");
                         break;
                     case 2:
                         stampaElencoListe();
@@ -96,85 +82,14 @@ public class RigaDiComando {
                         GestioneListe.cancellaLista(nomeElimina);
                         System.out.println("Lista eliminata.");
                         break;
-                    case 0:
-                        break;
-                    default:
-                        System.out.println("Opzione non valida.");
+                    case 0: break;
+                    default: System.out.println("Opzione non valida.");
                 }
             } catch (GestioneListeException e) {
                 System.out.println("ERRORE: " + e.getMessage());
             }
         }
     }
-
-    private void menuCatalogoArticoli() {
-        System.out.println("\n--- CATALOGO GLOBALE ARTICOLI ---");
-        System.out.println("1. Visualizza tutti gli articoli globali");
-        System.out.println("2. Aggiungi nuovo articolo al catalogo");
-        System.out.println("3. Rimuovi articolo dal catalogo");
-        System.out.println("0. Indietro");
-        
-        int scelta = leggiIntero("Scelta: ");
-        
-        try {
-            switch(scelta) {
-                case 1:
-                    List<Articolo> articoli = GestioneListe.getArticoli();
-                    if(articoli.isEmpty()) System.out.println("Nessun articolo nel catalogo.");
-                    else articoli.forEach(System.out::println);
-                    break;
-                case 2:
-                    Articolo nuovo = creaArticoloInterattivo();
-                    if(nuovo != null) {
-                        GestioneListe.inserisciArticolo(nuovo);
-                        System.out.println("Articolo aggiunto al catalogo.");
-                    }
-                    break;
-                case 3:
-                    // Per semplicità rimuoviamo per nome cercando nella lista
-                    String nomeArt = leggiStringa("Nome articolo da rimuovere: ");
-                    Articolo daRimuovere = trovaArticoloInLista(GestioneListe.getArticoli(), nomeArt);
-                    if(daRimuovere != null) {
-                        GestioneListe.cancellaArticolo(daRimuovere);
-                        System.out.println("Articolo rimosso.");
-                    } else {
-                        System.out.println("Articolo non trovato.");
-                    }
-                    break;
-                case 0:
-                    break;
-                default:
-                    System.out.println("Opzione non valida.");
-            }
-        } catch (GestioneListeException e) {
-            System.out.println("ERRORE: " + e.getMessage());
-        }
-    }
-
-    private void menuGestioneCategorie() {
-        System.out.println("\n--- GESTIONE CATEGORIE ---");
-        System.out.println("Attuali: " + GestioneListe.getCategorie());
-        System.out.println("1. Aggiungi categoria");
-        System.out.println("2. Rimuovi categoria");
-        System.out.println("0. Indietro");
-
-        int scelta = leggiIntero("Scelta: ");
-        try {
-            if (scelta == 1) {
-                String nuovaCat = leggiStringa("Nuova categoria: ");
-                GestioneListe.inserisciCategoria(nuovaCat);
-                System.out.println("Categoria inserita.");
-            } else if (scelta == 2) {
-                String catDel = leggiStringa("Categoria da rimuovere: ");
-                GestioneListe.cancellaCategoria(catDel);
-                System.out.println("Categoria rimossa.");
-            }
-        } catch (GestioneListeException e) {
-            System.out.println("ERRORE: " + e.getMessage());
-        }
-    }
-
-    // --- SOTTO-MENU: GESTIONE SINGOLA LISTA ---
 
     private void gestisciListaSpecifica() {
         stampaElencoListe();
@@ -186,14 +101,20 @@ public class RigaDiComando {
             return;
         }
 
-        ListaDiArticoli listaCorrente = mappa.get(nomeLista);
-        
+        ListaDiArticoli lista = mappa.get(nomeLista);
         int scelta = -1;
+
         while(scelta != 0) {
-            System.out.println("\n--- LISTA: " + listaCorrente.getListaNome() + " ---");
-            System.out.println("1. Visualizza articoli nella lista");
-            System.out.println("2. Aggiungi articolo (crea nuovo)");
-            System.out.println("3. Rimuovi articolo");
+            System.out.println("\n--- LISTA: " + lista.getListaNome() + " ---");
+            System.out.println("TOTALE: " + String.format("%.2f", lista.getPrezzoTotale()) + "€");
+            System.out.println("1. Visualizza articoli DA COMPRARE");
+            System.out.println("2. Aggiungi nuovo articolo (manuale)");
+            System.out.println("3. Rimuovi articolo (sposta nel cestino)");
+            System.out.println("4. Visualizza CESTINO");
+            System.out.println("5. Ripristina articolo dal cestino");
+            System.out.println("6. Svuota cestino");
+            System.out.println("7. Cerca articolo (Smart Search)");
+            System.out.println("8. Aggiungi articolo DA CATALOGO GLOBALE (Veloce)");
             System.out.println("0. Torna al menu liste");
             
             scelta = leggiIntero("Scelta: ");
@@ -201,145 +122,200 @@ public class RigaDiComando {
             try {
                 switch(scelta) {
                     case 1:
-                        if(listaCorrente.getNumeroArticoli() == 0) System.out.println("La lista è vuota.");
-                        else listaCorrente.getArticoli().forEach(System.out::println);
+                        if(lista.getNumeroArticoli() == 0) System.out.println("Lista vuota.");
+                        else lista.getArticoli().forEach(System.out::println);
                         break;
                     case 2:
                         Articolo nuovo = creaArticoloInterattivo();
                         if(nuovo != null) {
-                            listaCorrente.AggiungiArticolo(nuovo);
-                            System.out.println("Articolo aggiunto alla lista.");
+                            lista.AggiungiArticolo(nuovo);
+                            System.out.println("Aggiunto.");
                         }
                         break;
                     case 3:
-                        String nomeDaRimuovere = leggiStringa("Nome articolo da togliere: ");
-                        Articolo artRemove = trovaArticoloInLista(listaCorrente.getArticoli(), nomeDaRimuovere);
-                        if(artRemove != null) {
-                            listaCorrente.RimuoviArticolo(artRemove);
-                            System.out.println("Articolo rimosso dalla lista.");
-                        } else {
-                            System.out.println("Articolo non trovato in questa lista.");
-                        }
+                        String nomeDel = leggiStringa("Nome articolo da togliere: ");
+                        Articolo aDel = trovaArticolo(lista.getArticoli(), nomeDel);
+                        if(aDel != null) {
+                            lista.RimuoviArticolo(aDel);
+                            System.out.println("Spostato nel cestino.");
+                        } else System.out.println("Non trovato.");
                         break;
-                    case 0:
+                    case 4:
+                        if(lista.getCancellati().isEmpty()) System.out.println("Cestino vuoto.");
+                        else lista.getCancellati().forEach(System.out::println);
                         break;
+                    case 5:
+                        String nomeRip = leggiStringa("Nome articolo da ripristinare: ");
+                        Articolo aRip = trovaArticolo(lista.getCancellati(), nomeRip);
+                        if(aRip != null && lista.RipristinaArticolo(aRip)) {
+                            System.out.println("Ripristinato.");
+                        } else System.out.println("Non trovato nel cestino.");
+                        break;
+                    case 6:
+                        lista.SvuotaCestino();
+                        System.out.println("Cestino svuotato.");
+                        break;
+                    case 7:
+                        String q = leggiStringa("Inserisci prefisso: ");
+                        Articolo tro = lista.TrovaArticoloPerPrefisso(q);
+                        if(tro != null) System.out.println("Trovato: " + tro);
+                        else System.out.println("Nessuna corrispondenza.");
+                        break;
+                    case 8:
+                        aggiungiDaCatalogo(lista);
+                        break;
+                    case 0: break;
+                    default: System.out.println("Scelta non valida.");
                 }
             } catch (ListaDiArticoliException e) {
-                 System.out.println("ERRORE LISTA: " + e.getMessage());
+                 System.out.println("ERRORE: " + e.getMessage());
             }
         }
     }
 
-    // --- METODI DI SUPPORTO ---
+    private void aggiungiDaCatalogo(ListaDiArticoli listaDestinazione) {
+        List<Articolo> catalogo = GestioneListe.getArticoli(); // Assume getter statico
+        if(catalogo == null || catalogo.isEmpty()) {
+            System.out.println("Catalogo vuoto. Vai nel menu principale (2) per riempirlo.");
+            return;
+        }
+
+        System.out.println("\n--- CATALOGO GLOBALE ---");
+        for(int i=0; i<catalogo.size(); i++) {
+            Articolo a = catalogo.get(i);
+            System.out.println((i+1) + ". " + a.getNome() + " (" + a.getPrezzo() + "€)");
+        }
+
+        int idx = leggiIntero("Scegli numero (0 annulla): ");
+        if(idx > 0 && idx <= catalogo.size()) {
+            try {
+                // Clona l'articolo per permettere modifiche indipendenti (opzionale ma consigliato)
+                Articolo originale = catalogo.get(idx - 1);
+                Articolo copia = new Articolo(originale.getNome(), originale.getCategoria(), 
+                                              originale.getPrezzo(), originale.getNota(), originale.getReparto());
+                
+                listaDestinazione.AggiungiArticolo(copia);
+                System.out.println("Aggiunto: " + copia.getNome());
+            } catch (Exception e) {
+                System.out.println("Errore inserimento: " + e.getMessage());
+            }
+        }
+    }
+
+    // --- SEZIONE CATALOGO GLOBALE ---
+
+    private void menuCatalogoArticoli() {
+        System.out.println("\n--- CATALOGO GLOBALE ---");
+        System.out.println("1. Visualizza articoli");
+        System.out.println("2. Aggiungi articolo al catalogo");
+        System.out.println("3. Rimuovi articolo dal catalogo");
+        System.out.println("0. Indietro");
+        
+        int scelta = leggiIntero("Scelta: ");
+        try {
+            switch(scelta) {
+                case 1:
+                    List<Articolo> arts = GestioneListe.getArticoli();
+                    if(arts.isEmpty()) System.out.println("Catalogo vuoto.");
+                    else arts.forEach(System.out::println);
+                    break;
+                case 2:
+                    Articolo a = creaArticoloInterattivo();
+                    if(a != null) {
+                        GestioneListe.inserisciArticolo(a);
+                        System.out.println("Aggiunto al catalogo.");
+                    }
+                    break;
+                case 3:
+                    String n = leggiStringa("Nome da rimuovere: ");
+                    Articolo daRimuovere = trovaArticolo(GestioneListe.getArticoli(), n);
+                    if(daRimuovere != null) {
+                        GestioneListe.cancellaArticolo(daRimuovere);
+                        System.out.println("Rimosso.");
+                    } else System.out.println("Non trovato.");
+                    break;
+                case 0: break;
+            }
+        } catch (Exception e) {
+            System.out.println("ERRORE: " + e.getMessage());
+        }
+    }
+
+    // --- SEZIONE CATEGORIE ---
+    
+    private void menuGestioneCategorie() {
+        System.out.println("\n--- CATEGORIE ---");
+        System.out.println("Attuali: " + GestioneListe.getCategorie());
+        System.out.println("1. Aggiungi");
+        System.out.println("2. Rimuovi");
+        System.out.println("0. Indietro");
+        
+        int s = leggiIntero("Scelta: ");
+        try {
+            if(s==1) GestioneListe.inserisciCategoria(leggiStringa("Nuova categoria: "));
+            else if(s==2) GestioneListe.cancellaCategoria(leggiStringa("Categoria da rimuovere: "));
+        } catch(Exception e) {
+            System.out.println("ERRORE: " + e.getMessage());
+        }
+    }
+
+    // --- UTILITÀ ---
 
     private Articolo creaArticoloInterattivo() {
         try {
-            System.out.println("Creazione nuovo articolo:");
+            System.out.println("Nuovo Articolo:");
             String nome = leggiStringa("- Nome: ");
-            String cat = leggiStringa("- Categoria (invio per default): ");
-            double prezzo = leggiDouble("- Prezzo: ");
+            String cat = leggiStringa("- Categoria: ");
+            double pr = leggiDouble("- Prezzo: ");
             String nota = leggiStringa("- Nota: ");
             
-            // Usiamo il nuovo metodo intelligente per il reparto
-            Reparto repartoScelto = selezionaReparto();
-
-            return new Articolo(nome, cat, prezzo, nota, repartoScelto);
-
+            System.out.print("- Reparto (invio per saltare, ? per lista): ");
+            String repStr = scanner.nextLine().trim();
+            Reparto r = Reparto.NESSUNO;
+            
+            if(repStr.equals("?")) {
+                for(Reparto rep : Reparto.values()) System.out.println(rep);
+            } else if(!repStr.isEmpty()) {
+                // Logica semplificata per reparto
+                for(Reparto rep : Reparto.values()) {
+                    if(rep.name().equalsIgnoreCase(repStr)) r = rep;
+                }
+            }
+            
+            return new Articolo(nome, cat, pr, nota, r);
         } catch (ArticoloException e) {
-            System.out.println("Errore creazione articolo: " + e.getMessage());
+            System.out.println("Dati non validi: " + e.getMessage());
             return null;
         }
     }
 
-    /**
-     * Gestisce la selezione del reparto in modo intelligente:
-     * - Invio vuoto -> NESSUNO
-     * - Testo -> Cerca parzialmente nel nome o descrizione
-     * - "?" -> Mostra elenco completo
-     */
-    private Reparto selezionaReparto() {
-        System.out.print("- Reparto (scrivi nome es. 'frutta', invio per saltare, o '?' per lista): ");
-        String input = scanner.nextLine().trim();
-
-        // Caso 1: Utente preme Invio (nessun reparto)
-        if (input.isEmpty()) {
-            return Reparto.NESSUNO;
-        }
-
-        // Caso 2: Utente chiede la lista completa
-        if (input.equals("?")) {
-            Reparto[] reparti = Reparto.values();
-            for (int i = 0; i < reparti.length; i++) {
-                // Stampa la lista numerata
-                System.out.println((i + 1) + ". " + reparti[i].getDescrizione());
-            }
-            int index = leggiIntero("Inserisci numero reparto: ");
-            if (index > 0 && index <= reparti.length) {
-                return reparti[index - 1];
-            } else {
-                System.out.println("Numero non valido. Impostato 'Nessuna Corsia'.");
-                return Reparto.NESSUNO;
-            }
-        }
-
-        // Caso 3: Ricerca testuale (es. utente scrive "surgelati")
-        for (Reparto r : Reparto.values()) {
-            // Controlla se l'input è contenuto nel nome tecnico o nella descrizione (case-insensitive)
-            boolean matchDescrizione = r.getDescrizione().toLowerCase().contains(input.toLowerCase());
-            boolean matchNome = r.name().replace("_", " ").toLowerCase().contains(input.toLowerCase());
-            
-            if (matchDescrizione || matchNome) {
-                System.out.println("-> Reparto rilevato: " + r.getDescrizione());
-                return r;
-            }
-        }
-
-        System.out.println("Reparto non trovato. Impostato su 'Nessuna Corsia'.");
-        return Reparto.NESSUNO;
-    }
-    
-    private void stampaElencoListe() {
-        Map<String, ListaDiArticoli> liste = GestioneListe.getListeArticoli();
-        if (liste.isEmpty()) {
-            System.out.println("Nessuna lista presente.");
-        } else {
-            System.out.println("Elenco Liste:");
-            for (String nome : liste.keySet()) {
-                System.out.println("- " + nome + " (" + liste.get(nome).getNumeroArticoli() + " articoli)");
-            }
-        }
-    }
-
-    // Metodo helper per trovare un articolo in una lista dato il nome
-    private Articolo trovaArticoloInLista(List<Articolo> lista, String nome) {
+    private Articolo trovaArticolo(List<Articolo> lista, String nome) {
         for(Articolo a : lista) {
-            if(a.getNome().equalsIgnoreCase(nome)) {
-                return a;
-            }
+            if(a.getNome().equalsIgnoreCase(nome)) return a;
         }
         return null;
     }
 
-    private int leggiIntero(String messaggio) {
-        System.out.print(messaggio);
-        try {
-            return Integer.parseInt(scanner.nextLine());
-        } catch (NumberFormatException e) {
-            return -1; // Valore non valido
-        }
-    }
-    
-    private double leggiDouble(String messaggio) {
-        System.out.print(messaggio);
-        try {
-            return Double.parseDouble(scanner.nextLine());
-        } catch (NumberFormatException e) {
-            return 0.0;
-        }
+    private void stampaElencoListe() {
+        Map<String, ListaDiArticoli> map = GestioneListe.getListeArticoli();
+        if(map.isEmpty()) System.out.println("Nessuna lista.");
+        else map.forEach((k, v) -> System.out.println("- " + k + " (Tot: " + v.getPrezzoTotale() + "€)"));
     }
 
-    private String leggiStringa(String messaggio) {
-        System.out.print(messaggio);
+    private int leggiIntero(String msg) {
+        System.out.print(msg);
+        try { return Integer.parseInt(scanner.nextLine()); } 
+        catch (Exception e) { return -1; }
+    }
+    
+    private double leggiDouble(String msg) {
+        System.out.print(msg);
+        try { return Double.parseDouble(scanner.nextLine()); } 
+        catch (Exception e) { return 0.0; }
+    }
+
+    private String leggiStringa(String msg) {
+        System.out.print(msg);
         return scanner.nextLine();
     }
 }
