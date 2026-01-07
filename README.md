@@ -63,10 +63,8 @@ Suite di test unitari sviluppata con **JUnit 5** per garantire la stabilità del
 * Test di regressione per le eccezioni e i casi limite (valori null, stringhe vuote, duplicati).
 
 ---
-
-```
 ### 📂 Struttura delle Cartelle
-
+```
 ```text
 Progetto-UPO-Java
 │
