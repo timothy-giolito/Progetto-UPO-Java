@@ -65,7 +65,6 @@ Suite di test unitari sviluppata con **JUnit 5** per garantire la stabilità del
 ---
 ### 📂 Struttura delle Cartelle
 ```
-```text
 Progetto-UPO-Java
 │
 ├── 📂 src
