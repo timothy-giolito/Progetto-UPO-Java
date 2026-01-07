@@ -5,8 +5,6 @@ import interfaccia.cli.RigaDiComando;
 import interfaccia.grafica.InterfacciaGrafica;
 
 /**
- * Classe principale (Entry Point) dell'applicazione "Progetto UPO Java".
- * <p>
  * Questa classe gestisce l'avvio del programma permettendo all'utente di scegliere
  * la modalità di interazione desiderata:
  * <ul>
