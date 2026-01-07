@@ -38,7 +38,33 @@ All'avvio (`Main.java`), l'utente può scegliere tra due modalità:
 
 ## 🛠️ Architettura del Progetto
 
-### 📂 Struttura delle Cartelle
+Il progetto segue il pattern architetturale che separa i dati dalla visualizzazione.
+
+### 📦 Package `modello`
+Il cuore dell'applicazione. Contiene la logica di business e le strutture dati.
+* `GestioneListe`: Classe statica "Controller" che funge da database centrale. Gestisce le `Map` delle liste e le `List` di articoli e categorie.
+* `ListaDiArticoli`: Rappresenta una singola lista contenente oggetti `Articolo`.
+* `Articolo`: La classe base con override di `equals()` e `hashCode()` per garantire la corretta identificazione degli oggetti.
+* `Reparto`: Enumerazione (`Enum`) che definisce le corsie del supermercato.
+
+### 📦 Package `interfaccia`
+* `cli.RigaDiComando`: Gestisce l'input/output su terminale. Include funzionalità di "Smart Search" per i reparti e menu nidificati.
+* `grafica.InterfacciaGrafica`: Classe entry point per la futura implementazione Swing.
+
+### 📦 Package `modello.eccezioni`
+Gestione robusta degli errori tramite eccezioni personalizzate:
+* `ArticoloException`: Errori di validazione dati prodotto.
+* `ListaDiArticoliException`: Errori specifici di una lista.
+* `GestioneListeException`: Errori globali (es. duplicati nel database).
+
+### 📦 Package `modello.test`
+Suite di test unitari sviluppata con **JUnit 5** per garantire la stabilità del codice:
+* Copertura test per costruttori, setter/getter e logica di business.
+* Test di regressione per le eccezioni e i casi limite (valori null, stringhe vuote, duplicati).
+
+---
+
+### 📂​ Struttura delle cartelle del progetto
 
 ```text
 Progetto-UPO-Java
@@ -70,32 +96,6 @@ Progetto-UPO-Java
 │       └── 📄 Reparto.java                 # Enum per le corsie (Ortofrutta, ecc.)
 │
 └── 📂 bin                                  # File compilati (.class)
-
-Il progetto segue il pattern architetturale che separa i dati dalla visualizzazione.
-
-### 📦 Package `modello`
-Il cuore dell'applicazione. Contiene la logica di business e le strutture dati.
-* `GestioneListe`: Classe statica "Controller" che funge da database centrale. Gestisce le `Map` delle liste e le `List` di articoli e categorie.
-* `ListaDiArticoli`: Rappresenta una singola lista contenente oggetti `Articolo`.
-* `Articolo`: La classe base con override di `equals()` e `hashCode()` per garantire la corretta identificazione degli oggetti.
-* `Reparto`: Enumerazione (`Enum`) che definisce le corsie del supermercato.
-
-### 📦 Package `interfaccia`
-* `cli.RigaDiComando`: Gestisce l'input/output su terminale. Include funzionalità di "Smart Search" per i reparti e menu nidificati.
-* `grafica.InterfacciaGrafica`: Classe entry point per la futura implementazione Swing.
-
-### 📦 Package `modello.eccezioni`
-Gestione robusta degli errori tramite eccezioni personalizzate:
-* `ArticoloException`: Errori di validazione dati prodotto.
-* `ListaDiArticoliException`: Errori specifici di una lista.
-* `GestioneListeException`: Errori globali (es. duplicati nel database).
-
-### 📦 Package `modello.test`
-Suite di test unitari sviluppata con **JUnit 5** per garantire la stabilità del codice:
-* Copertura test per costruttori, setter/getter e logica di business.
-* Test di regressione per le eccezioni e i casi limite (valori null, stringhe vuote, duplicati).
-
----
 
 ## 💻 Requisiti e Installazione
 
