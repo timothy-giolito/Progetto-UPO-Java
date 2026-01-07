@@ -64,6 +64,41 @@ Suite di test unitari sviluppata con **JUnit 5** per garantire la stabilità del
 
 ---
 
+```
+### 📂 Struttura delle Cartelle
+
+```text
+Progetto-UPO-Java
+│
+├── 📂 src
+│   ├── 📦 interfaccia
+│   │   ├── 📂 cli
+│   │   │   └── 📄 RigaDiComando.java       # Gestione input/output su terminale
+│   │   └── 📂 grafica
+│   │       └── 📄 InterfacciaGrafica.java  # Predisposizione per GUI Swing
+│   │
+│   ├── 📦 main
+│   │   └── 📄 Main.java                    # Entry point: scelta tra CLI e GUI
+│   │
+│   └── 📦 modello
+│       ├── 📂 eccezioni
+│       │   ├── 📄 ArticoloException.java
+│       │   ├── 📄 GestioneListeException.java
+│       │   └── 📄 ListaDiArticoliException.java
+│       │
+│       ├── 📂 test
+│       │   ├── 📄 testArticolo.java
+│       │   ├── 📄 testGestioneListe.java
+│       │   └── 📄 testListaDiArticoli.java
+│       │
+│       ├── 📄 Articolo.java                # Classe base per i prodotti
+│       ├── 📄 GestioneListe.java           # Controller statico (Database in memoria)
+│       ├── 📄 ListaDiArticoli.java         # Oggetto lista della spesa
+│       └── 📄 Reparto.java                 # Enum per le corsie (Ortofrutta, ecc.)
+│
+└── 📂 bin                                  # File compilati (.class)
+```
+
 ## 💻 Requisiti e Installazione
 
 * **Java JDK:** Versione 21 o superiore.
