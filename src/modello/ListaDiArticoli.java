@@ -11,6 +11,7 @@ import java.util.List;
  * Gestisce sia gli articoli attivi (da comprare) che quelli cancellati (cestino).
  * Implementa Iterable per scorrere entrambe le liste in sequenza.
  * </p>
+ * @author Luca Franzon 20054744
  */
 public class ListaDiArticoli implements Iterable<Articolo> {
     
