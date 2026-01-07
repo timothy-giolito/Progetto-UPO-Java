@@ -18,12 +18,12 @@ Un'applicazione Java completa per la gestione intelligente di liste della spesa,
 * **Controlli di Integrità:** Prevenzione di duplicati e validazione dei nomi.
 
 ### 2. Catalogo Globale Articoli
-* Il sistema mantiene un **database in memoria** di articoli preferiti/globali che possono essere riutilizzati in diverse liste.
+* Il sistema mantiene un **strutture dati in memoria** per mantenere categorie globali che possono essere riutilizzate in diverse liste.
 * Gestione centralizzata per evitare di ricreare ogni volta lo stesso prodotto.
 
 ### 3. Articoli Dettagliati
 Ogni articolo è un oggetto complesso dotato di:
-* **Nome** univoco.
+* **Nome** personalizzabile.
 * **Categoria** personalizzabile.
 * **Prezzo** (con validazione valori negativi).
 * **Note** aggiuntive.
