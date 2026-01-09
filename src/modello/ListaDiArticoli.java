@@ -145,12 +145,13 @@ public class ListaDiArticoli implements Iterable<Articolo> {
         }
         return totale;
     }
-
+    
     @Override
     public String toString() {
         return "Lista: " + nome + 
                " (Da comprare: " + articoli.size() + 
                ", Cestino: " + cancellati.size() + 
-               ", Totale: " + String.format("%.2f", getPrezzoTotale()) + "€)";
+               ", Totale: " + String.format("%.2f", getPrezzoTotale()) + "€" +
+               ", Totale Cestino: " + String.format("%.2f", getPrezzoTotaleCestino()) + "€)";
     }
 }
