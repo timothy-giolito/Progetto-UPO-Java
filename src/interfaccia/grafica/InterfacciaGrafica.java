@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 import modello.*;
 import modello.eccezioni.*;
@@ -12,8 +11,8 @@ import modello.eccezioni.*;
 /**
  * Gestisce l'interazione con l'utente tramite interfaccia grafica (GUI).
  * <p>
- * Costruisce e visualizza le finestre, i pannelli e i componenti grafici (Swing)
- * necessari per la gestione visuale delle liste della spesa e degli articoli.
+ * Versione aggiornata con navigazione a frecce (Indietro/Cestino) per una
+ * esperienza utente più fluida.
  * </p>
  * @author Timothy Giolito 20054431
  * @author Luca Franzon 20054744
@@ -27,7 +26,10 @@ public class InterfacciaGrafica extends JFrame {
     private JTable tabellaArticoli;
     private JLabel lblTotale;
     private JLabel lblTitoloVista; // Indica cosa stiamo guardando
-    private JToggleButton tglVisualizzaCestino;
+    
+    // NUOVI COMPONENTI DI NAVIGAZIONE
+    private JButton btnVediCestino;
+    private JButton btnIndietro;
     
     // Bottoni che cambiano stato
     private JButton btnAggiungi;
@@ -39,6 +41,7 @@ public class InterfacciaGrafica extends JFrame {
     // Stato corrente
     private ListaDiArticoli listaSelezionata = null;
     private boolean modalitaCatalogo = false; // true = stiamo guardando il catalogo globale
+    private boolean visualizzaCestino = false; // NUOVO STATO: true = siamo nel cestino
 
     public InterfacciaGrafica() {
         super("Gestore Liste della Spesa - UPO Java");
@@ -57,7 +60,7 @@ public class InterfacciaGrafica extends JFrame {
     }
 
     private void inizializzaComponenti() {
-        // --- PANNELLO SINISTRO (Navigazione) ---
+        // --- PANNELLO SINISTRO (Navigazione Liste) ---
         JPanel pnlSinistra = new JPanel(new BorderLayout(5, 5));
         pnlSinistra.setBorder(BorderFactory.createTitledBorder("Navigazione"));
         pnlSinistra.setPreferredSize(new Dimension(220, 0));
@@ -81,7 +84,7 @@ public class InterfacciaGrafica extends JFrame {
 
         pnlSinistra.add(new JScrollPane(jListListe), BorderLayout.CENTER);
 
-        // Bottoni gestione liste
+        // Bottoni gestione liste (crea/elimina lista)
         JPanel pnlBottoniListe = new JPanel(new GridLayout(2, 1, 5, 5));
         JButton btnNuovaLista = new JButton("Nuova Lista Spesa");
         JButton btnEliminaLista = new JButton("Elimina Lista");
@@ -95,24 +98,42 @@ public class InterfacciaGrafica extends JFrame {
 
         add(pnlSinistra, BorderLayout.WEST);
 
-        // --- PANNELLO CENTRALE (Tabella e Info) ---
+        // --- PANNELLO CENTRALE (Tabella e Header Navigazione) ---
         JPanel pnlCentro = new JPanel(new BorderLayout());
         
-        // Header superiore
+        // Header superiore con Navigazione
         JPanel pnlHeader = new JPanel(new BorderLayout());
         pnlHeader.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
+        // Sotto-pannello per Titolo e Freccia Indietro (Allineato a sinistra)
+        JPanel pnlTitoloNav = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        
+        btnIndietro = new JButton("⬅ Indietro");
+        btnIndietro.setFont(new Font("Arial", Font.BOLD, 12));
+        btnIndietro.setVisible(false); // Nascosto di default
+        btnIndietro.addActionListener(e -> {
+            visualizzaCestino = false; // Torna alla lista normale
+            aggiornaTabellaArticoli();
+        });
+        
         lblTitoloVista = new JLabel("Seleziona una lista o il catalogo");
         lblTitoloVista.setFont(new Font("Arial", Font.BOLD, 18));
-        pnlHeader.add(lblTitoloVista, BorderLayout.WEST);
         
-        tglVisualizzaCestino = new JToggleButton("Visualizza Cestino / Ripristino");
-        tglVisualizzaCestino.addActionListener(e -> aggiornaTabellaArticoli());
-        pnlHeader.add(tglVisualizzaCestino, BorderLayout.EAST);
+        pnlTitoloNav.add(btnIndietro);
+        pnlTitoloNav.add(lblTitoloVista);
+        pnlHeader.add(pnlTitoloNav, BorderLayout.WEST);
+        
+        // Bottone per andare al Cestino (Allineato a destra)
+        btnVediCestino = new JButton("Vedi Cestino 🗑️");
+        btnVediCestino.addActionListener(e -> {
+            visualizzaCestino = true; // Entra nel cestino
+            aggiornaTabellaArticoli();
+        });
+        pnlHeader.add(btnVediCestino, BorderLayout.EAST);
         
         pnlCentro.add(pnlHeader, BorderLayout.NORTH);
 
-        // Tabella
+        // Tabella Articoli
         String[] colonne = {"Nome", "Categoria", "Prezzo (€)", "Reparto", "Nota"};
         tableModelArticoli = new DefaultTableModel(colonne, 0) {
             @Override
@@ -131,21 +152,20 @@ public class InterfacciaGrafica extends JFrame {
         btnAggiungi = new JButton("Aggiungi Nuovo");
         btnAggiungiCatalogo = new JButton("Copia da Catalogo");
         btnRimuovi = new JButton("Rimuovi");
-        btnRipristina = new JButton("Ripristina"); // Ora sempre visibile
+        btnRipristina = new JButton("Ripristina"); 
         btnSvuotaCestino = new JButton("Svuota Cestino");
         
         lblTotale = new JLabel("Totale: 0.00 €");
         lblTotale.setFont(new Font("Arial", Font.BOLD, 16));
         lblTotale.setForeground(Color.BLUE);
 
-        // Listeners
+        // Listeners Azioni
         btnAggiungi.addActionListener(e -> azioneAggiungiGenerica());
         btnAggiungiCatalogo.addActionListener(e -> azioneCopiaDaCatalogo());
         btnRimuovi.addActionListener(e -> {
 			try {
 				azioneRimuoviGenerica();
 			} catch (GestioneListeException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
@@ -164,11 +184,12 @@ public class InterfacciaGrafica extends JFrame {
         add(pnlAzioni, BorderLayout.SOUTH);
     }
 
-    // --- LOGICA CAMBIO VISTA ---
+    // --- LOGICA CAMBIO VISTA E STATO ---
 
     private void impostaStatoVuoto() {
         listaSelezionata = null;
         modalitaCatalogo = false;
+        visualizzaCestino = false;
         lblTitoloVista.setText("Benvenuto! Seleziona una lista a sinistra.");
         tableModelArticoli.setRowCount(0);
         aggiornaBottoni();
@@ -178,13 +199,13 @@ public class InterfacciaGrafica extends JFrame {
         jListListe.clearSelection();
         listaSelezionata = null;
         modalitaCatalogo = true;
-        tglVisualizzaCestino.setSelected(false);
+        visualizzaCestino = false; // Reset
         
         lblTitoloVista.setText("📦 VISUALIZZAZIONE CATALOGO GLOBALE");
         lblTitoloVista.setForeground(new Color(0, 100, 0));
         
         aggiornaTabellaArticoli();
-        aggiornaBottoni();
+        // Nota: aggiornaBottoni viene chiamato dentro aggiornaTabellaArticoli
     }
 
     private void caricaListaSelezionata() {
@@ -192,13 +213,12 @@ public class InterfacciaGrafica extends JFrame {
         if (nomeLista != null) {
             modalitaCatalogo = false;
             listaSelezionata = GestioneListe.getListeArticoli().get(nomeLista);
-            tglVisualizzaCestino.setSelected(false); // Default: vista articoli attivi
+            visualizzaCestino = false; // Reset: si parte sempre dagli articoli attivi
             
             lblTitoloVista.setText("📝 Lista: " + listaSelezionata.getListaNome());
             lblTitoloVista.setForeground(Color.BLACK);
             
             aggiornaTabellaArticoli();
-            aggiornaBottoni();
         }
     }
 
@@ -207,9 +227,7 @@ public class InterfacciaGrafica extends JFrame {
      * (Lista Normale vs Cestino vs Catalogo).
      */
     private void aggiornaBottoni() {
-        boolean isCestino = tglVisualizzaCestino.isSelected();
-        
-        // Default: tutti visibili, poi disabilitiamo quelli che non servono
+        // Default: bottoni visibili
         btnAggiungi.setVisible(true);
         btnAggiungiCatalogo.setVisible(true);
         btnRimuovi.setVisible(true);
@@ -218,17 +236,17 @@ public class InterfacciaGrafica extends JFrame {
 
         if (modalitaCatalogo) {
             // --- CONTESTO: CATALOGO GLOBALE ---
+            btnVediCestino.setVisible(false);
+            btnIndietro.setVisible(false);
+            
             btnAggiungi.setText("Crea Nuovo Articolo Globale");
             btnAggiungi.setEnabled(true);
             
-            btnAggiungiCatalogo.setVisible(false); // Non serve nel catalogo
+            btnAggiungiCatalogo.setVisible(false); 
             
             btnRimuovi.setText("Elimina da Catalogo");
             btnRimuovi.setEnabled(true);
             
-            tglVisualizzaCestino.setVisible(false);
-            
-            // Il catalogo non ha cestino o ripristino in questa versione
             btnRipristina.setEnabled(false);
             btnSvuotaCestino.setEnabled(false);
             
@@ -236,19 +254,33 @@ public class InterfacciaGrafica extends JFrame {
             
         } else if (listaSelezionata != null) {
             // --- CONTESTO: LISTA DELLA SPESA ---
-            tglVisualizzaCestino.setVisible(true);
             lblTotale.setVisible(true);
             
-            if (isCestino) {
-                // Vista Cestino: Solo Ripristino e Svuota
+            if (visualizzaCestino) {
+                // --- VISTA CESTINO ---
+                btnIndietro.setVisible(true);     // Mostra freccia indietro
+                btnVediCestino.setVisible(false); // Nascondi bottone "vai al cestino"
+                
+                lblTitoloVista.setText("🗑️ Cestino di: " + listaSelezionata.getListaNome());
+                lblTitoloVista.setForeground(Color.GRAY);
+
+                // Azioni permesse nel cestino
                 btnAggiungi.setEnabled(false);
                 btnAggiungiCatalogo.setEnabled(false);
-                btnRimuovi.setEnabled(false); // Non si cancella dal cestino, si svuota
+                btnRimuovi.setEnabled(false); 
                 
-                btnRipristina.setEnabled(true);     // <--- ATTIVO QUI
-                btnSvuotaCestino.setEnabled(true);  // <--- ATTIVO QUI
+                btnRipristina.setEnabled(true);    
+                btnSvuotaCestino.setEnabled(true); 
+                
             } else {
-                // Vista Normale: Solo Aggiunta e Rimozione
+                // --- VISTA NORMALE ---
+                btnIndietro.setVisible(false);    // Nascondi freccia
+                btnVediCestino.setVisible(true);  // Mostra bottone "vai al cestino"
+                
+                lblTitoloVista.setText("📝 Lista: " + listaSelezionata.getListaNome());
+                lblTitoloVista.setForeground(Color.BLACK);
+
+                // Azioni permesse nella lista
                 btnAggiungi.setText("Aggiungi Manuale");
                 btnAggiungi.setEnabled(true);
                 
@@ -259,11 +291,13 @@ public class InterfacciaGrafica extends JFrame {
                 btnRimuovi.setText("Sposta nel Cestino");
                 btnRimuovi.setEnabled(true);
                 
-                btnRipristina.setEnabled(false);    // <--- DISABILITATO (ma visibile)
-                btnSvuotaCestino.setEnabled(false); // <--- DISABILITATO (ma visibile)
+                btnRipristina.setEnabled(false);   
+                btnSvuotaCestino.setEnabled(false); 
             }
         } else {
-            // --- CONTESTO: NESSUNA SELEZIONE ---
+            // --- NESSUNA SELEZIONE ---
+            btnVediCestino.setVisible(false);
+            btnIndietro.setVisible(false);
             btnAggiungi.setEnabled(false);
             btnAggiungiCatalogo.setEnabled(false);
             btnRimuovi.setEnabled(false);
@@ -280,8 +314,10 @@ public class InterfacciaGrafica extends JFrame {
         if (modalitaCatalogo) {
             sorgente = GestioneListe.getArticoli();
         } else if (listaSelezionata != null) {
-            if (tglVisualizzaCestino.isSelected()) {
+            if (visualizzaCestino) {
                 sorgente = listaSelezionata.getCancellati();
+                // Mostra totale cestino (richiede l'aggiornamento a ListaDiArticoli fatto prima)
+                lblTotale.setText("Totale Cestino: " + String.format("%.2f", listaSelezionata.getPrezzoTotaleCestino()) + " €");
             } else {
                 sorgente = listaSelezionata.getArticoli();
                 lblTotale.setText("Totale: " + String.format("%.2f", listaSelezionata.getPrezzoTotale()) + " €");
@@ -401,7 +437,7 @@ public class InterfacciaGrafica extends JFrame {
             return;
         }
         
-        if (listaSelezionata != null && tglVisualizzaCestino.isSelected()) {
+        if (listaSelezionata != null && visualizzaCestino) {
             Articolo a = listaSelezionata.getCancellati().get(riga);
             listaSelezionata.RipristinaArticolo(a);
             aggiornaTabellaArticoli();

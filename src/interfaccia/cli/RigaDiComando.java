@@ -144,7 +144,12 @@ public class RigaDiComando {
                         break;
                     case 4:
                         if(lista.getCancellati().isEmpty()) System.out.println("Cestino vuoto.");
-                        else lista.getCancellati().forEach(System.out::println);
+                        else {
+                        	
+                        	// Mostriamo il totale del cestino
+                            System.out.println("--- CESTINO (Totale: " + String.format("%.2f", lista.getPrezzoTotaleCestino()) + "€) ---");
+                            lista.getCancellati().forEach(System.out::println);
+                        }
                         break;
                     case 5:
                         String nomeRip = leggiStringa("Nome articolo da ripristinare: ");
