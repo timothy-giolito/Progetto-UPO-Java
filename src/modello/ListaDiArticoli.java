@@ -134,6 +134,17 @@ public class ListaDiArticoli implements Iterable<Articolo> {
         listaCompleta.addAll(cancellati);
         return listaCompleta.iterator();
     }
+    
+    /**
+     * Calcola il prezzo totale degli articoli spostati nel cestino.
+     */
+    public double getPrezzoTotaleCestino() {
+        double totale = 0.0;
+        for (Articolo a : cancellati) {
+            totale += a.getPrezzo();
+        }
+        return totale;
+    }
 
     @Override
     public String toString() {
