@@ -196,6 +196,6 @@ public class Articolo {
     
     @Override
     public String toString() {
-        return "Articolo: " + nome + " | Corsia: " + reparto + " | Categoria: " + categoria + " | Prezzo: " + prezzo + "€ | Nota: " + nota;
+        return "Articolo: " + nome + " | Reparto: " + reparto + " | Categoria: " + categoria + " | Prezzo: " + prezzo + "€ | Nota: " + nota;
     }
 }
