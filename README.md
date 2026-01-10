@@ -104,12 +104,9 @@ Progetto-UPO-Java
 
 ### Come avviare il progetto
 1. Clonare la repository.
-2. Entrare nella cartella di root
-3. Eseguire:
-
-```bash
- java -cp bin main.Main
-```bash
+2. Entrare nella cartella di root o eseguire: **javac -d bin -sourcepath src src/main/Main.java**
+3. Eseguire: **java -cp bin main.Main**
+4. Seguire le istruzioni a schermo per avviare una delle interfacce o uscire.
 
 ---
 
