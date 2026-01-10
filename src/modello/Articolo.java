@@ -143,7 +143,7 @@ public class Articolo {
     
     public void setPrezzo(double prezzo) throws ArticoloException {
         if(prezzo < 0) {
-            throw new ArticoloException("Il prezzo non puo' essere vuoto!");
+            throw new ArticoloException("Il prezzo non puo' essere negativo!");
         } else {
             this.prezzo = prezzo;
         }
