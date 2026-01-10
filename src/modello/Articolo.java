@@ -169,6 +169,24 @@ public class Articolo {
         return nota;
     }
     
+    
+    /**
+     * Controllo sui nomi degli articoli inseriti per vedere se sono uguali.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Articolo articolo = (Articolo) o;
+        // Esempio: due articoli sono uguali se hanno lo stesso nome (case-insensitive)
+        return nome.equalsIgnoreCase(articolo.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return nome.toLowerCase().hashCode();
+    }
+    
     // Metodo toString per rappresentazione visiva aggiornato
     
     /**
