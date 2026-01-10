@@ -10,16 +10,14 @@ import modello.eccezioni.*;
 
 /**
  * Gestisce l'interazione con l'utente tramite interfaccia grafica (GUI).
- * <p>
- * Versione aggiornata con navigazione a frecce (Indietro/Cestino) per una
- * esperienza utente più fluida.
- * </p>
+ * 
  * @author Timothy Giolito 20054431
  * @author Luca Franzon 20054744
  */
 public class InterfacciaGrafica extends JFrame {
-
-    // Componenti Dati
+	
+	private static final long serialVersionUID = 1L;
+	// Componenti Dati
     private DefaultListModel<String> listModelListe;
     private JList<String> jListListe;
     private DefaultTableModel tableModelArticoli;
@@ -41,7 +39,7 @@ public class InterfacciaGrafica extends JFrame {
     // Stato corrente
     private ListaDiArticoli listaSelezionata = null;
     private boolean modalitaCatalogo = false; // true = stiamo guardando il catalogo globale
-    private boolean visualizzaCestino = false; // NUOVO STATO: true = siamo nel cestino
+    private boolean visualizzaCestino = false; 
 
     public InterfacciaGrafica() {
         super("Gestore Liste della Spesa - UPO Java");
@@ -66,7 +64,7 @@ public class InterfacciaGrafica extends JFrame {
         pnlSinistra.setPreferredSize(new Dimension(220, 0));
 
         // Bottone per vedere il Catalogo Globale
-        JButton btnVediCatalogo = new JButton("📂 VEDI CATALOGO GLOBALE");
+        JButton btnVediCatalogo = new JButton("VEDI CATALOGO GLOBALE");
         btnVediCatalogo.setFont(new Font("Arial", Font.BOLD, 12));
         btnVediCatalogo.setBackground(new Color(230, 240, 255));
         btnVediCatalogo.addActionListener(e -> attivaModalitaCatalogo());
@@ -108,7 +106,7 @@ public class InterfacciaGrafica extends JFrame {
         // Sotto-pannello per Titolo e Freccia Indietro (Allineato a sinistra)
         JPanel pnlTitoloNav = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         
-        btnIndietro = new JButton("⬅ Indietro");
+        btnIndietro = new JButton("Indietro");
         btnIndietro.setFont(new Font("Arial", Font.BOLD, 12));
         btnIndietro.setVisible(false); // Nascosto di default
         btnIndietro.addActionListener(e -> {
@@ -124,7 +122,7 @@ public class InterfacciaGrafica extends JFrame {
         pnlHeader.add(pnlTitoloNav, BorderLayout.WEST);
         
         // Bottone per andare al Cestino (Allineato a destra)
-        btnVediCestino = new JButton("Vedi Cestino 🗑️");
+        btnVediCestino = new JButton("Vedi Cestino");
         btnVediCestino.addActionListener(e -> {
             visualizzaCestino = true; // Entra nel cestino
             aggiornaTabellaArticoli();
@@ -136,7 +134,9 @@ public class InterfacciaGrafica extends JFrame {
         // Tabella Articoli
         String[] colonne = {"Nome", "Categoria", "Prezzo (€)", "Reparto", "Nota"};
         tableModelArticoli = new DefaultTableModel(colonne, 0) {
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public boolean isCellEditable(int row, int column) { return false; }
         };
         tabellaArticoli = new JTable(tableModelArticoli);
@@ -201,7 +201,7 @@ public class InterfacciaGrafica extends JFrame {
         modalitaCatalogo = true;
         visualizzaCestino = false; // Reset
         
-        lblTitoloVista.setText("📦 VISUALIZZAZIONE CATALOGO GLOBALE");
+        lblTitoloVista.setText("VISUALIZZAZIONE CATALOGO GLOBALE");
         lblTitoloVista.setForeground(new Color(0, 100, 0));
         
         aggiornaTabellaArticoli();
@@ -215,7 +215,7 @@ public class InterfacciaGrafica extends JFrame {
             listaSelezionata = GestioneListe.getListeArticoli().get(nomeLista);
             visualizzaCestino = false; // Reset: si parte sempre dagli articoli attivi
             
-            lblTitoloVista.setText("📝 Lista: " + listaSelezionata.getListaNome());
+            lblTitoloVista.setText("Lista: " + listaSelezionata.getListaNome());
             lblTitoloVista.setForeground(Color.BLACK);
             
             aggiornaTabellaArticoli();
@@ -261,7 +261,7 @@ public class InterfacciaGrafica extends JFrame {
                 btnIndietro.setVisible(true);     // Mostra freccia indietro
                 btnVediCestino.setVisible(false); // Nascondi bottone "vai al cestino"
                 
-                lblTitoloVista.setText("🗑️ Cestino di: " + listaSelezionata.getListaNome());
+                lblTitoloVista.setText("Cestino di: " + listaSelezionata.getListaNome());
                 lblTitoloVista.setForeground(Color.GRAY);
 
                 // Azioni permesse nel cestino
@@ -277,7 +277,7 @@ public class InterfacciaGrafica extends JFrame {
                 btnIndietro.setVisible(false);    // Nascondi freccia
                 btnVediCestino.setVisible(true);  // Mostra bottone "vai al cestino"
                 
-                lblTitoloVista.setText("📝 Lista: " + listaSelezionata.getListaNome());
+                lblTitoloVista.setText("Lista: " + listaSelezionata.getListaNome());
                 lblTitoloVista.setForeground(Color.BLACK);
 
                 // Azioni permesse nella lista
