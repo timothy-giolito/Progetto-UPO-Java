@@ -292,7 +292,7 @@ public class InterfacciaGrafica extends JFrame {
                 lblTitoloVista.setForeground(Color.BLACK);
 
                 // Azioni permesse nella lista
-                btnAggiungi.setText("Aggiungi Manuale");
+                btnAggiungi.setText("Aggiungi Articoli");
                 btnAggiungi.setEnabled(true);
                 
                 btnAggiungiCatalogo.setText("Aggiungi da Catalogo");
