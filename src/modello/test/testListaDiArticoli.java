@@ -1,6 +1,9 @@
 package modello.test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import modello.Articolo;
 import modello.ListaDiArticoli;
@@ -52,7 +55,7 @@ class testListaDiArticoli {
     void testAggiungiERimuoviInCestino() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("TestList");
-            Articolo a = new Articolo("Latte", "Alimentari", 1.5, "", Reparto.NESSUNO);
+            Articolo a = new Articolo("Latte", "Alimentari", 1.5, "", Reparto.ALTRO);
             
             // Aggiunta
             lista.AggiungiArticolo(a);
@@ -81,7 +84,7 @@ class testListaDiArticoli {
     void testRipristino() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("TestList");
-            Articolo a = new Articolo("Pane", "Alimentari", 1.0, "", Reparto.NESSUNO);
+            Articolo a = new Articolo("Pane", "Alimentari", 1.0, "", Reparto.ALTRO);
             
             lista.AggiungiArticolo(a);
             lista.RimuoviArticolo(a); // Ora è nel cestino
@@ -109,8 +112,8 @@ class testListaDiArticoli {
     void testPrezzoTotale() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("Spesa");
-            lista.AggiungiArticolo(new Articolo("A", "", 10.0, "", Reparto.NESSUNO));
-            lista.AggiungiArticolo(new Articolo("B", "", 20.0, "", Reparto.NESSUNO));
+            lista.AggiungiArticolo(new Articolo("A", "", 10.0, "", Reparto.ALTRO));
+            lista.AggiungiArticolo(new Articolo("B", "", 20.0, "", Reparto.ALTRO));
             
             assertEquals(30.0, lista.getPrezzoTotale(), "Il totale iniziale deve essere 30.0");
             
@@ -135,8 +138,8 @@ class testListaDiArticoli {
     void testIterazioneCompleta() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("Iter");
-            Articolo a1 = new Articolo("Attivo", "", 1.0, "", Reparto.NESSUNO);
-            Articolo a2 = new Articolo("Cancellato", "", 1.0, "", Reparto.NESSUNO);
+            Articolo a1 = new Articolo("Attivo", "", 1.0, "", Reparto.ALTRO);
+            Articolo a2 = new Articolo("Cancellato", "", 1.0, "", Reparto.ALTRO);
             
             lista.AggiungiArticolo(a1);
             lista.AggiungiArticolo(a2);
@@ -166,23 +169,23 @@ class testListaDiArticoli {
     void testRicercaPrefisso() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("Search");
-            Articolo a1 = new Articolo("Mela Golden", "Frutta", 1.0, "", Reparto.NESSUNO); // Attivo
-            Articolo a2 = new Articolo("Melone", "Frutta", 2.0, "", Reparto.NESSUNO);      // Attivo poi Cancellato
+            Articolo a1 = new Articolo("Mela Golden", "Frutta", 1.0, "", Reparto.ALTRO); // Attivo
+            Articolo a2 = new Articolo("Melone", "Frutta", 2.0, "", Reparto.ALTRO);      // Attivo poi Cancellato
             
             lista.AggiungiArticolo(a1);
             lista.AggiungiArticolo(a2);
             lista.RimuoviArticolo(a2); // Melone va nel cestino
             
             // Caso 1: Cerca "Mela" -> deve trovare Mela Golden (nella lista attiva)
-            Articolo trovatoAttivo = lista.TrovaArticoloPerPrefisso("Mela");
+            List<Articolo> trovatoAttivo = lista.TrovaArticoliPerPrefisso("Mela");
             assertEquals(a1, trovatoAttivo, "Deve trovare l'articolo nella lista attiva");
             
             // Caso 2: Cerca "Melo" -> deve trovare Melone (nel cestino)
-            Articolo trovatoCancellato = lista.TrovaArticoloPerPrefisso("Melo");
+            List<Articolo> trovatoCancellato = lista.TrovaArticoliPerPrefisso("Melo");
             assertEquals(a2, trovatoCancellato, "Deve trovare l'articolo anche se è nel cestino");
             
             // Caso 3: Cerca "Pera" -> non esiste
-            assertNull(lista.TrovaArticoloPerPrefisso("Pera"), "Non deve trovare articoli inesistenti");
+            assertNull(lista.TrovaArticoliPerPrefisso("Pera"), "Non deve trovare articoli inesistenti");
             
         } catch (Exception e) {
             fail(e.getMessage());

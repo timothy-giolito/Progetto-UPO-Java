@@ -51,7 +51,7 @@ class testArticolo {
 	@Test
 	void testSetNome() {
 		try {
-			Articolo a = new Articolo("Latte", "Latticini", 1.20, "", Reparto.REPARTO_BEVANDE);
+			Articolo a = new Articolo("Latte", "Latticini", 1.20, "", Reparto.BEVANDE);
 			
 			// modifica valida
 			a.setNome("Latte Parzialmente Scremato");
@@ -83,7 +83,7 @@ class testArticolo {
 	void testNomeNonValido() {
 		
 		// reparto a caso per il test
-		Reparto r = Reparto.REPARTO_CUCINA;
+		Reparto r = Reparto.CUCINA;
 		
 		// Caso 1: nome nullo
 		assertThrows(ArticoloException.class, () -> {
@@ -120,7 +120,7 @@ class testArticolo {
             assertEquals("", articoloDefault.getNota());
             
             // Verifica fondamentale: il default deve essere Reparto.NESSUNO
-            assertEquals(Reparto.NESSUNO, articoloDefault.getReparto());
+            assertEquals(Reparto.ALTRO, articoloDefault.getReparto());
             
         } catch (ArticoloException e) {
             fail("Errore inatteso durante il test dei default: " + e.getMessage());
@@ -134,19 +134,19 @@ class testArticolo {
 	@Test
     void testSetters() {
         try {
-            Articolo a = new Articolo("Acqua", "Bibite", 0.50, "", Reparto.REPARTO_BEVANDE);
+            Articolo a = new Articolo("Acqua", "Bibite", 0.50, "", Reparto.BEVANDE);
             
             // Cambio il prezzo
             a.setPrezzo(0.80);
             assertEquals(0.80, a.getPrezzo());
             
             // Test cambio di Reparto
-            a.setReparto(Reparto.REPARTO_SURGELATI);
-            assertEquals(Reparto.REPARTO_SURGELATI, a.getReparto());
+            a.setReparto(Reparto.SURGELATI);
+            assertEquals(Reparto.SURGELATI, a.getReparto());
             
             // dovrebbe mettere NESSUNO
             a.setReparto(null);
-            assertEquals(Reparto.NESSUNO, a.getReparto());
+            assertEquals(Reparto.ALTRO, a.getReparto());
 
         } catch (ArticoloException e) {
             fail("Errore durante il test dei setter");
@@ -160,7 +160,7 @@ class testArticolo {
 	@Test
     void testToString() {
         try {
-            Articolo a = new Articolo("Martello", "Brico", 15.0, "Manico legno", Reparto.REPARTO_UTENSILI);
+            Articolo a = new Articolo("Martello", "Brico", 15.0, "Manico legno", Reparto.UTENSILI);
             
             String descrizione = a.toString();
             
@@ -201,7 +201,7 @@ class testArticolo {
 			
 			// test assegnazione reparto
 			a.setReparto(null);
-			assertEquals(Reparto.NESSUNO, a.getReparto(), "Dovrebbe uscire --> Nessuno!");
+			assertEquals(Reparto.ALTRO, a.getReparto(), "Dovrebbe uscire --> Nessuno!");
 		
 		} catch(ArticoloException e) {
 			

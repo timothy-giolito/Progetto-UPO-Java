@@ -178,7 +178,7 @@ class testGestioneListe {
         try {
         	
             // Creazione di un articolo di prova
-            Articolo art = new Articolo("Coca Cola", "Bibite", 1.50, "", Reparto.REPARTO_BEVANDE);
+            Articolo art = new Articolo("Coca Cola", "Bibite", 1.50, "", Reparto.BEVANDE);
 
             // Inserimento
             GestioneListe.inserisciArticolo(art);
@@ -204,7 +204,7 @@ class testGestioneListe {
     	
         try {
         	
-            Articolo art = new Articolo("Acqua", "Bibite", 0.50, "", Reparto.REPARTO_BEVANDE);
+            Articolo art = new Articolo("Acqua", "Bibite", 0.50, "", Reparto.BEVANDE);
             GestioneListe.inserisciArticolo(art);
 
             // Prova a inserire lo stesso oggetto articolo
@@ -229,7 +229,7 @@ class testGestioneListe {
     	
         try {
         	
-            Articolo art = new Articolo("Vino", "Alcolici", 10.0, "", Reparto.REPARTO_BEVANDE);
+            Articolo art = new Articolo("Vino", "Alcolici", 10.0, "", Reparto.BEVANDE);
             // Prova a cancellarlo senza averlo mai inserito
             assertThrows(GestioneListeException.class, () -> GestioneListe.cancellaArticolo(art));
             
@@ -249,20 +249,20 @@ class testGestioneListe {
 		try {
 			
 			// Test 1: Articolo di Elettronica
-			Articolo mouse = new Articolo("Mouse Wireless", "Periferiche PC", 25.99, "Batterie incluse", Reparto.REPARTO_ELETTRONICA);
+			Articolo mouse = new Articolo("Mouse Wireless", "Periferiche PC", 25.99, "Batterie incluse", Reparto.ELETTRONICA);
 			
 			assertEquals("Mouse Wireless", mouse.getNome());
-			assertEquals(Reparto.REPARTO_ELETTRONICA, mouse.getReparto());
+			assertEquals(Reparto.ELETTRONICA, mouse.getReparto());
 			assertEquals("Periferiche PC", mouse.getCategoria());
 
 			// Test 2: Articolo Fai-da-te
-			Articolo trapano = new Articolo("Trapano a percussione", "Elettroutensili", 89.90, "Garanzia 2 anni", Reparto.REPARTO_FAI_DA_TE);
+			Articolo trapano = new Articolo("Trapano a percussione", "Elettroutensili", 89.90, "Garanzia 2 anni", Reparto.FAI_DA_TE);
 			
-			assertEquals(Reparto.REPARTO_FAI_DA_TE, trapano.getReparto());
+			assertEquals(Reparto.FAI_DA_TE, trapano.getReparto());
 			assertTrue(trapano.toString().contains("Trapano"));
 			
 			// Test 3: Articolo Giardinaggio
-			Articolo tosaerba = new Articolo("Tosaerba", "Macchine agricole", 250.00, "", Reparto.REPARTO_GIARDINAGGIO);
+			Articolo tosaerba = new Articolo("Tosaerba", "Macchine agricole", 250.00, "", Reparto.GIARDINAGGIO);
 			assertEquals(250.00, tosaerba.getPrezzo());
 
 		} catch (ArticoloException e) {
@@ -283,9 +283,9 @@ class testGestioneListe {
 			ListaDiArticoli listaBrico = new ListaDiArticoli("Ristrutturazione Bagno");
 			
 			// Creiamo articoli di reparti completamente diversi
-			Articolo piastrelle = new Articolo("Piastrelle Marmo", "Pavimenti", 40.0, "Mq", Reparto.REPARTO_PIASTRELLE);
-			Articolo rubinetto = new Articolo("Rubinetto Miscelatore", "Sanitari", 75.50, "Acciaio inox", Reparto.REPARTO_IDRAULICA);
-			Articolo vernice = new Articolo("Vernice Bianca", "Pitture", 15.0, "Antimuffa", Reparto.REPARTO_VERNICI);
+			Articolo piastrelle = new Articolo("Piastrelle Marmo", "Pavimenti", 40.0, "Mq", Reparto.PIASTRELLE);
+			Articolo rubinetto = new Articolo("Rubinetto Miscelatore", "Sanitari", 75.50, "Acciaio inox", Reparto.IDRAULICA);
+			Articolo vernice = new Articolo("Vernice Bianca", "Pitture", 15.0, "Antimuffa", Reparto.VERNICI);
 			
 			// Aggiunta alla lista
 			listaBrico.AggiungiArticolo(piastrelle);
