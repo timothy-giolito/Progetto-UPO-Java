@@ -18,7 +18,7 @@ public class Articolo {
     private static final String DEFAULT_CATEGORIA = "Non categorizzato";
     private static final double DEFAULT_PREZZO = 0.0;
     private static final String DEFAULT_NOTA = "";
-    private static final Reparto DEFAULT_REPARTO = Reparto.NESSUNO; 
+    private static final Reparto DEFAULT_REPARTO = Reparto.ALTRO; 
     
     private String nome; 
     private String categoria;

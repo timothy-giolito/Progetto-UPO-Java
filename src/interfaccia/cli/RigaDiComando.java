@@ -288,7 +288,7 @@ public class RigaDiComando {
             
             System.out.print("- Reparto (invio per saltare, ? per lista): ");
             String repStr = scanner.nextLine().trim();
-            Reparto r = Reparto.NESSUNO;
+            Reparto r = Reparto.ALTRO;
             
             if(repStr.equals("?")) {
                 for(Reparto rep : Reparto.values()) System.out.println(rep);
