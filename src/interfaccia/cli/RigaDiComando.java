@@ -108,7 +108,7 @@ public class RigaDiComando {
 
         while(scelta != 0) {
             System.out.println("\n--- LISTA: " + lista.getListaNome() + " ---");
-            System.out.println("TOTALE: " + String.format("%.2f", lista.getPrezzoTotale()) + "€");
+            System.out.println("TOTALE: " + String.format("%.2f", lista.getPrezzoTotale()) + " EUR");
             System.out.println("1. Visualizza articoli DA COMPRARE");
             System.out.println("2. Aggiungi nuovo articolo (manuale)");
             System.out.println("3. Rimuovi articolo (sposta nel cestino)");
@@ -147,7 +147,7 @@ public class RigaDiComando {
                         else {
                         	
                         	// Mostriamo il totale del cestino
-                            System.out.println("--- CESTINO (Totale: " + String.format("%.2f", lista.getPrezzoTotaleCestino()) + "€) ---");
+                            System.out.println("--- CESTINO (Totale: " + String.format("%.2f", lista.getPrezzoTotaleCestino()) + "EUR) ---");
                             lista.getCancellati().forEach(System.out::println);
                         }
                         break;
@@ -164,7 +164,7 @@ public class RigaDiComando {
                         break;
                     case 7:
                     	String q = leggiStringa("Inserisci prefisso: ");
-                        // Nota il cambio di nome del metodo in TrovaArticoli... (plurale)
+                        
                         List<Articolo> trovati = lista.TrovaArticoliPerPrefisso(q);
                         
                         if (trovati.isEmpty()) {
@@ -198,7 +198,7 @@ public class RigaDiComando {
         System.out.println("\n--- CATALOGO GLOBALE ---");
         for(int i=0; i<catalogo.size(); i++) {
             Articolo a = catalogo.get(i);
-            System.out.println((i+1) + ". " + a.getNome() + " (" + a.getPrezzo() + "€)");
+            System.out.println((i+1) + ". " + a.getNome() + " (" + a.getPrezzo() + " EUR)");
         }
 
         int idx = leggiIntero("Scegli numero (0 annulla): ");
@@ -314,7 +314,7 @@ public class RigaDiComando {
     private void stampaElencoListe() {
         Map<String, ListaDiArticoli> map = GestioneListe.getListeArticoli();
         if(map.isEmpty()) System.out.println("Nessuna lista.");
-        else map.forEach((k, v) -> System.out.println("- " + k + " (Tot: " + v.getPrezzoTotale() + "€)"));
+        else map.forEach((k, v) -> System.out.println("- " + k + " (Tot: " + v.getPrezzoTotale() + " EUR)"));
     }
 
     private int leggiIntero(String msg) {
