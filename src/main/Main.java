@@ -52,10 +52,10 @@ public class Main {
             }
 
             if (scelta == 1) {
-                System.out.println("\nAvvio interfaccia testuale...");
-                
-                // Istanza per CLI
-                new RigaDiComando().start(); 
+            	
+            	System.out.println("\nAvvio interfaccia testuale...");
+                // Passa lo scanner esistente
+                new RigaDiComando(scanner).start(); 
                 
             } else if (scelta == 2) {
                 System.out.println("Avvio interfaccia grafica...");

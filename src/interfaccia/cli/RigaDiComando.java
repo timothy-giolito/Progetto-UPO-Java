@@ -22,8 +22,8 @@ public class RigaDiComando {
 
     private Scanner scanner;
 
-    public RigaDiComando() {
-        this.scanner = new Scanner(System.in);
+    public RigaDiComando(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     public void start() {
