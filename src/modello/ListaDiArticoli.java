@@ -89,21 +89,27 @@ public class ListaDiArticoli implements Iterable<Articolo> {
     // --- FUNZIONALITÀ RICHIESTE DAL PDF ---
 
     /**
-     * Cerca un articolo per prefisso sia nella lista attiva che nel cestino.
+     * Cerca tutti gli atricoli per prefisso sia nella lista attiva che nel cestino.
      */
-    public Articolo TrovaArticoloPerPrefisso(String prefisso) {
-        if (prefisso == null || prefisso.isEmpty()) return null;
+    public List<Articolo> TrovaArticoliPerPrefisso(String prefisso) {
+        List<Articolo> risultati = new ArrayList<>();
+        if (prefisso == null || prefisso.isEmpty()) return risultati;
+        
         String search = prefisso.toLowerCase();
 
-        // 1. Cerca nei "Da Comprare"
+        // 1. Cerca e raccogli dai "Da Comprare"
         for (Articolo a : articoli) {
-            if (a.getNome().toLowerCase().startsWith(search)) return a;
+            if (a.getNome().toLowerCase().startsWith(search)) {
+                risultati.add(a);
+            }
         }
-        // 2. Cerca nel "Cestino"
+        // 2. Cerca e raccogli dal "Cestino"
         for (Articolo a : cancellati) {
-            if (a.getNome().toLowerCase().startsWith(search)) return a;
+            if (a.getNome().toLowerCase().startsWith(search)) {
+                risultati.add(a);
+            }
         }
-        return null;
+        return risultati;
     }
 
     /**

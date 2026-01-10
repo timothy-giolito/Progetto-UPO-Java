@@ -163,10 +163,18 @@ public class RigaDiComando {
                         System.out.println("Cestino svuotato.");
                         break;
                     case 7:
-                        String q = leggiStringa("Inserisci prefisso: ");
-                        Articolo tro = lista.TrovaArticoloPerPrefisso(q);
-                        if(tro != null) System.out.println("Trovato: " + tro);
-                        else System.out.println("Nessuna corrispondenza.");
+                    	String q = leggiStringa("Inserisci prefisso: ");
+                        // Nota il cambio di nome del metodo in TrovaArticoli... (plurale)
+                        List<Articolo> trovati = lista.TrovaArticoliPerPrefisso(q);
+                        
+                        if (trovati.isEmpty()) {
+                            System.out.println("Nessuna corrispondenza.");
+                        } else {
+                            System.out.println("Trovati " + trovati.size() + " articoli:");
+                            for (Articolo a : trovati) {
+                                System.out.println("- " + a);
+                            }
+                        }
                         break;
                     case 8:
                         aggiungiDaCatalogo(lista);

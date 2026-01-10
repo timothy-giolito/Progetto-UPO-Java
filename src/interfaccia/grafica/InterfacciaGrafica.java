@@ -10,8 +10,7 @@ import modello.eccezioni.*;
 
 /**
  * Gestisce l'interazione con l'utente tramite interfaccia grafica (GUI).
- * 
- * @author Timothy Giolito 20054431
+ * * @author Timothy Giolito 20054431
  * @author Luca Franzon 20054744
  */
 public class InterfacciaGrafica extends JFrame {
@@ -32,6 +31,7 @@ public class InterfacciaGrafica extends JFrame {
     // Bottoni che cambiano stato
     private JButton btnAggiungi;
     private JButton btnAggiungiCatalogo;
+    private JButton btnCerca; // <--- BOTTONE DI RICERCA
     private JButton btnRimuovi;
     private JButton btnRipristina;
     private JButton btnSvuotaCestino;
@@ -151,6 +151,10 @@ public class InterfacciaGrafica extends JFrame {
 
         btnAggiungi = new JButton("Aggiungi Nuovo");
         btnAggiungiCatalogo = new JButton("Copia da Catalogo");
+        
+        // Inizializzazione Bottone Cerca
+        btnCerca = new JButton("Cerca"); 
+        
         btnRimuovi = new JButton("Rimuovi");
         btnRipristina = new JButton("Ripristina"); 
         btnSvuotaCestino = new JButton("Svuota Cestino");
@@ -162,6 +166,10 @@ public class InterfacciaGrafica extends JFrame {
         // Listeners Azioni
         btnAggiungi.addActionListener(e -> azioneAggiungiGenerica());
         btnAggiungiCatalogo.addActionListener(e -> azioneCopiaDaCatalogo());
+        
+        // Listener Bottone Cerca
+        btnCerca.addActionListener(e -> azioneCercaArticolo());
+        
         btnRimuovi.addActionListener(e -> {
 			try {
 				azioneRimuoviGenerica();
@@ -174,6 +182,7 @@ public class InterfacciaGrafica extends JFrame {
 
         pnlAzioni.add(btnAggiungi);
         pnlAzioni.add(btnAggiungiCatalogo);
+        pnlAzioni.add(btnCerca); // Aggiunta al pannello
         pnlAzioni.add(Box.createHorizontalStrut(20));
         pnlAzioni.add(btnRimuovi);
         pnlAzioni.add(btnRipristina);
@@ -205,7 +214,6 @@ public class InterfacciaGrafica extends JFrame {
         lblTitoloVista.setForeground(new Color(0, 100, 0));
         
         aggiornaTabellaArticoli();
-        // Nota: aggiornaBottoni viene chiamato dentro aggiornaTabellaArticoli
     }
 
     private void caricaListaSelezionata() {
@@ -224,12 +232,12 @@ public class InterfacciaGrafica extends JFrame {
 
     /**
      * Gestisce la visibilità e l'attivazione dei pulsanti in base al contesto
-     * (Lista Normale vs Cestino vs Catalogo).
      */
     private void aggiornaBottoni() {
         // Default: bottoni visibili
         btnAggiungi.setVisible(true);
         btnAggiungiCatalogo.setVisible(true);
+        btnCerca.setVisible(true); // <--- Gestione visibilità
         btnRimuovi.setVisible(true);
         btnRipristina.setVisible(true);
         btnSvuotaCestino.setVisible(true);
@@ -244,6 +252,8 @@ public class InterfacciaGrafica extends JFrame {
             
             btnAggiungiCatalogo.setVisible(false); 
             
+            btnCerca.setEnabled(false); // Disabilitato in catalogo (non richiesto)
+            
             btnRimuovi.setText("Elimina da Catalogo");
             btnRimuovi.setEnabled(true);
             
@@ -255,6 +265,7 @@ public class InterfacciaGrafica extends JFrame {
         } else if (listaSelezionata != null) {
             // --- CONTESTO: LISTA DELLA SPESA ---
             lblTotale.setVisible(true);
+            btnCerca.setEnabled(true); // Abilitato
             
             if (visualizzaCestino) {
                 // --- VISTA CESTINO ---
@@ -300,6 +311,7 @@ public class InterfacciaGrafica extends JFrame {
             btnIndietro.setVisible(false);
             btnAggiungi.setEnabled(false);
             btnAggiungiCatalogo.setEnabled(false);
+            btnCerca.setEnabled(false);
             btnRimuovi.setEnabled(false);
             btnRipristina.setEnabled(false);
             btnSvuotaCestino.setEnabled(false);
@@ -316,7 +328,6 @@ public class InterfacciaGrafica extends JFrame {
         } else if (listaSelezionata != null) {
             if (visualizzaCestino) {
                 sorgente = listaSelezionata.getCancellati();
-                // Mostra totale cestino (richiede l'aggiornamento a ListaDiArticoli fatto prima)
                 lblTotale.setText("Totale Cestino: " + String.format("%.2f", listaSelezionata.getPrezzoTotaleCestino()) + " €");
             } else {
                 sorgente = listaSelezionata.getArticoli();
@@ -341,6 +352,54 @@ public class InterfacciaGrafica extends JFrame {
     }
 
     // --- AZIONI ---
+    
+    // --- METODO DI RICERCA CORRETTO (NAVIGAZIONE + SELEZIONE) ---
+
+    private void azioneCercaArticolo() {
+        if (listaSelezionata == null) {
+            JOptionPane.showMessageDialog(this, "Seleziona prima una lista.");
+            return;
+        }
+        
+        String prefisso = JOptionPane.showInputDialog(this, "Inserisci il prefisso da cercare:");
+        if (prefisso == null || prefisso.trim().isEmpty()) return;
+
+        // CORREZIONE QUI:
+        // Il metodo ora restituisce una List<Articolo>, non più un singolo Articolo.
+        // Non fare il cast a (Articolo)!
+        List<Articolo> risultati = listaSelezionata.TrovaArticoliPerPrefisso(prefisso);
+
+        if (risultati.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nessun articolo trovato con prefisso: " + prefisso);
+        } else {
+            // Costruiamo un messaggio con TUTTI gli articoli trovati
+            StringBuilder messaggio = new StringBuilder();
+            messaggio.append("Ho trovato ").append(risultati.size()).append(" articoli:\n\n");
+            
+            for (Articolo a : risultati) {
+                // Aggiungiamo ogni articolo alla lista visualizzata
+                messaggio.append("- ").append(a.getNome())
+                         .append(" (").append(a.getPrezzo()).append("€)")
+                         .append("\n");
+            }
+            
+            JOptionPane.showMessageDialog(this, messaggio.toString(), "Risultati Ricerca", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    // Metodo helper per evidenziare la riga nella tabella
+    private void selezionaRigaArticolo(String nomeArticolo) {
+        for (int i = 0; i < tabellaArticoli.getRowCount(); i++) {
+            // Controlla la colonna 0 (Nome)
+            String nomeInTabella = (String) tableModelArticoli.getValueAt(i, 0);
+            if (nomeInTabella.equals(nomeArticolo)) {
+                tabellaArticoli.setRowSelectionInterval(i, i); // Seleziona
+                // Scorre la tabella per rendere visibile la riga selezionata
+                tabellaArticoli.scrollRectToVisible(tabellaArticoli.getCellRect(i, 0, true));
+                return;
+            }
+        }
+    }
 
     private void azioneAggiungiGenerica() {
         creaNuovoArticoloDialog(modalitaCatalogo);
