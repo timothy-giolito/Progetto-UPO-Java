@@ -13,7 +13,7 @@ import modello.eccezioni.GestioneListeException;
 import modello.eccezioni.ListaDiArticoliException;
 
 /**
- * Gestione interfaccia utente da terminale.
+ * Gestione interfaccia CLI utente da terminale.
  * Include gestione Liste, Catalogo Globale e Cestino.
  * @author Timothy Giolito 20054431
  * @author Luca Franzon 
