@@ -27,7 +27,9 @@ public class RigaDiComando {
     }
 
     public void start() {
+    	
         int scelta = -1;
+        
         System.out.println("Benvenuto in Progetto UPO Java - CLI");
 
         while (scelta != 0) {
