@@ -103,10 +103,10 @@ Progetto-UPO-Java
 * **Librerie:** JUnit 5 (per l'esecuzione dei test).
 
 ### Come avviare il progetto
-1.  Clonare la repository.
-2.  Importare il progetto nell'IDE.
-3.  Eseguire la classe `main.Main`.
-4.  Seguire le istruzioni a schermo per scegliere l'interfaccia desiderata.
+1. Clonare la repository.
+2. Entrare nella cartella di root o eseguire: **javac -d bin -sourcepath src src/main/Main.java**
+3. Eseguire: **java -cp bin main.Main**
+4. Seguire le istruzioni a schermo per avviare una delle interfacce o uscire.
 
 ---
 
