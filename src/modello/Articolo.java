@@ -43,7 +43,7 @@ public class Articolo {
         if(nome == null || nome.trim().isEmpty()) {
             throw new ArticoloException("ERRORE: il nome dell'articolo non può essere vuoto!");
         } else {
-            this.nome = nome;
+            this.nome = nome.trim();
         }
         
         // Gestione della categoria
