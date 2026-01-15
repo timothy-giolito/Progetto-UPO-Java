@@ -48,8 +48,31 @@ Il cuore dell'applicazione. Contiene la logica di business e le strutture dati.
 * `Reparto`: Enumerazione (`Enum`) che definisce le corsie del supermercato.
 
 ### 📦 Package `interfaccia`
-* `cli.RigaDiComando`: Gestisce l'input/output su terminale. Include funzionalità di "Smart Search" per i reparti e menu nidificati.
-* `grafica.InterfacciaGrafica`: Classe entry point per la futura implementazione Swing.
+* `interfaccia.cli.RigaDiComando`: Gestisce l'input/output su terminale. Include funzionalità di "Smart Search" per i reparti e menu nidificati.
+* `interfaccia.mvc.VistaGUI e interfaccia.mvc.ControllerGUI`: Classi separate secondo pattern MVC per GUI.
+* 
+L'interfaccia grafica dell'applicazione è stata sviluppata seguendo il pattern architetturale **MVC (Model-View-Controller)**. Questa scelta progettuale garantisce una netta separazione tra la logica di presentazione, la gestione degli eventi e la logica di business.
+
+La struttura dei package GUI è suddivisa come segue:
+
+### 1. Vista (`interfaccia.vista`)
+* **Classe Principale:** `VistaGUI`
+* **Responsabilità:** Si occupa esclusivamente della costruzione del layout e della visualizzazione dei dati all'utente.
+* **Dettagli Implementativi:**
+    * Estende `JFrame` e inizializza tutti i componenti Swing (pannelli, bottoni, tabelle).
+    * È **passiva**: non contiene logica di controllo o gestione degli eventi.
+    * Espone metodi pubblici (es. `registraAscoltatori`, `aggiornaTabella`, `mostraMessaggio`) che vengono invocati dal Controller per manipolare l'interfaccia.
+
+### 2. Controller (`interfaccia.controller`)
+* **Classe Principale:** `ControllerGUI`
+* **Responsabilità:** Gestisce l'interazione tra l'utente, la vista e il modello dati.
+* **Dettagli Implementativi:**
+    * Implementa le interfacce `ActionListener` e `ListSelectionListener` per catturare gli input dell'utente.
+    * Mantiene lo stato della sessione (es. lista correntemente selezionata, modalità catalogo).
+    * Riceve le notifiche dalla Vista, elabora le richieste invocando i metodi del Modello (`GestioneListe`) e aggiorna la Vista di conseguenza.
+
+### 3. Modello
+Il modello (package `modello`) rimane indipendente dall'interfaccia grafica, venendo manipolato esclusivamente attraverso il Controller.
 
 ### 📦 Package `modello.eccezioni`
 Gestione robusta degli errori tramite eccezioni personalizzate:
