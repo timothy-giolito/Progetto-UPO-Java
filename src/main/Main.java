@@ -2,7 +2,6 @@ package main;
 
 import java.util.Scanner;
 import interfaccia.cli.RigaDiComando;
-import interfaccia.grafica.InterfacciaGrafica;
 
 /**
  * Questa classe gestisce l'avvio del programma permettendo all'utente di scegliere
@@ -54,15 +53,21 @@ public class Main {
             if (scelta == 1) {
             	
             	System.out.println("\nAvvio interfaccia testuale...");
-                // Passa lo scanner esistente
+            	
+                // Passa lo scanner 
                 new RigaDiComando(scanner).start(); 
                 
             } else if (scelta == 2) {
                 System.out.println("Avvio interfaccia grafica...");
                 
-                // Istanza per GUI
                 javax.swing.SwingUtilities.invokeLater(() -> {
-                    new InterfacciaGrafica(); 
+                	
+                    // 1. Crea la Vista
+                    interfaccia.mvc.VistaGUI vista = new interfaccia.mvc.VistaGUI();
+                    
+                    // 2. Crea il Controller passando la vista
+                    new interfaccia.mvc.ControllerGUI(vista);
+               
                 });
                 
             } else if (scelta == 3) {

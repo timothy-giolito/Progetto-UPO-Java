@@ -40,10 +40,15 @@ public class Articolo {
     public Articolo(String nome, String categoria, double prezzo, String nota, Reparto reparto) throws ArticoloException {
         
         // Controllo sul nome del prodotto
+    	
         if(nome == null || nome.trim().isEmpty()) {
-            throw new ArticoloException("ERRORE: il nome dell'articolo non può essere vuoto!");
+        	
+            throw new ArticoloException("ERRORE: il nome dell'articolo non può essere non specificato!");
+            
         } else {
-            this.nome = nome;
+        	
+            this.nome = nome.trim();
+            
         }
         
         // Gestione della categoria
@@ -117,9 +122,13 @@ public class Articolo {
      * Permette di settare la categoria attribuita ad un articolo della lista.
      */
     public void setCategoria(String categoria) {
+    	
         if(categoria == null || categoria.trim().isEmpty()) {
+        	
             this.categoria = DEFAULT_CATEGORIA;
+            
         } else {
+        	
             this.categoria = categoria;
         }
     }
@@ -166,6 +175,7 @@ public class Articolo {
      */
     
     public String getNota() {
+    	
         return nota;
     }
     

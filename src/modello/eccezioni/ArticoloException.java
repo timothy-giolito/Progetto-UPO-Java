@@ -15,8 +15,6 @@ public class ArticoloException extends Exception {
 	/**
      * Costruisce un'eccezione senza messaggio di dettaglio.
      */
-	
-	// costruttore senza parametro
 	public ArticoloException() {
 		
 		super();
@@ -26,13 +24,11 @@ public class ArticoloException extends Exception {
      * Costruisce un'eccezione con un messaggio descrittivo.
      * @param messaggio La descrizione dell'errore.
      */
-	//costruttore con messaggio di errore
 	public ArticoloException(String messaggio) {
 		
 		super(messaggio);
 	}
 	
-	//costruttore con messaggio e causa
 	
 	/**
      * Costruisce un'eccezione con un messaggio e la causa originale.

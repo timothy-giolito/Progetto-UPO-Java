@@ -55,6 +55,12 @@ public class ListaDiArticoli implements Iterable<Articolo> {
         if (articolo == null) {
             throw new ListaDiArticoliException("Errore, è necessario l'articolo");     
         }
+        
+     // --- AGGIUNTA DEL CONTROLLO DUPLICATI ---
+        if (this.articoli.contains(articolo)) {
+            throw new ListaDiArticoliException("L'articolo è già presente nella lista!");
+        }
+        
         // Evita duplicati se era nel cestino
         if(cancellati.contains(articolo)) {
             cancellati.remove(articolo);
@@ -114,6 +120,7 @@ public class ListaDiArticoli implements Iterable<Articolo> {
 
     /**
      * Calcola il prezzo totale degli articoli attivi (da comprare).
+     * @return Il prezzo totale calcolato come somma dei prezzi degli articoli.
      */
     public double getPrezzoTotale() {
         double totale = 0.0;
