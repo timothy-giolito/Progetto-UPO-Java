@@ -94,8 +94,9 @@ Progetto-UPO-Java
 │   ├── 📦 interfaccia
 │   │   ├── 📂 cli
 │   │   │   └── 📄 RigaDiComando.java       # Gestione input/output su terminale
-│   │   └── 📂 grafica
-│   │       └── 📄 InterfacciaGrafica.java  # Predisposizione per GUI Swing
+│   │   └── 📂 mvc
+│   │       └── 📄 ControllerGUI.java
+|   |       └── 📄 VistaGUI.java
 │   │
 │   ├── 📦 main
 │   │   └── 📄 Main.java                    # Entry point: scelta tra CLI e GUI
