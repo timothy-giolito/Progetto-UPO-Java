@@ -46,9 +46,13 @@ public class Articolo {
             throw new ArticoloException("ERRORE: il nome dell'articolo non può essere non specificato!");
             
         } else {
+<<<<<<< HEAD
         	
             this.nome = nome.trim();
             
+=======
+            this.nome = nome.trim();
+>>>>>>> 3a85f2d0ac7ecc5b6ffd13318b384a079322ce5b
         }
         
         // Gestione della categoria
