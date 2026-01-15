@@ -50,8 +50,25 @@ Il cuore dell'applicazione. Contiene la logica di business e le strutture dati.
 ### 📦 Package `interfaccia`
 * `interfaccia.cli.RigaDiComando`: Gestisce l'input/output su terminale. Include funzionalità di "Smart Search" per i reparti e menu nidificati.
 * `interfaccia.mvc.VistaGUI e interfaccia.mvc.ControllerGUI`: Classi separate secondo pattern MVC per GUI.
-* 
-L'interfaccia grafica dell'applicazione è stata sviluppata seguendo il pattern architetturale **MVC (Model-View-Controller)**. Questa scelta progettuale garantisce una netta separazione tra la logica di presentazione, la gestione degli eventi e la logica di business.
+
+### 3. Modello
+Il modello (package `modello`) rimane indipendente dall'interfaccia grafica, venendo manipolato esclusivamente attraverso il Controller.
+
+### 📦 Package `modello.eccezioni`
+Gestione robusta degli errori tramite eccezioni personalizzate:
+* `ArticoloException`: Errori di validazione dati prodotto.
+* `ListaDiArticoliException`: Errori specifici di una lista.
+* `GestioneListeException`: Errori globali (es. duplicati nel database).
+
+### 📦 Package `modello.test`
+Suite di test unitari sviluppata con **JUnit 5** per garantire la stabilità del codice:
+* Copertura test per costruttori, setter/getter e logica di business.
+* Test di regressione per le eccezioni e i casi limite (valori null, stringhe vuote, duplicati).
+
+### 👁️ Interfaccia grafica
+
+L'interfaccia grafica dell'applicazione è stata sviluppata seguendo il pattern architetturale **MVC (Model-View-Controller)**. 
+Questa scelta progettuale garantisce una netta separazione tra la logica di presentazione, la gestione degli eventi e la logica di business.
 
 La struttura dei package GUI è suddivisa come segue:
 
@@ -70,20 +87,6 @@ La struttura dei package GUI è suddivisa come segue:
     * Implementa le interfacce `ActionListener` e `ListSelectionListener` per catturare gli input dell'utente.
     * Mantiene lo stato della sessione (es. lista correntemente selezionata, modalità catalogo).
     * Riceve le notifiche dalla Vista, elabora le richieste invocando i metodi del Modello (`GestioneListe`) e aggiorna la Vista di conseguenza.
-
-### 3. Modello
-Il modello (package `modello`) rimane indipendente dall'interfaccia grafica, venendo manipolato esclusivamente attraverso il Controller.
-
-### 📦 Package `modello.eccezioni`
-Gestione robusta degli errori tramite eccezioni personalizzate:
-* `ArticoloException`: Errori di validazione dati prodotto.
-* `ListaDiArticoliException`: Errori specifici di una lista.
-* `GestioneListeException`: Errori globali (es. duplicati nel database).
-
-### 📦 Package `modello.test`
-Suite di test unitari sviluppata con **JUnit 5** per garantire la stabilità del codice:
-* Copertura test per costruttori, setter/getter e logica di business.
-* Test di regressione per le eccezioni e i casi limite (valori null, stringhe vuote, duplicati).
 
 ---
 ### 📂 Struttura delle Cartelle
