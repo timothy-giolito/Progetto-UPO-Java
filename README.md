@@ -64,6 +64,8 @@ Gestione robusta degli errori tramite eccezioni personalizzate:
 Suite di test unitari sviluppata con **JUnit 5** per garantire la stabilità del codice:
 * Copertura test per costruttori, setter/getter e logica di business.
 * Test di regressione per le eccezioni e i casi limite (valori null, stringhe vuote, duplicati).
+  
+---
 
 ### 👁️ Interfaccia grafica
 
