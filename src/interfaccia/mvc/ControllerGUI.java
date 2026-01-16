@@ -97,7 +97,7 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
         modalitaCatalogo = false;
         visualizzaCestino = false;
         
-        vista.setTitolo("Benvenuto! Seleziona una lista a sinistra.", Color.BLACK);
+        vista.setTitolo("Benvenuto! Seleziona una lista", Color.BLACK);
         vista.aggiornaTabella(List.of()); 
         vista.configBottoniVuoto();
         vista.nascondiTotale();

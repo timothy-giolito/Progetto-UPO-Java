@@ -45,6 +45,7 @@ public class VistaGUI extends JFrame {
     }
 
     private void inizializzaComponenti() {
+    	
         // --- PANNELLO SINISTRO (Navigazione Liste) ---
         JPanel pnlSinistra = new JPanel(new BorderLayout(5, 5));
         pnlSinistra.setBorder(BorderFactory.createTitledBorder("Navigazione"));
