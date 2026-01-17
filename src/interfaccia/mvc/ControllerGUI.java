@@ -21,17 +21,14 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
     private boolean visualizzaCestino = false;
 
     public ControllerGUI(VistaGUI vista) {
-    	
         this.vista = vista;
         
-        // Inizializza la vista
         vista.registraAscoltatori(this, this);
         vista.aggiornaElencoListe(GestioneListe.getListeArticoli().keySet());
         impostaStatoVuoto();
         vista.setVisible(true);
     }
 
-    // Gestione Eventi Bottoni (ActionListener)
     @Override
     public void actionPerformed(ActionEvent e) {
         String comando = e.getActionCommand();
@@ -46,6 +43,12 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
                     break;
                 case "ELIMINA_LISTA":
                     azioneEliminaLista();
+                    break;
+                case "NUOVA_CATEGORIA":
+                    azioneNuovaCategoria();
+                    break;
+                case "ELIMINA_CATEGORIA": // GESTIONE DEL NUOVO COMANDO
+                    azioneEliminaCategoria();
                     break;
                 case "VEDI_CESTINO":
                     visualizzaCestino = true;
@@ -79,7 +82,6 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
         }
     }
 
-    // Gestione Eventi Selezione Lista (ListSelectionListener)
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
@@ -155,6 +157,37 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
             vista.aggiornaElencoListe(GestioneListe.getListeArticoli().keySet());
         }
     }
+    
+    private void azioneNuovaCategoria() throws GestioneListeException {
+        String cat = vista.chiediInput("Inserisci nome nuova categoria:");
+        if (cat != null && !cat.trim().isEmpty()) {
+            GestioneListe.inserisciCategoria(cat);
+            vista.mostraMessaggio("Categoria '" + cat + "' aggiunta con successo!");
+        }
+    }
+    
+    // NUOVO METODO PER ELIMINARE CATEGORIE
+    private void azioneEliminaCategoria() throws GestioneListeException {
+        List<String> cats = GestioneListe.getCategorie();
+        Object[] choices = cats.toArray();
+        
+        // Mostriamo un dropdown per far scegliere all'utente
+        String selected = (String) JOptionPane.showInputDialog(
+            vista,
+            "Scegli la categoria da eliminare:",
+            "Elimina Categoria",
+            JOptionPane.WARNING_MESSAGE,
+            null,
+            choices,
+            choices[0]);
+
+        if (selected != null) {
+            // Se l'utente prova a cancellare "Non categorizzato", GestioneListe lancerà un'eccezione
+            // che verrà catturata dal catch nel metodo actionPerformed
+            GestioneListe.cancellaCategoria(selected);
+            vista.mostraMessaggio("Categoria '" + selected + "' eliminata.");
+        }
+    }
 
     private void azioneEliminaLista() throws GestioneListeException {
         String nome = vista.getListaSelezionata();
@@ -175,13 +208,12 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
         
         double prezzo = 0.0;
         try {
-            
             prezzo = Double.parseDouble((String) dati[1]); 
         } catch (NumberFormatException e) { /* default 0 */ }
         
         String nota = (String) dati[2]; 
       
-        Categoria categoria = (Categoria) dati[3]; 
+        String categoria = (String) dati[3]; 
 
         Articolo nuovo = new Articolo(nome, categoria, prezzo, nota);
 
@@ -224,7 +256,6 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
         Articolo scelto = vista.chiediSelezioneDaCatalogo(catalogo.toArray());
         if (scelto != null) {
             try {
-                // Clona l'articolo
                 Articolo copia = new Articolo(scelto.getNome(), scelto.getCategoria(), 
                                               scelto.getPrezzo(), scelto.getNota());
                 listaCorrente.AggiungiArticolo(copia);

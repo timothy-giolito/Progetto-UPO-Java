@@ -20,12 +20,19 @@ public class GestioneListe {
 
     // Campo statico: associazione fra il nome di una lista e l'oggetto ListaDiArticoli
     private static Map<String, ListaDiArticoli> listeArticoli = new HashMap<>();
-
-    // Campo statico: lista di tutte le categorie disponibili
-    private static List<String> categorie = new ArrayList<>();
-
-    // Campo statico: elenco di tutti gli articoli
+    
+    // Lista dinamica di stringhe
+    private static List<String> categorie = new ArrayList<>(); 
     private static List<Articolo> articoli = new ArrayList<>();
+    
+    // Blocco statico per inizializzare alcune categorie di default all'avvio
+    static {
+        categorie.add("Non categorizzato"); // Default fondamentale
+        categorie.add("Ortofrutta");
+        categorie.add("Macelleria");
+        categorie.add("Elettronica");
+        categorie.add("Fai da te");
+    }
 
     // METODI PER LE LISTE
 
@@ -84,16 +91,14 @@ public class GestioneListe {
      */
 
     public static void inserisciCategoria(String categoria) throws GestioneListeException {
-    	
         if (categoria == null || categoria.trim().isEmpty()) {
-        	
             throw new GestioneListeException("La categoria non può essere vuota.");
         }
-        
-        if (categorie.contains(categoria)) {
-        	
-            throw new GestioneListeException("La categoria '" + categoria + "' esiste già.");
-            
+        // Controllo case-insensitive per evitare duplicati come "Frutta" e "frutta"
+        for (String c : categorie) {
+            if (c.equalsIgnoreCase(categoria)) {
+                throw new GestioneListeException("La categoria '" + categoria + "' esiste già.");
+            }
         }
         categorie.add(categoria);
     }
@@ -104,12 +109,13 @@ public class GestioneListe {
      * @throws GestioneListeException Se la categoria non esite.
      */
     public static void cancellaCategoria(String categoria) throws GestioneListeException {
-    	
         if (!categorie.contains(categoria)) {
-        	
             throw new GestioneListeException("Categoria '" + categoria + "' non trovata.");
         }
-        
+        // Impediamo di cancellare il default
+        if (categoria.equals("Non categorizzato")) {
+            throw new GestioneListeException("Non puoi cancellare la categoria di default.");
+        }
         categorie.remove(categoria);
     }
 

@@ -7,7 +7,6 @@ import java.util.List;
 import modello.Articolo;
 import modello.GestioneListe;
 import modello.ListaDiArticoli;
-import modello.Categoria;
 import modello.eccezioni.ArticoloException;
 import modello.eccezioni.GestioneListeException;
 import modello.eccezioni.ListaDiArticoliException;
@@ -39,6 +38,7 @@ public class RigaDiComando {
             switch (scelta) {
                 case 1: menuGestioneListe(); break;
                 case 2: menuCatalogoArticoli(); break;
+                case 3: menuGestioneCategorie(); break; // NUOVA OPZIONE
                 case 0: System.out.println("Arrivederci!"); break;
                 default: System.out.println("Scelta non valida.");
             }
@@ -49,7 +49,55 @@ public class RigaDiComando {
         System.out.println("\n--- MENU PRINCIPALE ---");
         System.out.println("1. Gestione Liste della Spesa");
         System.out.println("2. Gestione Catalogo Globale Articoli");
+        System.out.println("3. Gestione Categorie"); // NUOVA VOCE
         System.out.println("0. Esci");
+    }
+
+    // --- NUOVA SEZIONE: GESTIONE CATEGORIE ---
+
+    private void menuGestioneCategorie() {
+        int scelta = -1;
+        while (scelta != 0) {
+            System.out.println("\n--- GESTIONE CATEGORIE ---");
+            System.out.println("1. Visualizza categorie disponibili");
+            System.out.println("2. Aggiungi nuova categoria");
+            System.out.println("3. Elimina una categoria");
+            System.out.println("0. Torna al menu principale");
+            
+            scelta = leggiIntero("Scelta: ");
+            
+            try {
+                switch(scelta) {
+                    case 1:
+                        List<String> cats = GestioneListe.getCategorie();
+                        System.out.println("Categorie attuali:");
+                        for(String c : cats) System.out.println("- " + c);
+                        break;
+                        
+                    case 2:
+                        String nuova = leggiStringa("Nome nuova categoria: ");
+                        GestioneListe.inserisciCategoria(nuova);
+                        System.out.println("Categoria '" + nuova + "' aggiunta.");
+                        break;
+                        
+                    case 3:
+                        // Mostra prima le categorie per aiutare l'utente
+                        System.out.println("Categorie eliminabili:");
+                        GestioneListe.getCategorie().forEach(c -> System.out.print("[" + c + "] "));
+                        System.out.println();
+                        
+                        String daEliminare = leggiStringa("Nome categoria da eliminare: ");
+                        GestioneListe.cancellaCategoria(daEliminare);
+                        System.out.println("Categoria eliminata.");
+                        break;
+                        
+                    case 0: break;
+                    default: System.out.println("Scelta non valida.");
+                }
+            } catch (GestioneListeException e) {
+                System.out.println("ERRORE: " + e.getMessage());
+            }
+        }
     }
 
     // --- SEZIONE LISTE ---
@@ -265,20 +313,16 @@ public class RigaDiComando {
             double pr = leggiDouble("- Prezzo: ");
             String nota = leggiStringa("- Nota: ");
             
-            System.out.print("- Reparto (invio per saltare, ? per lista): ");
-            String repStr = scanner.nextLine().trim();
-            Categoria c = Categoria.ALTRO;
+            System.out.println("- Categorie disponibili:");
+            // Stampa lista dinamica sempre aggiornata
+            List<String> cats = GestioneListe.getCategorie();
+            for(String s : cats) System.out.print("[" + s + "] ");
+            System.out.println();
             
-            if(repStr.equals("?")) {
-                for(Categoria cat : Categoria.values()) System.out.println(cat);
-            } else if(!repStr.isEmpty()) {
-                // Logica semplificata per reparto
-                for(Categoria cat : Categoria.values()) {
-                    if(cat.name().equalsIgnoreCase(repStr)) c = cat;
-                }
-            }
+            String catScelta = leggiStringa("- Inserisci nome categoria (invio per default): ");
             
-            return new Articolo(nome, c, pr, nota);
+            return new Articolo(nome, catScelta, pr, nota);
+            
         } catch (ArticoloException e) {
             System.out.println("Dati non validi: " + e.getMessage());
             return null;

@@ -6,8 +6,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.event.ListSelectionListener;
 import java.util.List;
+
 import modello.Articolo;
-import modello.Categoria;
+import modello.GestioneListe; 
 
 public class VistaGUI extends JFrame {
     
@@ -25,6 +26,8 @@ public class VistaGUI extends JFrame {
     private JButton btnVediCatalogo;
     private JButton btnNuovaLista;
     private JButton btnEliminaLista;
+    private JButton btnNuovaCategoria;
+    private JButton btnEliminaCategoria; // NUOVO BOTTONE
     private JButton btnVediCestino;
     private JButton btnIndietro;
     private JButton btnAggiungi;
@@ -45,7 +48,7 @@ public class VistaGUI extends JFrame {
     }
 
     private void inizializzaComponenti() {
-    	
+        
         // --- PANNELLO SINISTRO (Navigazione Liste) ---
         JPanel pnlSinistra = new JPanel(new BorderLayout(5, 5));
         pnlSinistra.setBorder(BorderFactory.createTitledBorder("Navigazione"));
@@ -62,15 +65,27 @@ public class VistaGUI extends JFrame {
         jListListe.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         pnlSinistra.add(new JScrollPane(jListListe), BorderLayout.CENTER);
 
-        JPanel pnlBottoniListe = new JPanel(new GridLayout(2, 1, 5, 5));
+        // MODIFICA: Grid layout a 4 righe
+        JPanel pnlBottoniListe = new JPanel(new GridLayout(4, 1, 5, 5));
+        
         btnNuovaLista = new JButton("Nuova Lista Spesa");
         btnNuovaLista.setActionCommand("NUOVA_LISTA");
         
         btnEliminaLista = new JButton("Elimina Lista");
         btnEliminaLista.setActionCommand("ELIMINA_LISTA");
 
+        btnNuovaCategoria = new JButton("Nuova Categoria");
+        btnNuovaCategoria.setActionCommand("NUOVA_CATEGORIA");
+        
+        // NUOVO BOTTONE
+        btnEliminaCategoria = new JButton("Elimina Categoria");
+        btnEliminaCategoria.setActionCommand("ELIMINA_CATEGORIA");
+
         pnlBottoniListe.add(btnNuovaLista);
         pnlBottoniListe.add(btnEliminaLista);
+        pnlBottoniListe.add(btnNuovaCategoria);
+        pnlBottoniListe.add(btnEliminaCategoria); // Aggiunta
+        
         pnlSinistra.add(pnlBottoniListe, BorderLayout.SOUTH);
 
         add(pnlSinistra, BorderLayout.WEST);
@@ -156,6 +171,8 @@ public class VistaGUI extends JFrame {
         btnVediCatalogo.addActionListener(controller);
         btnNuovaLista.addActionListener(controller);
         btnEliminaLista.addActionListener(controller);
+        btnNuovaCategoria.addActionListener(controller);
+        btnEliminaCategoria.addActionListener(controller); // REGISTRAZIONE
         btnVediCestino.addActionListener(controller);
         btnIndietro.addActionListener(controller);
         btnAggiungi.addActionListener(controller);
@@ -182,7 +199,7 @@ public class VistaGUI extends JFrame {
         for (Articolo a : articoli) {
             Object[] riga = {
                 a.getNome(),
-                a.getCategoria().getDescrizione(),
+                a.getCategoria(), 
                 String.format("%.2f", a.getPrezzo()),
                 a.getNota()
             };
@@ -234,20 +251,9 @@ public class VistaGUI extends JFrame {
         JOptionPane.showMessageDialog(this, errore, "Errore", JOptionPane.ERROR_MESSAGE);
     }
 
-    /**
-     * Mostra il dialogo complesso per creare un nuovo articolo.
-     * Ritorna un array di oggetti con i valori inseriti, o null se annullato.
-     */
-    /**
-     * Mostra il dialogo complesso per creare un nuovo articolo.
-     * Ritorna un array di oggetti con i valori inseriti, o null se annullato.
-     */
     public Object[] chiediDatiArticolo(boolean isGlobale) {
         JTextField txtNome = new JTextField();
-        
-        // MODIFICA QUI: Passiamo i valori dell'Enum Categoria al costruttore
-        JComboBox<Categoria> cmbCategoria = new JComboBox<>(Categoria.values());
-        
+        JComboBox<String> cmbCategoria = new JComboBox<>(GestioneListe.getCategorie().toArray(new String[0]));
         JTextField txtPrezzo = new JTextField();
         JTextField txtNota = new JTextField();
        
@@ -276,23 +282,19 @@ public class VistaGUI extends JFrame {
             "Scegli dal catalogo:", "Catalogo", JOptionPane.PLAIN_MESSAGE, null, opzioni, opzioni[0]);
     }
 
-    // --- GESTIONE STATO BOTTONI (Visibilità/Abilitazione) ---
+    // --- GESTIONE STATO BOTTONI ---
     
     public void configBottoniPerCatalogo() {
         btnVediCestino.setVisible(false);
         btnIndietro.setVisible(false);
-        
         btnAggiungi.setText("Crea Nuovo Articolo Globale");
         btnAggiungi.setEnabled(true);
         btnAggiungi.setVisible(true);
-        
         btnAggiungiCatalogo.setVisible(false);
         btnCerca.setEnabled(false);
-        
         btnRimuovi.setText("Elimina da Catalogo");
         btnRimuovi.setEnabled(true);
         btnRimuovi.setVisible(true);
-        
         btnRipristina.setEnabled(false);
         btnSvuotaCestino.setEnabled(false);
     }
@@ -309,17 +311,13 @@ public class VistaGUI extends JFrame {
         } else {
             btnIndietro.setVisible(false);
             btnVediCestino.setVisible(true);
-            
             btnAggiungi.setText("Aggiungi Articoli");
             btnAggiungi.setEnabled(true);
-            
             btnAggiungiCatalogo.setText("Aggiungi da Catalogo");
             btnAggiungiCatalogo.setVisible(true);
             btnAggiungiCatalogo.setEnabled(true);
-            
             btnRimuovi.setText("Sposta nel Cestino");
             btnRimuovi.setEnabled(true);
-            
             btnRipristina.setEnabled(false);
             btnSvuotaCestino.setEnabled(false);
         }

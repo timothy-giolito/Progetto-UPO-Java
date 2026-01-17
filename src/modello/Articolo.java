@@ -17,12 +17,12 @@ public class Articolo {
     // Valori di default
     private static final double DEFAULT_PREZZO = 0.0;
     private static final String DEFAULT_NOTA = "";
-    private static final Categoria DEFAULT_CATEGORIA = Categoria.ALTRO; 
+    private static final String DEFAULT_CATEGORIA = "Altro"; 
     
     private String nome; 
     private double prezzo;
     private String nota;
-    private Categoria categoria;
+    private String categoria;
     
     /**
      * Costruisce un nuovo oggetto Articolo con i dettagli specificati.
@@ -35,7 +35,7 @@ public class Articolo {
      */
     
     // Costruttore della classe aggiornato con il parametro Corsia
-    public Articolo(String nome, Categoria categoria, double prezzo, String nota) throws ArticoloException {
+    public Articolo(String nome, String categoria, double prezzo, String nota) throws ArticoloException {
         
         // Controllo sul nome del prodotto
     	
@@ -85,7 +85,7 @@ public class Articolo {
      */
 
     // Getter e Setter per Corsia (Senza operatore ternario)
-    public Categoria getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
@@ -94,7 +94,7 @@ public class Articolo {
      * @param reparto Il nuovo reparto. Se null, viene impostato il valore di default.
      */
     
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(String categoria) {
         if (categoria == null) {
             this.categoria = DEFAULT_CATEGORIA;
         } else {
