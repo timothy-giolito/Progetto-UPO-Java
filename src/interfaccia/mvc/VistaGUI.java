@@ -27,7 +27,7 @@ public class VistaGUI extends JFrame {
     private JButton btnNuovaLista;
     private JButton btnEliminaLista;
     private JButton btnNuovaCategoria;
-    private JButton btnEliminaCategoria; // NUOVO BOTTONE
+    private JButton btnEliminaCategoria; 
     private JButton btnVediCestino;
     private JButton btnIndietro;
     private JButton btnAggiungi;
@@ -36,6 +36,7 @@ public class VistaGUI extends JFrame {
     private JButton btnRimuovi;
     private JButton btnRipristina;
     private JButton btnSvuotaCestino;
+    private JButton btnModifica;
 
     public VistaGUI() {
         super("Gestore Liste della Spesa - UPO Java (MVC)");
@@ -139,6 +140,9 @@ public class VistaGUI extends JFrame {
         btnCerca = new JButton("Cerca");
         btnCerca.setActionCommand("CERCA");
         
+        btnModifica = new JButton("Modifica");
+        btnModifica.setActionCommand("MODIFICA");
+        
         btnRimuovi = new JButton("Rimuovi");
         btnRimuovi.setActionCommand("RIMUOVI");
         
@@ -154,6 +158,7 @@ public class VistaGUI extends JFrame {
 
         pnlAzioni.add(btnAggiungi);
         pnlAzioni.add(btnAggiungiCatalogo);
+        pnlAzioni.add(btnModifica);
         pnlAzioni.add(btnCerca);
         pnlAzioni.add(Box.createHorizontalStrut(20));
         pnlAzioni.add(btnRimuovi);
@@ -177,6 +182,7 @@ public class VistaGUI extends JFrame {
         btnIndietro.addActionListener(controller);
         btnAggiungi.addActionListener(controller);
         btnAggiungiCatalogo.addActionListener(controller);
+        btnModifica.addActionListener(controller);
         btnCerca.addActionListener(controller);
         btnRimuovi.addActionListener(controller);
         btnRipristina.addActionListener(controller);
@@ -297,6 +303,10 @@ public class VistaGUI extends JFrame {
         btnRimuovi.setVisible(true);
         btnRipristina.setEnabled(false);
         btnSvuotaCestino.setEnabled(false);
+        btnModifica.setEnabled(true);
+        btnModifica.setVisible(true);
+        btnModifica.setEnabled(true); // O true se vuoi permettere modifiche al catalogo globale
+        btnModifica.setVisible(true);
     }
     
     public void configBottoniPerLista(boolean vistaCestino) {
@@ -308,7 +318,10 @@ public class VistaGUI extends JFrame {
             btnRimuovi.setEnabled(false);
             btnRipristina.setEnabled(true);
             btnSvuotaCestino.setEnabled(true);
+            btnModifica.setEnabled(false);
         } else {
+        	btnModifica.setEnabled(true);
+        	btnModifica.setVisible(true);
             btnIndietro.setVisible(false);
             btnVediCestino.setVisible(true);
             btnAggiungi.setText("Aggiungi Articoli");
@@ -333,5 +346,38 @@ public class VistaGUI extends JFrame {
         btnRimuovi.setEnabled(false);
         btnRipristina.setEnabled(false);
         btnSvuotaCestino.setEnabled(false);
+        btnModifica.setEnabled(false);
+    }
+    
+    /**
+     * Mostra un dialog con i dati attuali dell'articolo per permetterne la modifica.
+     */
+    public Object[] chiediModificaArticolo(Articolo a) {
+        JTextField txtNome = new JTextField(a.getNome());
+        txtNome.setEditable(false); // Il nome non si cambia solitamente per coerenza, o puoi metterlo true
+        
+        JComboBox<String> cmbCategoria = new JComboBox<>(GestioneListe.getCategorie().toArray(new String[0]));
+        cmbCategoria.setSelectedItem(a.getCategoria());
+        
+        JTextField txtPrezzo = new JTextField(String.valueOf(a.getPrezzo()));
+        JTextField txtNota = new JTextField(a.getNota());
+       
+        Object[] msg = {
+            "Nome (non modificabile):", txtNome, 
+            "Categoria:", cmbCategoria, 
+            "Prezzo (€):", txtPrezzo, 
+            "Nota:", txtNota
+        };
+
+        int res = JOptionPane.showConfirmDialog(this, msg, "Modifica Articolo", JOptionPane.OK_CANCEL_OPTION);
+        
+        if (res == JOptionPane.OK_OPTION) {
+            return new Object[] { 
+                cmbCategoria.getSelectedItem(), // Indice 0: Categoria
+                txtPrezzo.getText(),            // Indice 1: Prezzo
+                txtNota.getText()               // Indice 2: Nota
+            };
+        }
+        return null;
     }
 }

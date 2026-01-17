@@ -76,6 +76,9 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
                 case "SVUOTA_CESTINO":
                     azioneSvuotaCestino();
                     break;
+                case "MODIFICA":
+                	azioneModifica();
+                	break;
             }
         } catch (Exception ex) {
             vista.mostraMessaggioErrore(ex.getMessage());
@@ -297,6 +300,59 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
                 StringBuilder sb = new StringBuilder("Trovati " + risultati.size() + " articoli:\n");
                 for (Articolo a : risultati) sb.append("- ").append(a.getNome()).append("\n");
                 vista.mostraMessaggio(sb.toString());
+            }
+        }
+    }
+    
+    private void azioneModifica() {
+        int riga = vista.getRigaSelezionata();
+        
+        // Verifica che sia selezionato qualcosa e che siamo in una lista valida (o catalogo)
+        if (riga == -1) {
+            vista.mostraMessaggio("Seleziona un articolo da modificare.");
+            return;
+        }
+
+        Articolo articoloDaModificare = null;
+        
+        // Recupera l'articolo corretto in base alla modalità
+        if (modalitaCatalogo) {
+            articoloDaModificare = GestioneListe.getArticoli().get(riga);
+        } else if (listaCorrente != null && !visualizzaCestino) {
+            articoloDaModificare = listaCorrente.getArticoli().get(riga);
+        } else {
+            vista.mostraMessaggio("Non puoi modificare elementi nel cestino o nessuna lista selezionata.");
+            return;
+        }
+
+        // Chiedi i nuovi dati alla vista
+        Object[] nuoviDati = vista.chiediModificaArticolo(articoloDaModificare);
+
+        if (nuoviDati != null) {
+            try {
+                String nuovaCat = (String) nuoviDati[0];
+                String prezzoStr = (String) nuoviDati[1];
+                String nuovaNota = (String) nuoviDati[2];
+
+                // Applica le modifiche usando i setter del Modello
+                articoloDaModificare.setCategoria(nuovaCat);
+                articoloDaModificare.setNota(nuovaNota);
+                
+                // Gestione parsing prezzo
+                try {
+                    double p = Double.parseDouble(prezzoStr);
+                    articoloDaModificare.setPrezzo(p);
+                } catch (NumberFormatException ex) {
+                    vista.mostraMessaggioErrore("Prezzo non valido, inserire un numero.");
+                    return; // Interrompi se il prezzo è sbagliato
+                }
+
+                // Aggiorna la vista per mostrare i cambiamenti
+                aggiornaVista();
+                vista.mostraMessaggio("Articolo modificato con successo.");
+
+            } catch (Exception e) {
+                vista.mostraMessaggioErrore("Errore nella modifica: " + e.getMessage());
             }
         }
     }

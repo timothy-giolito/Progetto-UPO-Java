@@ -165,6 +165,7 @@ public class RigaDiComando {
             System.out.println("6. Svuota cestino");
             System.out.println("7. Cerca articolo (Smart Search)");
             System.out.println("8. Aggiungi articolo DA CATALOGO GLOBALE (Veloce)");
+            System.out.println("9. Modifica articolo (Prezzo - Categoria - Nota)");
             System.out.println("0. Torna al menu liste");
             
             scelta = leggiIntero("Scelta: ");
@@ -227,6 +228,9 @@ public class RigaDiComando {
                     case 8:
                         aggiungiDaCatalogo(lista);
                         break;
+                    case 9: 
+                    	modificaArticolo(lista);
+                    	break;
                     case 0: break;
                     default: System.out.println("Scelta non valida.");
                 }
@@ -357,5 +361,56 @@ public class RigaDiComando {
     private String leggiStringa(String msg) {
         System.out.print(msg);
         return scanner.nextLine();
+    }
+    
+    private void modificaArticolo(ListaDiArticoli lista) {
+        String nomeArt = leggiStringa("Inserisci il nome dell'articolo da modificare: ");
+        Articolo art = trovaArticolo(lista.getArticoli(), nomeArt);
+
+        if (art == null) {
+            // Cerca anche nel cestino se necessario, o dai errore
+            System.out.println("Articolo non trovato nella lista attiva.");
+            return;
+        }
+
+        System.out.println("Stai modificando: " + art);
+        System.out.println("1. Modifica Prezzo");
+        System.out.println("2. Modifica Categoria");
+        System.out.println("3. Modifica Nota");
+        System.out.println("0. Annulla");
+
+        int scelta = leggiIntero("Cosa vuoi modificare? ");
+
+        try {
+            switch (scelta) {
+                case 1:
+                    double nuovoPrezzo = leggiDouble("Nuovo prezzo: ");
+                    art.setPrezzo(nuovoPrezzo);
+                    System.out.println("Prezzo aggiornato.");
+                    break;
+                case 2:
+                    // Mostra le categorie disponibili per comodità
+                    System.out.print("Categorie: ");
+                    GestioneListe.getCategorie().forEach(c -> System.out.print("[" + c + "] "));
+                    System.out.println();
+                    
+                    String nuovaCat = leggiStringa("Nuova categoria: ");
+                    art.setCategoria(nuovaCat);
+                    System.out.println("Categoria aggiornata.");
+                    break;
+                case 3:
+                    String nuovaNota = leggiStringa("Nuova nota: ");
+                    art.setNota(nuovaNota);
+                    System.out.println("Nota aggiornata.");
+                    break;
+                case 0:
+                    System.out.println("Modifica annullata.");
+                    break;
+                default:
+                    System.out.println("Scelta non valida.");
+            }
+        } catch (Exception e) {
+            System.out.println("Errore durante la modifica: " + e.getMessage());
+        }
     }
 }
