@@ -14,7 +14,7 @@ Un'applicazione Java completa per la gestione intelligente di liste della spesa,
 
 ### 1. Gestione Avanzata Liste
 * **Creazione e Cancellazione:** Gestione dinamica di multiple liste della spesa (es. "Spesa Settimanale", "Bricolage", "Cena Natale").
-* **Modifica Contenuto:** Aggiunta e rimozione di articoli specifici all'interno di ogni lista.
+* **Modifica Contenuto:** Aggiunta e rimozione di articoli specifici all'interno di ogni lista; Modifica di **Prezzo, Categoria, Nota**
 * **Controlli di Integrità:** Prevenzione di duplicati e validazione dei nomi.
 * **Agginta/Rimozione categoria:** Permette di gestire in modo dinamico le categorie da attribuire agli articoli da comprare.
 
