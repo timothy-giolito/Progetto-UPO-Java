@@ -18,7 +18,6 @@ class testGestioneListe {
 
     /**
      * Resetta lo stato delle liste, categorie e articoli prima di ogni test.
-     * Importante: ripristina la categoria di default necessaria al sistema.
      */
     @BeforeEach
     void resetState() {
@@ -28,6 +27,10 @@ class testGestioneListe {
         try { GestioneListe.inserisciCategoria("Non categorizzato"); } catch (Exception e) {}
     }
 
+    /**
+     * Test di creazione di una lista di esempio.
+     * Testa che venga creata con successo.
+     * */
     @Test
     void testCreaListaSuccesso() {
         try {
@@ -43,18 +46,18 @@ class testGestioneListe {
     void testCreaListaErrori() {
         // Caso: Nome null
         GestioneListeException e1 = assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista(null));
-        assertEquals("Il nome della lista non può essere vuoto.", e1.getMessage()); //
+        assertEquals("Il nome della lista non può essere vuoto.", e1.getMessage()); 
 
         // Caso: Nome vuoto
         GestioneListeException e2 = assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista("   "));
-        assertEquals("Il nome della lista non può essere vuoto.", e2.getMessage()); //
+        assertEquals("Il nome della lista non può essere vuoto.", e2.getMessage()); 
 
         // Caso: Duplicato
         try {
             GestioneListe.creaLista("Lista Doppia");
             GestioneListeException e3 = assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista("Lista Doppia"));
             // Messaggio dinamico: "La lista '" + nome + "' esiste già."
-            assertEquals("La lista 'Lista Doppia' esiste già.", e3.getMessage()); //
+            assertEquals("La lista 'Lista Doppia' esiste già.", e3.getMessage()); 
         } catch (GestioneListeException e) {
             fail("Errore setup duplicati");
         }
@@ -74,6 +77,9 @@ class testGestioneListe {
         }
     }
     
+    /**
+     * Test per controllare che una categoria non sia già presente
+     * */
     @Test
     void testInserisciCategoria() {
         try {
@@ -81,7 +87,7 @@ class testGestioneListe {
             
             // Test duplicato
             GestioneListeException e = assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria("Elettronica"));
-            assertEquals("La categoria 'Elettronica' esiste già.", e.getMessage()); //
+            assertEquals("La categoria 'Elettronica' esiste già.", e.getMessage()); 
             
         } catch (GestioneListeException e) {
             fail("Errore inserimento categoria");
@@ -93,11 +99,11 @@ class testGestioneListe {
         try {
             // Test cancellazione inesistente
             GestioneListeException e1 = assertThrows(GestioneListeException.class, () -> GestioneListe.cancellaCategoria("Inesistente"));
-            assertEquals("Categoria 'Inesistente' non trovata.", e1.getMessage()); //
+            assertEquals("Categoria 'Inesistente' non trovata.", e1.getMessage()); 
             
             // Test cancellazione default
             GestioneListeException e2 = assertThrows(GestioneListeException.class, () -> GestioneListe.cancellaCategoria("Non categorizzato"));
-            assertEquals("Non puoi cancellare la categoria di default.", e2.getMessage()); //
+            assertEquals("Non puoi cancellare la categoria di default.", e2.getMessage()); 
                 
         } catch (Exception e) {
             fail("Errore test cancellazione");
@@ -107,10 +113,10 @@ class testGestioneListe {
     @Test
     void testCategoriaNonValida() {
         GestioneListeException e1 = assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria(null));
-        assertEquals("La categoria non può essere vuota.", e1.getMessage()); //
+        assertEquals("La categoria non può essere vuota.", e1.getMessage()); 
 
         GestioneListeException e2 = assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria(""));
-        assertEquals("La categoria non può essere vuota.", e2.getMessage()); //
+        assertEquals("La categoria non può essere vuota.", e2.getMessage()); 
     }
 
     @Test

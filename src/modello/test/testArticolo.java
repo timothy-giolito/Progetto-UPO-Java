@@ -60,7 +60,7 @@ class testArticolo {
         ArticoloException e1 = assertThrows(ArticoloException.class, () -> {
             new Articolo(null, c, 1.0, "Nota");
         });
-        // Nota: Il messaggio del costruttore è diverso da quello del setter nel tuo codice
+   
         assertEquals("ERRORE: il nome dell'articolo non può essere non specificato!", e1.getMessage()); //
         
         // Caso: Costruttore con nome vuoto
@@ -75,7 +75,7 @@ class testArticolo {
         try {
             Articolo a = new Articolo("Pane", "Altro", 1.0, "");
             
-            // Verifica eccezione su setPrezzo (il costruttore invece mette 0.0, quindi testiamo solo il setter)
+            // Verifica eccezione su setPrezzo
             ArticoloException e = assertThrows(ArticoloException.class, () -> a.setPrezzo(-5.0));
             assertEquals("Il prezzo non puo' essere negativo!", e.getMessage()); //
             
@@ -92,7 +92,7 @@ class testArticolo {
             
             assertEquals("Pane", articoloDefault.getNome());
             
-            // Verifiche dei default aggiornati (Stringa invece di Enum)
+            //Verfiche dei valori di default
             assertEquals("Altro", articoloDefault.getCategoria());
             assertEquals(0.0, articoloDefault.getPrezzo());
             assertEquals("", articoloDefault.getNota());
@@ -113,7 +113,6 @@ class testArticolo {
             a.setCategoria("Surgelati");
             assertEquals("Surgelati", a.getCategoria());
             
-            // Se setto null, deve tornare al default
             a.setCategoria(null);
             assertEquals("Altro", a.getCategoria());
 
@@ -142,7 +141,7 @@ class testArticolo {
         try {
             Articolo a = new Articolo("Pane", "Panetteria", 1.0, "Integrale");
             
-            // prova categoria --> null (Deve diventare "Non categorizzato")
+            // prova categoria --> null (deve diventare non categorizzato)
             a.setCategoria(null);
             assertEquals("Altro", a.getCategoria());
             
@@ -150,7 +149,8 @@ class testArticolo {
             a.setNota("Nuova nota");
             assertEquals("Nuova nota", a.getNota());
             
-            a.setNota(" "); // Nota vuota è permessa ma non è null
+         // Nota vuota è permessa ma non è null
+            a.setNota(" "); 
             assertEquals(" ", a.getNota());
         
         } catch(ArticoloException e) {

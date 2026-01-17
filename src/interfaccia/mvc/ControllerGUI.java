@@ -47,7 +47,7 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
                 case "NUOVA_CATEGORIA":
                     azioneNuovaCategoria();
                     break;
-                case "ELIMINA_CATEGORIA": // GESTIONE DEL NUOVO COMANDO
+                case "ELIMINA_CATEGORIA": 
                     azioneEliminaCategoria();
                     break;
                 case "VEDI_CESTINO":

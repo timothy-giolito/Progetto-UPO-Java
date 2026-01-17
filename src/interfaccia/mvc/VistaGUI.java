@@ -85,7 +85,7 @@ public class VistaGUI extends JFrame {
         pnlBottoniListe.add(btnNuovaLista);
         pnlBottoniListe.add(btnEliminaLista);
         pnlBottoniListe.add(btnNuovaCategoria);
-        pnlBottoniListe.add(btnEliminaCategoria); // Aggiunta
+        pnlBottoniListe.add(btnEliminaCategoria);
         
         pnlSinistra.add(pnlBottoniListe, BorderLayout.SOUTH);
 
@@ -177,7 +177,7 @@ public class VistaGUI extends JFrame {
         btnNuovaLista.addActionListener(controller);
         btnEliminaLista.addActionListener(controller);
         btnNuovaCategoria.addActionListener(controller);
-        btnEliminaCategoria.addActionListener(controller); // REGISTRAZIONE
+        btnEliminaCategoria.addActionListener(controller);
         btnVediCestino.addActionListener(controller);
         btnIndietro.addActionListener(controller);
         btnAggiungi.addActionListener(controller);
@@ -305,7 +305,7 @@ public class VistaGUI extends JFrame {
         btnSvuotaCestino.setEnabled(false);
         btnModifica.setEnabled(true);
         btnModifica.setVisible(true);
-        btnModifica.setEnabled(true); // O true se vuoi permettere modifiche al catalogo globale
+        btnModifica.setEnabled(true);
         btnModifica.setVisible(true);
     }
     
@@ -354,7 +354,7 @@ public class VistaGUI extends JFrame {
      */
     public Object[] chiediModificaArticolo(Articolo a) {
         JTextField txtNome = new JTextField(a.getNome());
-        txtNome.setEditable(false); // Il nome non si cambia solitamente per coerenza, o puoi metterlo true
+        txtNome.setEditable(false); // Il nome non si cambia solitamente per coerenza
         
         JComboBox<String> cmbCategoria = new JComboBox<>(GestioneListe.getCategorie().toArray(new String[0]));
         cmbCategoria.setSelectedItem(a.getCategoria());

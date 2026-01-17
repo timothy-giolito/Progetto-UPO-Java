@@ -38,7 +38,7 @@ public class RigaDiComando {
             switch (scelta) {
                 case 1: menuGestioneListe(); break;
                 case 2: menuCatalogoArticoli(); break;
-                case 3: menuGestioneCategorie(); break; // NUOVA OPZIONE
+                case 3: menuGestioneCategorie(); break; 
                 case 0: System.out.println("Arrivederci!"); break;
                 default: System.out.println("Scelta non valida.");
             }
@@ -49,7 +49,7 @@ public class RigaDiComando {
         System.out.println("\n--- MENU PRINCIPALE ---\n");
         System.out.println("1. Gestione Liste della Spesa");
         System.out.println("2. Gestione Catalogo Globale Articoli");
-        System.out.println("3. Gestione Categorie"); // NUOVA VOCE
+        System.out.println("3. Gestione Categorie"); 
         System.out.println("0. Esci");
     }
 
@@ -195,7 +195,7 @@ public class RigaDiComando {
                         if(lista.getCancellati().isEmpty()) System.out.println("Cestino vuoto.");
                         else {
                         	
-                        	// Mostriamo il totale del cestino
+                        	// Mostra il totale del cestino
                             System.out.println("--- CESTINO (Totale: " + String.format("%.2f", lista.getPrezzoTotaleCestino()) + "EUR) ---");
                             lista.getCancellati().forEach(System.out::println);
                         }
@@ -368,7 +368,7 @@ public class RigaDiComando {
         Articolo art = trovaArticolo(lista.getArticoli(), nomeArt);
 
         if (art == null) {
-            // Cerca anche nel cestino se necessario, o dai errore
+            // Cerca anche nel cestino se necessario
             System.out.println("Articolo non trovato nella lista attiva.");
             return;
         }
