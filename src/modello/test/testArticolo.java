@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import modello.Articolo;
-import modello.Reparto;
+import modello.Categoria;
 import modello.eccezioni.ArticoloException;
 
 /**
@@ -27,16 +27,15 @@ class testArticolo {
 		
 		try {
 			
-			Articolo mela = new Articolo("Mela", "Frutta", 1.50, "Mela rossa", Reparto.ORTOFRUTTA);
+			Articolo mela = new Articolo("Mela",Categoria.ORTOFRUTTA, 1.50, "Mela rossa");
 			
 			// verifica correttezza dati
 			assertEquals("Mela", mela.getNome(), "Il nome dovrebbe essere Mela");
-			assertEquals("Frutta", mela.getCategoria(), "La categoria dovrebbe essere Frutta");
+            assertEquals(Categoria.ORTOFRUTTA, mela.getCategoria(), "La categoria non corrisponde");
             assertEquals(1.50, mela.getPrezzo(), "Il prezzo dovrebbe essere 1.50");
             assertEquals("Mela rossa", mela.getNota(), "La nota non corrisponde");
             
-            // verifica correttezza reparto
-            assertEquals(Reparto.ORTOFRUTTA, mela.getReparto(), "Il reparto non corrisponde!");
+         
 		
 		} catch(ArticoloException e) {
 			
@@ -51,7 +50,7 @@ class testArticolo {
 	@Test
 	void testSetNome() {
 		try {
-			Articolo a = new Articolo("Latte", "Latticini", 1.20, "", Reparto.BEVANDE);
+			Articolo a = new Articolo("Latte", Categoria.BEVANDE, 1.20, "");
 			
 			// modifica valida
 			a.setNome("Latte Parzialmente Scremato");
@@ -83,21 +82,21 @@ class testArticolo {
 	void testNomeNonValido() {
 		
 		// reparto a caso per il test
-		Reparto r = Reparto.CUCINA;
+		Categoria c = Categoria.CUCINA;
 		
 		// Caso 1: nome nullo
 		assertThrows(ArticoloException.class, () -> {
-            new Articolo(null, "Cat", 1.0, "Nota", r);
+            new Articolo(null, c, 1.0, "Nota");
         }, "Doveva lanciare eccezione per nome null");
 		
 		// Caso 2: Nome vuoto -> Deve lanciare ArticoloException
         assertThrows(ArticoloException.class, () -> {
-            new Articolo("", "Cat", 1.0, "Nota", r);
+            new Articolo("", c, 1.0, "Nota");
         }, "Doveva lanciare eccezione per nome vuoto");
         
         // Caso 3: Nome solo spazi -> Deve lanciare ArticoloException
         assertThrows(ArticoloException.class, () -> {
-            new Articolo("   ", "Cat", 1.0, "Nota", r);
+            new Articolo("   ", c, 1.0, "Nota");
         }, "Doveva lanciare eccezione per nome di soli spazi");
 	}
 	
@@ -110,7 +109,7 @@ class testArticolo {
 		
 		try {
             // Passiamo null per categoria, nota, reparto e un prezzo negativo
-            Articolo articoloDefault = new Articolo("Pane", null, -5.0, null, null);
+            Articolo articoloDefault = new Articolo("Pane", null, -5.0, null);
             
             assertEquals("Pane", articoloDefault.getNome());
             
@@ -120,7 +119,7 @@ class testArticolo {
             assertEquals("", articoloDefault.getNota());
             
             // Verifica fondamentale: il default deve essere Reparto.NESSUNO
-            assertEquals(Reparto.ALTRO, articoloDefault.getReparto());
+            assertEquals(Categoria.ALTRO, articoloDefault.getCategoria());
             
         } catch (ArticoloException e) {
             fail("Errore inatteso durante il test dei default: " + e.getMessage());
@@ -134,19 +133,19 @@ class testArticolo {
 	@Test
     void testSetters() {
         try {
-            Articolo a = new Articolo("Acqua", "Bibite", 0.50, "", Reparto.BEVANDE);
+            Articolo a = new Articolo("Acqua", Categoria.BEVANDE,  0.50, "");
             
             // Cambio il prezzo
             a.setPrezzo(0.80);
             assertEquals(0.80, a.getPrezzo());
             
             // Test cambio di Reparto
-            a.setReparto(Reparto.SURGELATI);
-            assertEquals(Reparto.SURGELATI, a.getReparto());
+            a.setCategoria(Categoria.SURGELATI);
+            assertEquals(Categoria.SURGELATI, a.getCategoria());
             
             // dovrebbe mettere NESSUNO
-            a.setReparto(null);
-            assertEquals(Reparto.ALTRO, a.getReparto());
+            a.setCategoria(null);
+            assertEquals(Categoria.ALTRO, a.getCategoria());
 
         } catch (ArticoloException e) {
             fail("Errore durante il test dei setter");
@@ -160,7 +159,7 @@ class testArticolo {
 	@Test
     void testToString() {
         try {
-            Articolo a = new Articolo("Martello", "Brico", 15.0, "Manico legno", Reparto.UTENSILI);
+            Articolo a = new Articolo("Martello", Categoria.UTENSILI, 15.0, "Manico legno");
             
             String descrizione = a.toString();
             
@@ -181,15 +180,11 @@ class testArticolo {
 		
 		try {
 			
-			Articolo a = new Articolo("Pane", "Panetteria", 1.0, "Integrale", Reparto.PANETTERIA);
+			Articolo a = new Articolo("Pane", Categoria.PANETTERIA, 1.0, "Integrale");
 			
 			// prova categoria --> null
 			a.setCategoria(null);
 			assertEquals("Non categorizzato", a.getCategoria(), "Dovrebbe uscire --> Non categorizzato!");
-			
-			// prova categoria vuota
-			a.setCategoria(" ");
-			assertEquals("Non categorizzato", a.getCategoria(), "Doverebbe uscire --> Non categorizzato!");
 			
 			// test Nota
 			a.setNota("Nuova nota");
@@ -200,8 +195,8 @@ class testArticolo {
 			assertEquals(" ", a.getNota(), "Dovrebbe uscire --> stringa vuota!");
 			
 			// test assegnazione reparto
-			a.setReparto(null);
-			assertEquals(Reparto.ALTRO, a.getReparto(), "Dovrebbe uscire --> Nessuno!");
+			a.setCategoria(null);
+			assertEquals(Categoria.ALTRO, a.getCategoria(), "Dovrebbe uscire --> Nessuno!");
 		
 		} catch(ArticoloException e) {
 			

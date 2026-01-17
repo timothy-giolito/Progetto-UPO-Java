@@ -7,7 +7,7 @@ import java.util.List;
 import modello.Articolo;
 import modello.GestioneListe;
 import modello.ListaDiArticoli;
-import modello.Reparto;
+import modello.Categoria;
 import modello.eccezioni.ArticoloException;
 import modello.eccezioni.GestioneListeException;
 import modello.eccezioni.ListaDiArticoliException;
@@ -39,7 +39,6 @@ public class RigaDiComando {
             switch (scelta) {
                 case 1: menuGestioneListe(); break;
                 case 2: menuCatalogoArticoli(); break;
-                case 3: menuGestioneCategorie(); break;
                 case 0: System.out.println("Arrivederci!"); break;
                 default: System.out.println("Scelta non valida.");
             }
@@ -50,7 +49,6 @@ public class RigaDiComando {
         System.out.println("\n--- MENU PRINCIPALE ---");
         System.out.println("1. Gestione Liste della Spesa");
         System.out.println("2. Gestione Catalogo Globale Articoli");
-        System.out.println("3. Gestione Categorie");
         System.out.println("0. Esci");
     }
 
@@ -209,7 +207,7 @@ public class RigaDiComando {
                 // Clona l'articolo per permettere modifiche indipendenti (opzionale ma consigliato)
                 Articolo originale = catalogo.get(idx - 1);
                 Articolo copia = new Articolo(originale.getNome(), originale.getCategoria(), 
-                                              originale.getPrezzo(), originale.getNota(), originale.getReparto());
+                                              originale.getPrezzo(), originale.getNota());
                 
                 listaDestinazione.AggiungiArticolo(copia);
                 System.out.println("Aggiunto: " + copia.getNome());
@@ -258,48 +256,29 @@ public class RigaDiComando {
         }
     }
 
-    // --- SEZIONE CATEGORIE ---
-    
-    private void menuGestioneCategorie() {
-        System.out.println("\n--- CATEGORIE ---");
-        System.out.println("Attuali: " + GestioneListe.getCategorie());
-        System.out.println("1. Aggiungi");
-        System.out.println("2. Rimuovi");
-        System.out.println("0. Indietro");
-        
-        int s = leggiIntero("Scelta: ");
-        try {
-            if(s==1) GestioneListe.inserisciCategoria(leggiStringa("Nuova categoria: "));
-            else if(s==2) GestioneListe.cancellaCategoria(leggiStringa("Categoria da rimuovere: "));
-        } catch(Exception e) {
-            System.out.println("ERRORE: " + e.getMessage());
-        }
-    }
-
     // --- UTILITÀ ---
 
     private Articolo creaArticoloInterattivo() {
         try {
             System.out.println("Nuovo Articolo:");
             String nome = leggiStringa("- Nome: ");
-            String cat = leggiStringa("- Categoria: ");
             double pr = leggiDouble("- Prezzo: ");
             String nota = leggiStringa("- Nota: ");
             
             System.out.print("- Reparto (invio per saltare, ? per lista): ");
             String repStr = scanner.nextLine().trim();
-            Reparto r = Reparto.ALTRO;
+            Categoria c = Categoria.ALTRO;
             
             if(repStr.equals("?")) {
-                for(Reparto rep : Reparto.values()) System.out.println(rep);
+                for(Categoria cat : Categoria.values()) System.out.println(cat);
             } else if(!repStr.isEmpty()) {
                 // Logica semplificata per reparto
-                for(Reparto rep : Reparto.values()) {
-                    if(rep.name().equalsIgnoreCase(repStr)) r = rep;
+                for(Categoria cat : Categoria.values()) {
+                    if(cat.name().equalsIgnoreCase(repStr)) c = cat;
                 }
             }
             
-            return new Articolo(nome, cat, pr, nota, r);
+            return new Articolo(nome, c, pr, nota);
         } catch (ArticoloException e) {
             System.out.println("Dati non validi: " + e.getMessage());
             return null;

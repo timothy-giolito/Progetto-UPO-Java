@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.event.ListSelectionListener;
 import java.util.List;
 import modello.Articolo;
-import modello.Reparto;
+import modello.Categoria;
 
 public class VistaGUI extends JFrame {
     
@@ -99,7 +99,7 @@ public class VistaGUI extends JFrame {
         
         pnlCentro.add(pnlHeader, BorderLayout.NORTH);
 
-        String[] colonne = {"Nome", "Categoria", "Prezzo (€)", "Reparto", "Nota"};
+        String[] colonne = {"Nome", "Categoria", "Prezzo (€)", "Nota"};
         tableModelArticoli = new DefaultTableModel(colonne, 0) {
             private static final long serialVersionUID = 1L;
             @Override
@@ -182,9 +182,8 @@ public class VistaGUI extends JFrame {
         for (Articolo a : articoli) {
             Object[] riga = {
                 a.getNome(),
-                a.getCategoria(),
+                a.getCategoria().getDescrizione(),
                 String.format("%.2f", a.getPrezzo()),
-                a.getReparto().getDescrizione(),
                 a.getNota()
             };
             tableModelArticoli.addRow(riga);
@@ -239,24 +238,34 @@ public class VistaGUI extends JFrame {
      * Mostra il dialogo complesso per creare un nuovo articolo.
      * Ritorna un array di oggetti con i valori inseriti, o null se annullato.
      */
+    /**
+     * Mostra il dialogo complesso per creare un nuovo articolo.
+     * Ritorna un array di oggetti con i valori inseriti, o null se annullato.
+     */
     public Object[] chiediDatiArticolo(boolean isGlobale) {
         JTextField txtNome = new JTextField();
-        JTextField txtCat = new JTextField();
+        
+        // MODIFICA QUI: Passiamo i valori dell'Enum Categoria al costruttore
+        JComboBox<Categoria> cmbCategoria = new JComboBox<>(Categoria.values());
+        
         JTextField txtPrezzo = new JTextField();
         JTextField txtNota = new JTextField();
-        JComboBox<Reparto> cmbReparto = new JComboBox<>(Reparto.values());
-
+       
         String titolo = isGlobale ? "Nuovo Prodotto Globale" : "Nuovo Articolo in Lista";
         Object[] msg = {
-            "Nome:", txtNome, "Categoria:", txtCat, 
-            "Prezzo (€):", txtPrezzo, "Nota:", txtNota, "Reparto:", cmbReparto
+            "Nome:", txtNome, 
+            "Categoria:", cmbCategoria, 
+            "Prezzo (€):", txtPrezzo, 
+            "Nota:", txtNota
         };
 
         int res = JOptionPane.showConfirmDialog(this, msg, titolo, JOptionPane.OK_CANCEL_OPTION);
         if (res == JOptionPane.OK_OPTION) {
             return new Object[] { 
-                txtNome.getText(), txtCat.getText(), txtPrezzo.getText(), 
-                txtNota.getText(), cmbReparto.getSelectedItem() 
+                txtNome.getText(), 
+                txtPrezzo.getText(), 
+                txtNota.getText(), 
+                cmbCategoria.getSelectedItem() 
             };
         }
         return null;

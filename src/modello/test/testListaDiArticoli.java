@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import modello.Articolo;
 import modello.ListaDiArticoli;
-import modello.Reparto;
+import modello.Categoria;
 import modello.eccezioni.ListaDiArticoliException;
 
 /**
@@ -55,7 +55,7 @@ class testListaDiArticoli {
     void testAggiungiERimuoviInCestino() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("TestList");
-            Articolo a = new Articolo("Latte", "Alimentari", 1.5, "", Reparto.ALTRO);
+            Articolo a = new Articolo("Latte", Categoria.ALTRO, 1.5, "");
             
             // Aggiunta
             lista.AggiungiArticolo(a);
@@ -84,7 +84,7 @@ class testListaDiArticoli {
     void testRipristino() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("TestList");
-            Articolo a = new Articolo("Pane", "Alimentari", 1.0, "", Reparto.ALTRO);
+            Articolo a = new Articolo("Pane", Categoria.ALTRO, 1.0, "");
             
             lista.AggiungiArticolo(a);
             lista.RimuoviArticolo(a); // Ora è nel cestino
@@ -112,8 +112,8 @@ class testListaDiArticoli {
     void testPrezzoTotale() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("Spesa");
-            lista.AggiungiArticolo(new Articolo("A", "", 10.0, "", Reparto.ALTRO));
-            lista.AggiungiArticolo(new Articolo("B", "", 20.0, "", Reparto.ALTRO));
+            lista.AggiungiArticolo(new Articolo("A", Categoria.ALTRO, 10.0, ""));
+            lista.AggiungiArticolo(new Articolo("B",  Categoria.ALTRO, 20.0, ""));
             
             assertEquals(30.0, lista.getPrezzoTotale(), "Il totale iniziale deve essere 30.0");
             
@@ -138,8 +138,8 @@ class testListaDiArticoli {
     void testIterazioneCompleta() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("Iter");
-            Articolo a1 = new Articolo("Attivo", "", 1.0, "", Reparto.ALTRO);
-            Articolo a2 = new Articolo("Cancellato", "", 1.0, "", Reparto.ALTRO);
+            Articolo a1 = new Articolo("Attivo", Categoria.ALTRO,  1.0, "");
+            Articolo a2 = new Articolo("Cancellato", Categoria.ALTRO, 1.0, "");
             
             lista.AggiungiArticolo(a1);
             lista.AggiungiArticolo(a2);
@@ -169,8 +169,8 @@ class testListaDiArticoli {
     void testRicercaPrefisso() {
         try {
             ListaDiArticoli lista = new ListaDiArticoli("Search");
-            Articolo a1 = new Articolo("Mela Golden", "Frutta", 1.0, "", Reparto.ALTRO); // Attivo
-            Articolo a2 = new Articolo("Melone", "Frutta", 2.0, "", Reparto.ALTRO);      // Attivo poi Cancellato
+            Articolo a1 = new Articolo("Mela Golden", Categoria.ALTRO, 1.0, ""); // Attivo
+            Articolo a2 = new Articolo("Melone",  Categoria.ALTRO, 2.0, "");      // Attivo poi Cancellato
             
             lista.AggiungiArticolo(a1);
             lista.AggiungiArticolo(a2);

@@ -15,16 +15,14 @@ import modello.eccezioni.ArticoloException;
 public class Articolo {
 
     // Valori di default
-    private static final String DEFAULT_CATEGORIA = "Non categorizzato";
     private static final double DEFAULT_PREZZO = 0.0;
     private static final String DEFAULT_NOTA = "";
-    private static final Reparto DEFAULT_REPARTO = Reparto.ALTRO; 
+    private static final Categoria DEFAULT_CATEGORIA = Categoria.ALTRO; 
     
     private String nome; 
-    private String categoria;
     private double prezzo;
     private String nota;
-    private Reparto reparto;
+    private Categoria categoria;
     
     /**
      * Costruisce un nuovo oggetto Articolo con i dettagli specificati.
@@ -37,7 +35,7 @@ public class Articolo {
      */
     
     // Costruttore della classe aggiornato con il parametro Corsia
-    public Articolo(String nome, String categoria, double prezzo, String nota, Reparto reparto) throws ArticoloException {
+    public Articolo(String nome, Categoria categoria, double prezzo, String nota) throws ArticoloException {
         
         // Controllo sul nome del prodotto
     	
@@ -46,19 +44,12 @@ public class Articolo {
             throw new ArticoloException("ERRORE: il nome dell'articolo non può essere non specificato!");
             
         } else {
-<<<<<<< HEAD
 
             this.nome = nome.trim();
-
-=======
-            
-            this.nome = nome.trim();
-            
->>>>>>> 6ee1a2f5a66b621cbc97c024fca76699626d4f88
         }
         
         // Gestione della categoria
-        if(categoria == null || categoria.trim().isEmpty()) {
+        if(categoria == null) {
             this.categoria = DEFAULT_CATEGORIA;
         } else {
             this.categoria = categoria;
@@ -79,10 +70,10 @@ public class Articolo {
         }    
         
         // Gestione della corsia senza operatore ternario
-        if(reparto == null) {
-            this.reparto = DEFAULT_REPARTO;
+        if(categoria == null) {
+            this.categoria = DEFAULT_CATEGORIA;
         } else {
-            this.reparto = reparto;
+            this.categoria = categoria;
         }
     }
     
@@ -94,8 +85,8 @@ public class Articolo {
      */
 
     // Getter e Setter per Corsia (Senza operatore ternario)
-    public Reparto getReparto() {
-        return reparto;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
     /**
@@ -103,11 +94,11 @@ public class Articolo {
      * @param reparto Il nuovo reparto. Se null, viene impostato il valore di default.
      */
     
-    public void setReparto(Reparto reparto) {
-        if (reparto == null) {
-            this.reparto = DEFAULT_REPARTO;
+    public void setCategoria(Categoria categoria) {
+        if (categoria == null) {
+            this.categoria = DEFAULT_CATEGORIA;
         } else {
-            this.reparto = reparto;
+            this.categoria = categoria;
         }
     }
 
@@ -124,28 +115,6 @@ public class Articolo {
         }
     }
     
-    /**
-     * Permette di settare la categoria attribuita ad un articolo della lista.
-     */
-    public void setCategoria(String categoria) {
-    	
-        if(categoria == null || categoria.trim().isEmpty()) {
-        	
-            this.categoria = DEFAULT_CATEGORIA;
-            
-        } else {
-        	
-            this.categoria = categoria;
-        }
-    }
-    
-    /**
-     * Permette di ritornare il contenuto di una nota attribuita ad un articolo della lista.
-     */
-    public String getCategoria() {
-        return categoria;
-    }
-
     public double getPrezzo() {
         return prezzo;
     }
@@ -212,6 +181,6 @@ public class Articolo {
     
     @Override
     public String toString() {
-        return "Articolo: " + nome + " | Reparto: " + reparto + " | Categoria: " + categoria + " | Prezzo: " + prezzo + "€ | Nota: " + nota;
+        return "Articolo: " + nome + " | Categoria: " + categoria + " | Prezzo: " + prezzo + "€ | Nota: " + nota;
     }
 }

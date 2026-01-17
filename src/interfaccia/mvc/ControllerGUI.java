@@ -171,16 +171,19 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
         Object[] dati = vista.chiediDatiArticolo(modalitaCatalogo);
         if (dati == null) return;
         
-        String nome = (String) dati[0];
-        String cat = (String) dati[1];
+        String nome = (String) dati[0];        
+        
         double prezzo = 0.0;
         try {
-            prezzo = Double.parseDouble((String) dati[2]);
+            
+            prezzo = Double.parseDouble((String) dati[1]); 
         } catch (NumberFormatException e) { /* default 0 */ }
-        String nota = (String) dati[3];
-        Reparto reparto = (Reparto) dati[4];
+        
+        String nota = (String) dati[2]; 
+      
+        Categoria categoria = (Categoria) dati[3]; 
 
-        Articolo nuovo = new Articolo(nome, cat, prezzo, nota, reparto);
+        Articolo nuovo = new Articolo(nome, categoria, prezzo, nota);
 
         if (modalitaCatalogo) {
             GestioneListe.inserisciArticolo(nuovo);
@@ -223,7 +226,7 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
             try {
                 // Clona l'articolo
                 Articolo copia = new Articolo(scelto.getNome(), scelto.getCategoria(), 
-                                              scelto.getPrezzo(), scelto.getNota(), scelto.getReparto());
+                                              scelto.getPrezzo(), scelto.getNota());
                 listaCorrente.AggiungiArticolo(copia);
                 aggiornaVista();
             } catch (Exception e) {
