@@ -5,8 +5,8 @@ import modello.eccezioni.ArticoloException;
 /**
  * Rappresenta un singolo articolo acquistabile o inseribile in una lista della spesa.
  * <p>
- * Ogni articolo è caratterizzato da un nome, una categoria, un prezzo, una nota opzionale
- * e un reparto di appartenenza. La classe gestisce valori di default per campi mancanti
+ * Ogni articolo è caratterizzato da un nome, una categoria, un prezzo e una nota opzionale.
+ * La classe gestisce valori di default per campi mancanti
  * o non validi.
  * </p>
  * @author Timothy Giolito 20054431
@@ -30,7 +30,6 @@ public class Articolo {
      * @param categoria: La categoria dell'articolo (se null o vuota, viene assegnato un valore di default).
      * @param prezzo: Il prezzo dell'articolo (se negativo, viene impostato a 0.0).
      * @param nota: Una nota aggiuntiva (opzionale).
-     * @param reparto: Il reparto di appartenenza (se null, viene assegnato {@link Reparto#NESSUNO}).
      * @throws ArticoloException: Se il nome dell'articolo è null o vuoto.
      */
     
@@ -68,13 +67,6 @@ public class Articolo {
         } else {
             this.nota = nota;
         }    
-        
-        // Gestione della corsia senza operatore ternario
-        if(categoria == null) {
-            this.categoria = DEFAULT_CATEGORIA;
-        } else {
-            this.categoria = categoria;
-        }
     }
     
     // --- METODI GETTER E SETTER ---
@@ -84,14 +76,15 @@ public class Articolo {
      * @return Il reparto corrente.
      */
 
-    // Getter e Setter per Corsia (Senza operatore ternario)
+    // Getter e Setter per Categoria 
     public String getCategoria() {
         return categoria;
     }
 
     /**
-     * Imposta il reparto dell'articolo.
-     * @param reparto Il nuovo reparto. Se null, viene impostato il valore di default.
+     * Imposta la categorai dell'articolo
+     * @param categoria
+     * Se null, viene impostato il valore di default.
      */
     
     public void setCategoria(String categoria) {
@@ -172,11 +165,9 @@ public class Articolo {
         return nome.toLowerCase().hashCode();
     }
     
-    // Metodo toString per rappresentazione visiva aggiornato
-    
     /**
      * Restituisce una rappresentazione testuale dell'articolo.
-     * @return Una stringa formattata contenente nome, reparto, categoria, prezzo e nota.
+     * @return Una stringa formattata contenente nome, categoria, prezzo e nota.
      */
     
     @Override

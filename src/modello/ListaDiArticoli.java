@@ -51,12 +51,18 @@ public class ListaDiArticoli implements Iterable<Articolo> {
 
     // --- GESTIONE ARTICOLI ---
 
+    /**
+     * Metodo per l'aggiunta di un articolo alla lista
+     * */
     public void AggiungiArticolo(Articolo articolo) throws ListaDiArticoliException {
         if (articolo == null) {
             throw new ListaDiArticoliException("Errore, è necessario l'articolo");     
         }
         
      // --- AGGIUNTA DEL CONTROLLO DUPLICATI ---
+        /**
+         * Controllo dei duplicati all'interno della lista
+         * */
         if (this.articoli.contains(articolo)) {
             throw new ListaDiArticoliException("L'articolo è già presente nella lista!");
         }
@@ -91,8 +97,6 @@ public class ListaDiArticoli implements Iterable<Articolo> {
     public void SvuotaCestino() {
         this.cancellati.clear();
     }
-
-    // --- FUNZIONALITÀ RICHIESTE DAL PDF ---
 
     /**
      * Cerca tutti gli atricoli per prefisso sia nella lista attiva che nel cestino.
@@ -160,6 +164,9 @@ public class ListaDiArticoli implements Iterable<Articolo> {
     }
     
     @Override
+    /**
+     * Metodo toString per una rappresentazione grafica della lista degli articoli
+     * */
     public String toString() {
         return "Lista: " + nome + 
                " (Da comprare: " + articoli.size() + 

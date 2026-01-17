@@ -10,7 +10,8 @@ import modello.eccezioni.GestioneListeException;
  * Gestisce centralmente le liste della spesa, le categorie e l'elenco globale degli articoli.
  * <p>
  * Questa classe funge da database in memoria per l'applicazione, utilizzando campi statici
- * per mantenere lo stato condiviso. Fornisce funzionalità per creare e rimuovere liste,
+ * per mantenere lo stato condiviso. 
+ * Fornisce funzionalità per creare e rimuovere liste,
  * gestire le categorie disponibili e amministrare il catalogo generale degli articoli.
  * </p>
  * @author Timothy Giolito 20054431
@@ -27,21 +28,21 @@ public class GestioneListe {
     
     // Blocco statico per inizializzare alcune categorie di default all'avvio
     static {
-        categorie.add("Non categorizzato"); // Default fondamentale
+        categorie.add("Non categorizzato");
         categorie.add("Ortofrutta");
         categorie.add("Macelleria");
         categorie.add("Elettronica");
         categorie.add("Fai da te");
     }
 
-    // METODI PER LE LISTE
+    //---METODI PER LE LISTE---
 
     /**
      * Crea una nuova lista della spesa e la memorizza nel sistema.
      * @param nome Il nome univoco della nuova lista.
-     * @throws GestioneListeException Se il nome è vuoto o se esiste già una lista con lo stesso nome.
+     * @throws GestioneListeException 
+     * Se il nome è vuoto o se esiste già una lista con lo stesso nome.
      */
-    
     public static void creaLista(String nome) throws GestioneListeException {
     	
         if (nome == null || nome.trim().isEmpty()) {
@@ -68,10 +69,9 @@ public class GestioneListe {
     /**
      * Rimuove una lista dal sistema di gestione delle liste.
      * @param nome: Il nome della lista da eliminare.
-     * @throws GestioneListeException Se la gestione delle liste non contiene il nome
-     * della lista che si vuole eliminare.
+     * @throws GestioneListeException 
+     * Se la gestione delle liste non contiene il nome della lista che si vuole eliminare.
      */
-    
     public static void cancellaLista(String nome) throws GestioneListeException {
     	
         if (!listeArticoli.containsKey(nome)) {
@@ -82,12 +82,13 @@ public class GestioneListe {
         listeArticoli.remove(nome);
     }
 
-    // METODI PER LE CATEGORIE
+    //---METODI PER LE CATEGORIE---
     
     /**
      * Inserisce una nuova categoria nel sistema.
      * @param categoria Il nome della categoria da aggiungere.
-     * @throws GestioneListeException Se la categoria è vuota o esiste già.
+     * @throws GestioneListeException 
+     * Se la categoria è vuota o esiste già.
      */
 
     public static void inserisciCategoria(String categoria) throws GestioneListeException {
@@ -106,7 +107,8 @@ public class GestioneListe {
     /**
      * Rimuove la categoria che va a definire un determinato oggetto all'interno della lista.
      * @param articolo L'oggetto {@link Categoria} da registrare.
-     * @throws GestioneListeException Se la categoria non esite.
+     * @throws GestioneListeException 
+     * Se la categoria non esite.
      */
     public static void cancellaCategoria(String categoria) throws GestioneListeException {
         if (!categorie.contains(categoria)) {
@@ -124,7 +126,8 @@ public class GestioneListe {
     /**
      * Registra un nuovo articolo nell'elenco globale degli articoli disponibili.
      * @param articolo L'oggetto {@link Articolo} da registrare.
-     * @throws GestioneListeException Se l'articolo è null o è già presente nell'elenco.
+     * @throws GestioneListeException 
+     * Se l'articolo è null o è già presente nell'elenco.
      */
     
     public static void inserisciArticolo(Articolo articolo) throws GestioneListeException {
@@ -145,7 +148,8 @@ public class GestioneListe {
     /**
      * Rimuove un articolo dall'elenco globale degli articoli disponibili.
      * @param articolo L'oggetto {@link Articolo} da rimuovere.
-     * @throws GestioneListeException Se l'articolo è null o non è presente nell'elenco.
+     * @throws GestioneListeException 
+     * Se l'articolo è null o non è presente nell'elenco.
      */
     
     public static void cancellaArticolo(Articolo articolo) throws GestioneListeException {
