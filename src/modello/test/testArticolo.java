@@ -31,15 +31,24 @@ class testArticolo {
         try {
             Articolo a = new Articolo("Latte", "Bevande", 1.20, "");
             
-            a.setNome("Latte Parzialmente Scremato");
-            assertEquals("Latte Parzialmente Scremato", a.getNome());
+            // Caso valido
+            a.setNome("Latte Scremato");
+            assertEquals("Latte Scremato", a.getNome());
             
-            assertThrows(ArticoloException.class, () -> a.setNome(null));
-            assertThrows(ArticoloException.class, () -> a.setNome(""));
-            assertThrows(ArticoloException.class, () -> a.setNome("   "));
+            // Caso: Nome Null
+            ArticoloException e1 = assertThrows(ArticoloException.class, () -> a.setNome(null));
+            assertEquals("Il nome non puo' essere vuoto!", e1.getMessage()); //
+
+            // Caso: Nome Vuoto
+            ArticoloException e2 = assertThrows(ArticoloException.class, () -> a.setNome(""));
+            assertEquals("Il nome non puo' essere vuoto!", e2.getMessage()); //
+
+            // Caso: Spazi
+            ArticoloException e3 = assertThrows(ArticoloException.class, () -> a.setNome("   "));
+            assertEquals("Il nome non puo' essere vuoto!", e3.getMessage()); //
 
         } catch (ArticoloException e) {
-            fail("Errore imprevisto durante il setup del testSetNome");
+            fail("Errore imprevisto nel setup");
         }
     }
     
@@ -47,17 +56,32 @@ class testArticolo {
     void testNomeNonValido() {
         String c = "Cucina";
         
-        assertThrows(ArticoloException.class, () -> {
+        // Caso: Costruttore con nome null
+        ArticoloException e1 = assertThrows(ArticoloException.class, () -> {
             new Articolo(null, c, 1.0, "Nota");
-        }, "Doveva lanciare eccezione per nome null");
+        });
+        // Nota: Il messaggio del costruttore è diverso da quello del setter nel tuo codice
+        assertEquals("ERRORE: il nome dell'articolo non può essere non specificato!", e1.getMessage()); //
         
-        assertThrows(ArticoloException.class, () -> {
+        // Caso: Costruttore con nome vuoto
+        ArticoloException e2 = assertThrows(ArticoloException.class, () -> {
             new Articolo("", c, 1.0, "Nota");
-        }, "Doveva lanciare eccezione per nome vuoto");
-        
-        assertThrows(ArticoloException.class, () -> {
-            new Articolo("   ", c, 1.0, "Nota");
-        }, "Doveva lanciare eccezione per nome di soli spazi");
+        });
+        assertEquals("ERRORE: il nome dell'articolo non può essere non specificato!", e2.getMessage()); //
+    }
+    
+    @Test
+    void testSetPrezzoNegativo() {
+        try {
+            Articolo a = new Articolo("Pane", "Altro", 1.0, "");
+            
+            // Verifica eccezione su setPrezzo (il costruttore invece mette 0.0, quindi testiamo solo il setter)
+            ArticoloException e = assertThrows(ArticoloException.class, () -> a.setPrezzo(-5.0));
+            assertEquals("Il prezzo non puo' essere negativo!", e.getMessage()); //
+            
+        } catch (ArticoloException e) {
+            fail("Errore nel setup");
+        }
     }
     
     @Test

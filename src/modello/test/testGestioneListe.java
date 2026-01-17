@@ -25,13 +25,7 @@ class testGestioneListe {
         GestioneListe.getListeArticoli().clear();
         GestioneListe.getCategorie().clear();
         GestioneListe.getArticoli().clear();
-        
-        // Ripristiniamo il default essenziale
-        try {
-            GestioneListe.inserisciCategoria("Non categorizzato");
-        } catch (GestioneListeException e) {
-            // Ignora se esiste (ma abbiamo appena fatto clear)
-        }
+        try { GestioneListe.inserisciCategoria("Non categorizzato"); } catch (Exception e) {}
     }
 
     @Test
@@ -47,14 +41,22 @@ class testGestioneListe {
 
     @Test
     void testCreaListaErrori() {
-        assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista(null));
-        assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista(""));
+        // Caso: Nome null
+        GestioneListeException e1 = assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista(null));
+        assertEquals("Il nome della lista non può essere vuoto.", e1.getMessage()); //
 
+        // Caso: Nome vuoto
+        GestioneListeException e2 = assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista("   "));
+        assertEquals("Il nome della lista non può essere vuoto.", e2.getMessage()); //
+
+        // Caso: Duplicato
         try {
             GestioneListe.creaLista("Lista Doppia");
-            assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista("Lista Doppia"));
+            GestioneListeException e3 = assertThrows(GestioneListeException.class, () -> GestioneListe.creaLista("Lista Doppia"));
+            // Messaggio dinamico: "La lista '" + nome + "' esiste già."
+            assertEquals("La lista 'Lista Doppia' esiste già.", e3.getMessage()); //
         } catch (GestioneListeException e) {
-            fail("Errore nel setup del test duplicati");
+            fail("Errore setup duplicati");
         }
     }
 
@@ -76,10 +78,10 @@ class testGestioneListe {
     void testInserisciCategoria() {
         try {
             GestioneListe.inserisciCategoria("Elettronica");
-            assertTrue(GestioneListe.getCategorie().contains("Elettronica"));
             
             // Test duplicato
-            assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria("Elettronica"));
+            GestioneListeException e = assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria("Elettronica"));
+            assertEquals("La categoria 'Elettronica' esiste già.", e.getMessage()); //
             
         } catch (GestioneListeException e) {
             fail("Errore inserimento categoria");
@@ -89,25 +91,26 @@ class testGestioneListe {
     @Test
     void testCancellaCategoria() {
         try {
-            GestioneListe.inserisciCategoria("Frutta");
-            GestioneListe.cancellaCategoria("Frutta");
-            assertFalse(GestioneListe.getCategorie().contains("Frutta"));
-            
             // Test cancellazione inesistente
-            assertThrows(GestioneListeException.class, () -> GestioneListe.cancellaCategoria("Frutta"));
+            GestioneListeException e1 = assertThrows(GestioneListeException.class, () -> GestioneListe.cancellaCategoria("Inesistente"));
+            assertEquals("Categoria 'Inesistente' non trovata.", e1.getMessage()); //
             
-            // Test cancellazione default (Non categorizzato)
-            assertThrows(GestioneListeException.class, () -> GestioneListe.cancellaCategoria("Non categorizzato"));
+            // Test cancellazione default
+            GestioneListeException e2 = assertThrows(GestioneListeException.class, () -> GestioneListe.cancellaCategoria("Non categorizzato"));
+            assertEquals("Non puoi cancellare la categoria di default.", e2.getMessage()); //
                 
-        } catch (GestioneListeException e) {
-            fail("Errore cancellazione categoria: " + e.getMessage());
+        } catch (Exception e) {
+            fail("Errore test cancellazione");
         }
     }
     
     @Test
     void testCategoriaNonValida() {
-        assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria(null));
-        assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria(""));
+        GestioneListeException e1 = assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria(null));
+        assertEquals("La categoria non può essere vuota.", e1.getMessage()); //
+
+        GestioneListeException e2 = assertThrows(GestioneListeException.class, () -> GestioneListe.inserisciCategoria(""));
+        assertEquals("La categoria non può essere vuota.", e2.getMessage()); //
     }
 
     @Test

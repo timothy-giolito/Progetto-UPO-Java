@@ -130,4 +130,30 @@ class testListaDiArticoli {
             fail(e.getMessage());
         }
     }
+    
+    void testEccezioniLista() {
+        // 1. Costruttore con nome non valido
+        ListaDiArticoliException e1 = assertThrows(ListaDiArticoliException.class, () -> new ListaDiArticoli(null));
+        assertEquals("Errore, è necessario il nome della lista", e1.getMessage()); //
+        
+        ListaDiArticoliException e2 = assertThrows(ListaDiArticoliException.class, () -> new ListaDiArticoli(""));
+        assertEquals("Errore, è necessario il nome della lista", e2.getMessage()); //
+
+        try {
+            ListaDiArticoli lista = new ListaDiArticoli("Mia Lista");
+            Articolo a = new Articolo("Latte", "Bevande", 1.0, "");
+
+            // 2. Aggiunta articolo null
+            ListaDiArticoliException e3 = assertThrows(ListaDiArticoliException.class, () -> lista.AggiungiArticolo(null));
+            assertEquals("Errore, è necessario l'articolo", e3.getMessage()); //
+
+            // 3. Aggiunta articolo duplicato
+            lista.AggiungiArticolo(a);
+            ListaDiArticoliException e4 = assertThrows(ListaDiArticoliException.class, () -> lista.AggiungiArticolo(a));
+            assertEquals("L'articolo è già presente nella lista!", e4.getMessage()); //
+
+        } catch (Exception e) {
+            fail("Errore imprevisto durante il test delle eccezioni: " + e.getMessage());
+        }
+    }
 }
