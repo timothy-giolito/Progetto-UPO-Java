@@ -16,6 +16,7 @@ Un'applicazione Java completa per la gestione intelligente di liste della spesa,
 * **Creazione e Cancellazione:** Gestione dinamica di multiple liste della spesa (es. "Spesa Settimanale", "Bricolage", "Cena Natale").
 * **Modifica Contenuto:** Aggiunta e rimozione di articoli specifici all'interno di ogni lista.
 * **Controlli di Integrità:** Prevenzione di duplicati e validazione dei nomi.
+* **Agginta/Rimozione categoria:** Permette di gestire in modo dinamico le categorie da attribuire agli articoli da comprare.
 
 ### 2. Catalogo Globale Articoli
 * Il sistema mantiene un **strutture dati in memoria** per mantenere categorie globali che possono essere riutilizzate in diverse liste.
@@ -27,7 +28,6 @@ Ogni articolo è un oggetto complesso dotato di:
 * **Categoria** personalizzabile.
 * **Prezzo** (con validazione valori negativi).
 * **Note** aggiuntive.
-* **Reparto (Enum):** Classificazione automatica o manuale basata su una vasta enumerazione (`Reparto.java`) che copre dai generi alimentari (Ortofrutta, Macelleria) al non-food (Elettronica, Fai-da-te).
 
 ### 4. Interfaccia Utente (Doppia Modalità)
 All'avvio (`Main.java`), l'utente può scegliere tra due modalità:
@@ -45,7 +45,6 @@ Il cuore dell'applicazione. Contiene la logica di business e le strutture dati.
 * `GestioneListe`: Classe statica "Controller" che funge da database centrale. Gestisce le `Map` delle liste e le `List` di articoli e categorie.
 * `ListaDiArticoli`: Rappresenta una singola lista contenente oggetti `Articolo`.
 * `Articolo`: La classe base con override di `equals()` e `hashCode()` per garantire la corretta identificazione degli oggetti.
-* `Reparto`: Enumerazione (`Enum`) che definisce le corsie del supermercato.
 
 ### 📦 Package `interfaccia`
 * `interfaccia.cli.RigaDiComando`: Gestisce l'input/output su terminale. Include funzionalità di "Smart Search" per i reparti e menu nidificati.
@@ -118,9 +117,8 @@ Progetto-UPO-Java
 │       │   └── 📄 testListaDiArticoli.java
 │       │
 │       ├── 📄 Articolo.java                # Classe base per i prodotti
-│       ├── 📄 GestioneListe.java           # Controller statico (Database in memoria)
+│       ├── 📄 GestioneListe.java           # Controller statico 
 │       ├── 📄 ListaDiArticoli.java         # Oggetto lista della spesa
-│       └── 📄 Reparto.java                 # Enum per le corsie (Ortofrutta, ecc.)
 │
 └── 📂 bin                                  # File compilati (.class)
 ```
