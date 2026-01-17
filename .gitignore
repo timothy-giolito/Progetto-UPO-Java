@@ -1,0 +1,16 @@
+# --- Cartelle di output compilate ---
+bin/
+
+# --- File compilati Java ---
+*.class
+
+# --- File temporanei e di sistema ---
+# Mac OS
+.DS_Store
+# Windows
+Thumbs.db
+
+# --- Metadati IDE (Eclipse) ---
+.classpath
+.project
+.settings/
