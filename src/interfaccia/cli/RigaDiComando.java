@@ -29,11 +29,11 @@ public class RigaDiComando {
     	
         int scelta = -1;
         
-        System.out.println("Benvenuto in Progetto UPO Java - CLI");
+        System.out.println("\n---Benvenuto nell'interfaccia CLI---");
 
         while (scelta != 0) {
             mostraMenuPrincipale();
-            scelta = leggiIntero("Inserisci la tua scelta: ");
+            scelta = leggiIntero("\nInserisci la tua scelta: ");
 
             switch (scelta) {
                 case 1: menuGestioneListe(); break;
@@ -46,7 +46,7 @@ public class RigaDiComando {
     }
 
     private void mostraMenuPrincipale() {
-        System.out.println("\n--- MENU PRINCIPALE ---");
+        System.out.println("\n--- MENU PRINCIPALE ---\n");
         System.out.println("1. Gestione Liste della Spesa");
         System.out.println("2. Gestione Catalogo Globale Articoli");
         System.out.println("3. Gestione Categorie"); // NUOVA VOCE
@@ -58,13 +58,13 @@ public class RigaDiComando {
     private void menuGestioneCategorie() {
         int scelta = -1;
         while (scelta != 0) {
-            System.out.println("\n--- GESTIONE CATEGORIE ---");
+            System.out.println("\n--- GESTIONE CATEGORIE ---\n");
             System.out.println("1. Visualizza categorie disponibili");
             System.out.println("2. Aggiungi nuova categoria");
             System.out.println("3. Elimina una categoria");
             System.out.println("0. Torna al menu principale");
             
-            scelta = leggiIntero("Scelta: ");
+            scelta = leggiIntero("\nScelta: ");
             
             try {
                 switch(scelta) {
@@ -105,14 +105,14 @@ public class RigaDiComando {
     private void menuGestioneListe() {
         int scelta = -1;
         while (scelta != 0) {
-            System.out.println("\n--- GESTIONE LISTE ---");
+            System.out.println("\n--- GESTIONE LISTE ---\n");
             System.out.println("1. Crea nuova lista");
             System.out.println("2. Visualizza tutte le liste");
             System.out.println("3. Apri/Gestisci una lista specifica");
             System.out.println("4. Elimina una lista");
             System.out.println("0. Torna indietro");
 
-            scelta = leggiIntero("Scelta: ");
+            scelta = leggiIntero("\nScelta: ");
 
             try {
                 switch (scelta) {
@@ -272,13 +272,13 @@ public class RigaDiComando {
     // --- SEZIONE CATALOGO GLOBALE ---
 
     private void menuCatalogoArticoli() {
-        System.out.println("\n--- CATALOGO GLOBALE ---");
+        System.out.println("\n--- CATALOGO GLOBALE ---\n");
         System.out.println("1. Visualizza articoli");
         System.out.println("2. Aggiungi articolo al catalogo");
         System.out.println("3. Rimuovi articolo dal catalogo");
         System.out.println("0. Indietro");
         
-        int scelta = leggiIntero("Scelta: ");
+        int scelta = leggiIntero("\nScelta: ");
         try {
             switch(scelta) {
                 case 1:
