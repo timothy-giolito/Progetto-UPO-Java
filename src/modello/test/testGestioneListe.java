@@ -13,6 +13,7 @@ import modello.eccezioni.GestioneListeException;
 
 /**
  * Test unitari per la classe statica {@link modello.GestioneListe}.
+ * @author Timothy Giolito 20054431
  */
 class testGestioneListe {
 

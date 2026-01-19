@@ -7,7 +7,8 @@ import modello.Articolo;
 import modello.eccezioni.ArticoloException;
 
 /**
- * Classe di test JUnit per la verifica del comportamento della classe {@link modello.Articolo}.
+ * Test per la verifica del comportamento della classe {@link modello.Articolo}.
+ * @author Timothy Giolito 20054431
  */
 class testArticolo {
 

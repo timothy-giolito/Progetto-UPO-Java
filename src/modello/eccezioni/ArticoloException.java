@@ -5,7 +5,7 @@ package modello.eccezioni;
  * <p>
  * Viene lanciata, ad esempio, quando si tenta di assegnare un nome vuoto o un prezzo negativo.
  * </p>
- * @author Timothy Giolito 20054431
+ * @author Luca Franzon 20054744
  */
 
 public class ArticoloException extends Exception {

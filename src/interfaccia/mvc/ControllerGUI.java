@@ -11,6 +11,19 @@ import java.util.List;
 import modello.*;
 import modello.eccezioni.GestioneListeException;
 
+/**
+ * Classe che gestisce le azioni dei vari bottoni della GUI.
+ * E' stata utilizzata un'impostazione MVC, in modo da tenere divisi:
+ * <ul>
+ * <li>Dati (Model)</li>
+ * <li>Interfaccia (View)</li>
+ * <li>Controllo (Controller)</li>
+ * </ul>
+ * @author Timothy Giolito 20054431
+ * @author Luca Franzon 20054744
+ * 
+ * */
+
 public class ControllerGUI implements ActionListener, ListSelectionListener {
 
     private VistaGUI vista;

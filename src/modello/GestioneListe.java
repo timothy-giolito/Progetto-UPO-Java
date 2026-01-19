@@ -11,15 +11,15 @@ import modello.eccezioni.GestioneListeException;
  * <p>
  * Questa classe funge da database in memoria per l'applicazione, utilizzando campi statici
  * per mantenere lo stato condiviso. 
- * Fornisce funzionalità per creare e rimuovere liste,
- * gestire le categorie disponibili e amministrare il catalogo generale degli articoli.
+ * Fornisce funzionalità per creare e rimuovere liste;
+ * Gestisce le categorie disponibili e amministra il catalogo generale degli articoli.
  * </p>
  * @author Timothy Giolito 20054431
  */
 
 public class GestioneListe {
 
-    // Campo statico: associazione fra il nome di una lista e l'oggetto ListaDiArticoli
+    // Campo statico: associazione fra il nome di una lista e l'oggetto ListaDiArticoli (chiave-valore)
     private static Map<String, ListaDiArticoli> listeArticoli = new HashMap<>();
     
     // Lista dinamica di stringhe

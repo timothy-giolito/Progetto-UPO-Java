@@ -14,7 +14,7 @@ import interfaccia.mvc.VistaGUI;
  * <li><b>Interfaccia a Riga di Comando (CLI):</b> per un utilizzo testuale nel terminale.</li>
  * <li><b>Interfaccia Grafica (GUI):</b> per un utilizzo tramite finestre e pulsanti.</li>
  * </ul>
- * * @author Timothy Giolito 20054431
+ * @author Timothy Giolito 20054431
  * @author Luca Franzon 20054744
  * @version 1.0
  */

@@ -13,9 +13,9 @@ import modello.eccezioni.ListaDiArticoliException;
 
 /**
  * Gestione interfaccia CLI utente da terminale.
- * Include gestione Liste, Catalogo Globale e Cestino.
+
  * @author Timothy Giolito 20054431
- * @author Luca Franzon 
+ * @author Luca Franzon 20054744
  */
 public class RigaDiComando {
 

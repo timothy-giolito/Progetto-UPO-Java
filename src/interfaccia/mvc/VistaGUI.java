@@ -10,6 +10,21 @@ import java.util.List;
 import modello.Articolo;
 import modello.GestioneListe; 
 
+/**
+ * Classe che gestisce i componenti grafici della GUI rispettando le specifiche di Java Swing.
+ * <br>
+ * E' stata utilizzata un'impostazione MVC, in modo da tenere divisi:
+ * <ul>
+ * <li>Dati (Model)</li>
+ * <li>Interfaccia (View)</li>
+ * <li>Controllo (Controller)</li>
+ * </ul>
+ * 
+ * </ul>
+ * @author Timothy Giolito 20054431
+ * @author Luca Franzon 20054744
+ * */
+
 public class VistaGUI extends JFrame {
     
     private static final long serialVersionUID = 1L;
