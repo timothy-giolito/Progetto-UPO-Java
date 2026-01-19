@@ -325,6 +325,24 @@ public class RigaDiComando {
             
             String catScelta = leggiStringa("- Inserisci nome categoria (invio per default): ");
             
+            if (!catScelta.trim().isEmpty()) {
+                boolean esiste = false;
+                for (String c : cats) {
+                    if (c.equalsIgnoreCase(catScelta)) {
+                        esiste = true;
+                        break;
+                    }
+                }
+                
+                if (!esiste) {
+                    try {
+                        GestioneListe.inserisciCategoria(catScelta);
+                        System.out.println(">> Nuova categoria '" + catScelta + "' aggiunta al sistema.");
+                    } catch (GestioneListeException e) {
+                        System.out.println("Attenzione: " + e.getMessage());
+                    }
+                }
+            }
             return new Articolo(nome, catScelta, pr, nota);
             
         } catch (ArticoloException e) {

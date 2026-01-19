@@ -229,9 +229,31 @@ public class ControllerGUI implements ActionListener, ListSelectionListener {
         
         String nota = (String) dati[2]; 
       
-        String categoria = (String) dati[3]; 
+        String categoriaInput = (String) dati[3]; 
+        
+        if (categoriaInput != null && !categoriaInput.trim().isEmpty()) {
+            boolean esiste = false;
+            // Controlliamo se esiste già (case-insensitive)
+            for (String c : GestioneListe.getCategorie()) {
+                if (c.equalsIgnoreCase(categoriaInput)) {
+                    esiste = true;
+                    break;
+                }
+            }
+            
+            // Se non esiste, la aggiungiamo al sistema
+            if (!esiste) {
+                try {
+                    GestioneListe.inserisciCategoria(categoriaInput);
+                    vista.mostraMessaggio("Nuova categoria '" + categoriaInput + "' creata automaticamente!");
+                } catch (GestioneListeException e) {
+                    // Se capita un errore qui, usiamo il default o ignoriamo
+                    System.err.println("Impossibile creare categoria automatica: " + e.getMessage());
+                }
+            }
+        }
 
-        Articolo nuovo = new Articolo(nome, categoria, prezzo, nota);
+        Articolo nuovo = new Articolo(nome, categoriaInput, prezzo, nota);
 
         if (modalitaCatalogo) {
             GestioneListe.inserisciArticolo(nuovo);

@@ -275,6 +275,7 @@ public class VistaGUI extends JFrame {
     public Object[] chiediDatiArticolo(boolean isGlobale) {
         JTextField txtNome = new JTextField();
         JComboBox<String> cmbCategoria = new JComboBox<>(GestioneListe.getCategorie().toArray(new String[0]));
+        cmbCategoria.setEditable(true);
         JTextField txtPrezzo = new JTextField();
         JTextField txtNota = new JTextField();
        
